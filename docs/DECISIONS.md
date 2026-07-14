@@ -27,9 +27,11 @@ Supported by HF Transformers hooks and TransformerLens-class tooling.
 **Alternatives.** Llama-3.1-8B-Instruct (better public SAE ecosystem via Llama-Scope,
 weaker code quality) — recorded fallback. Gemma-2-9B-it (best public SAEs via
 Gemma-Scope, weakest frontend code) — rejected; SAEs are a stretch goal, not the primary
-method. **Status: provisional** — research dossier must confirm feasibility facts
-(license, architecture dims, tooling support, VRAM); becomes `accepted` before any code
-depends on model internals.
+method. **Status: accepted** (dossier D1: Apache-2.0 ungated; standard `Qwen2ForCausalLM`,
+fully hookable; config verified d=3584, 28 layers, GQA 28/4, ~15.2 GB bf16; Persona
+Vectors demonstrated diff-in-means extraction on the same family, Qwen2.5-7B-Instruct).
+Residual risk tracked in PLAN: pilot must confirm the model visibly applies a 5-part
+skill; fallback triggers only on that pilot failing.
 
 ## ADR-002 — Interpretability tooling: HF Transformers + minimal custom hooks
 
@@ -44,8 +46,12 @@ exploratory analysis only, never on the critical path.
 **Rationale.** Zero conversion overhead (TransformerLens roughly doubles load memory and
 its KV-cache path is heavier), works identically with quantized fallbacks, transparent
 enough to document in THEORY.md, and the operations we need (mean-capture, vector add,
-layer patch) are ~200 lines of auditable code. **Status: provisional** — research agent
-verifies no Qwen2-specific hooking gotchas.
+layer patch) are ~200 lines of auditable code. **Status: accepted** (dossier D2: vLLM
+cannot inject activations mid-decode, so steering must run on HF; decoder layers hook at
+`model.model.layers[i]` with tuple outputs; capture running means, not full sequences).
+**Engine policy (binding):** vLLM for Stage-1 bulk generation throughput; HF for all
+activation capture/steering; never compare generations across engines — every comparison
+is within-engine, with engine/version/sampling config recorded per run.
 
 ## ADR-003 — Contrast baseline: length-matched neutral instructions (not empty prompt)
 
@@ -116,5 +122,20 @@ pursued only if the primary path lands and budget remains.
 
 **Rationale.** No public SAE suite exists for Qwen2.5-Coder; training one is out of
 scope on Colab; recent steering-benchmark evidence suggests simple mean-difference
-baselines are competitive or better for causal steering. Research dossier must confirm
-this evidence before the plan freezes. **Status: provisional.**
+baselines are competitive or better for causal steering. **Status: accepted** (dossier
+D9: AxBench shows DiffMean ≥ SAE steering at scale; no Qwen2.5-Coder SAE suite exists —
+Qwen-Scope covers Qwen3/3.5 only; SAE decompositions of steering vectors are unfaithful.
+If ever pursued, it is a clearly-labeled cross-model transfer demo, off the critical path).
+
+## ADR-009 — Component content-orthogonality (from dossier review)
+
+**Context.** The drafted canonical skill embeds negative constraints inside C1–C4
+("no purple gradients" in C1, "not a centered hero" in C2, "don't default to Inter" in
+C3) while C5 is also a negative-constraint component — so ablating C5 would not remove
+negative guidance, and component effects would not be attributable to distinct content.
+
+**Decision.** Components must be content-orthogonal in the frozen skill: C1–C4 carry
+only positive/prescriptive guidance for their topic; ALL negative constraints live in
+C5. PLAN.md fixes the revised text (canonical_skill v1) and token-balance rules. A
+"realistic mixed" variant (negatives interleaved as real skills write them) may be added
+as a robustness cell, not the primary design. **Status: accepted.**
