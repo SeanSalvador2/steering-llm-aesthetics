@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Run artifacts (manifest-tracked, not committed)
+artifacts/
+results/raw/
+*.safetensors
+*.pt
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
