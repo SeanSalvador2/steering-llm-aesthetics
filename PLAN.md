@@ -757,8 +757,17 @@ inadmissible.*
 
 Preference deltas are paired (same prompt, cellA vs cellB). Normal approximation to McNemar:
 $$n \approx \frac{\big(z_{1-\alpha/2}\sqrt{p_d} + z_{1-\beta}\sqrt{p_d - \delta^2/p_d}\big)^2}{\delta^2},$$
-`p_d` = P(discordant pair), `δ` = P(A wins) − P(B wins). Planning results (α=.05, power=.80,
-`p_d`≈0.5): **60/40 → ~200 informative pairs; 65/35 → ~80; 55/45 → ~780.** Consequences baked into
+`p_d` = P(discordant pair), `δ` = P(A wins) − P(B wins). Planning results (α=.05, power=.80):
+**60/40 → ~200 informative pairs; 65/35 → ~80; 55/45 → ~780.**
+
+**Decisive-vs-judged clarification (THEORY T6.1–T6.2).** The sizing numbers count **decisive**
+(order-consistent, non-tie) pairs — the canonical computation is THEORY (T6.2), the one-sample
+split test among decisive pairs; do **not** plug the marginal δ together with a p_d < 1 into the
+two-parameter formula (that mis-plug yields ≈93, neither reading). The §III.5 allocations count
+**judged** pairs; at tie rate t an edge yields ≈ (1−t)·judged decisive pairs. Between
+well-separated cells ties should be uncommon, but the assumption is checkable, not assumed: if an
+edge's decisive count falls below the required N_dec at the observed δ, the post-hoc power gate
+below rules it under-powered and the pre-stated seed-pair top-up (§III.5) applies. Consequences baked into
 §III.5: headline gets 200; necessity gets ~120 (powered for ≥60/40); BT utilities get **simulation-
 based power** (assume plausible β gaps + noise, simulate pairwise data at the planned n, require
 detection ≥ 80 %) in `src/power`, run on **synthetic data now** (CPU) so the budget is validated

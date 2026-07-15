@@ -145,7 +145,8 @@ null decisions. Primary judge Gemini 2.5 Flash; GPT-4o audit on 15 %. Both order
 ## 6. Power gate
 
 Paired McNemar sizing (PLAN §III.7): 60/40 needs ~200 informative pairs; 65/35 ~80; 55/45 ~780 (α=.05,
-power=.80). Frozen allocation: FULL–NEUTRAL 200 pairs (5 seed-pairs×40); each FULL–LOO-Cᵢ 120
+power=.80). "Informative" = decisive (order-consistent, non-tie) pairs; canonical computation THEORY
+(T6.2); allocations in §III.5 are judged pairs, and the power gate evaluates achieved *decisive* counts. Frozen allocation: FULL–NEUTRAL 200 pairs (5 seed-pairs×40); each FULL–LOO-Cᵢ 120
 (3×40); each AOI-Cᵢ–NEUTRAL 80 (2×40); others 80–120. **Gate:** a preference delta counts only if its
 contrast achieved ≥ the required n recomputed at the *observed* δ; otherwise it is "under-powered" and
 cannot be the sole signal. BT-utility power validated by simulation on synthetic data pre-freeze.
