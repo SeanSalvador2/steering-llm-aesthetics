@@ -69,6 +69,13 @@ words?) and the bare no-system-prompt cell.
 encodes "design guidance content," not "instruction-following mode." This is the
 project's main added confound control. **Status: accepted.**
 
+**Refinement (plan review).** Neutral/filler text must additionally be **render-inert**:
+it may not mandate anything that changes the rendered DOM tree, element/attribute
+choices, or render outcome — otherwise the control itself moves measured metrics
+(semantic landmarks and `lang` are axe-visible; tag-closure affects render-success).
+The illustrative "code hygiene" examples above are superseded by the binding filler
+inertness rule + build-time banned-topic audit in PLAN §II.1.3 / canonical_skill_v1.
+
 ## ADR-004 — Ablation design: LOO + AOI + fractional interaction block (not naive 2^5)
 
 **Context.** 5 skill components → 32 combinations × prompts × seeds explodes; most
