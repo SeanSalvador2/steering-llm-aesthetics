@@ -13,6 +13,8 @@ venv/
 # Run artifacts (manifest-tracked, not committed)
 artifacts/
 results/raw/
+results/demo_renders/
+results/demo_metrics.parquet
 *.safetensors
 *.pt
 

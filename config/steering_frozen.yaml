@@ -1,0 +1,18 @@
+# config/steering_frozen.yaml — WRITTEN by the S2.3 dev sweep (PLAN §IV S2.3; PREREG §7).
+# This is a TEMPLATE. Values are null until the dev sweep freezes the operating point on
+# Colab, at which point src/p19/steering.py::write_frozen() fills them and the file is
+# git-tagged `steer-frozen` BEFORE any held-out generation (P6). Touch held-out exactly once.
+frozen: false            # flips to true once the sweep selects the operating point
+layer_star: null         # ℓ*  — selected focus layer
+rho_star: null           # ρ*  — norm-relative coefficient (primary axis)
+variant_star: null       # variant* ∈ {mean_response, last_prompt_token, first_k}
+abs_mult_star: null      # reported absolute multiplier at ℓ* (diagnostic)
+selection:
+  criterion: "argmax dev POC-gain s.t. mean-KL <= 0.30 nats AND steered render-success >= 0.90"
+  dev_poc_gain: null
+  mean_kl: null
+  render_success: null
+provenance:
+  direction_source: null # e.g. diff_in_means mean_response over 200 dev FULL/NEUTRAL pairs
+  config_hash: null       # hash of the extraction + grid configs
+  git_tag: steer-frozen

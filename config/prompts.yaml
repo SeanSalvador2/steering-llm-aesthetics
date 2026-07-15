@@ -1,0 +1,96 @@
+# config/prompts.yaml — the 58-prompt corpus (PLAN §II.2.1; PREREG §3). Split frozen by id.
+# Briefs describe DOMAIN + FUNCTION only. The constant output constraint (skill.yaml) is
+# appended to every brief at assembly time (not stored in the text here).
+#
+# banned_words: whole-word, case-insensitive; matched over the USER-turn brief text ONLY
+# (output constraint + system cell texts excluded). Zero matches required (PLAN §II.2).
+banned_words:
+  - beautiful
+  - modern
+  - clean
+  - sleek
+  - elegant
+  - minimalist
+  - aesthetic
+  - stylish
+  - polished
+  - premium
+  - vibrant
+  - colorful
+  - gradient
+  - purple
+  - gorgeous
+  - stunning
+  - slick
+  - professional-looking
+  - cutting-edge
+  - design
+  - designer
+  - designed
+  - redesign
+
+split_freeze:
+  dev: [L01,L02,L03,L04,L05, D01,D02,D03,D04,D05, F01,F02,F03,F04,F05, P01,P02,P03,P04,P05,
+        PF01,PF02,PF03,PF04,PF05, B01,B02,B03,B04,B05, E01,E02,E03,E04,E05, A01,A02,A03,A04,A05]
+  heldout_seen: [L06, D06, F06, P06, PF06, B06, E06, A06]
+  heldout_unseen: [ST01,ST02,ST03,ST04,ST05, AT01,AT02,AT03,AT04,AT05]
+
+prompts:
+  - {id: L01, type: landing, diff: E, split: dev, text: "Landing page for a mobile app that tracks home water usage and flags leaks; headline, how-it-works, three feature highlights, download call."}
+  - {id: L02, type: landing, diff: M, split: dev, text: "Landing page for a regional apple-cider producer selling seasonal boxes; product story, what's in a box, delivery areas, order button."}
+  - {id: L03, type: landing, diff: H, split: dev, text: "Landing page for a B2B API that turns shipping documents into structured data; hero statement, integration steps, a code sample, request-access form."}
+  - {id: L04, type: landing, diff: H, split: dev, text: "Launch page for an independent documentary about deep-sea mining; synopsis, trailer placeholder, screening dates, newsletter signup."}
+  - {id: L05, type: landing, diff: E, split: dev, text: "Landing page for a neighborhood bicycle-repair co-op; hours, services, a pricing note, location."}
+  - {id: L06, type: landing, diff: M, split: heldout_seen, text: "Landing page for a language-exchange meetup pairing learners for weekly conversation; how pairing works, supported languages, join button."}
+  - {id: D01, type: dashboard, diff: M, split: dev, text: "Dashboard for a solar-panel owner; today's generation, home consumption, battery level, 7-day history chart placeholder."}
+  - {id: D02, type: dashboard, diff: H, split: dev, text: "Operations dashboard for a bike-share system; station occupancy, bikes in transit, low-battery e-bikes, alerts list."}
+  - {id: D03, type: dashboard, diff: M, split: dev, text: "Personal-finance dashboard; account balances, monthly spending by category, upcoming bills, savings-goal tracker."}
+  - {id: D04, type: dashboard, diff: H, split: dev, text: "Dashboard for a small warehouse; inventory by aisle, orders awaiting pick, staff on shift, throughput chart placeholder."}
+  - {id: D05, type: dashboard, diff: E, split: dev, text: "Dashboard for a habit-tracking app; streaks for four habits, a weekly completion grid, today's checklist."}
+  - {id: D06, type: dashboard, diff: M, split: heldout_seen, text: "Fleet dashboard for a delivery company; vehicles active, deliveries completed, fuel usage, map placeholder with status pins."}
+  - {id: F01, type: form, diff: E, split: dev, text: "Multi-step signup form for a coding bootcamp; personal details, program choice, payment plan, progress indicator."}
+  - {id: F02, type: form, diff: M, split: dev, text: "Grant-application form for a community arts fund; applicant info, project description, budget table, file-upload fields."}
+  - {id: F03, type: form, diff: M, split: dev, text: "Booking form for a pottery studio; class selection, date and time, seats, contact details."}
+  - {id: F04, type: form, diff: H, split: dev, text: "Renters-insurance quote form; address, coverage options, valuables to insure, a summary step before submitting."}
+  - {id: F05, type: form, diff: E, split: dev, text: "Contact form for a wedding photographer; names, event date, venue, package interest, message."}
+  - {id: F06, type: form, diff: M, split: heldout_seen, text: "Patient-intake form for a dental clinic; personal and insurance details, medical-history checkboxes, consent."}
+  - {id: P01, type: pricing, diff: E, split: dev, text: "Pricing page for a note-taking app; three tiers (free/personal/team), monthly-annual toggle, feature comparison."}
+  - {id: P02, type: pricing, diff: M, split: dev, text: "Pricing page for a car-wash membership; three plans, what each includes, an FAQ section."}
+  - {id: P03, type: pricing, diff: M, split: dev, text: "Pricing page for a freelance illustrator; service packages, add-ons, turnaround times, booking link."}
+  - {id: P04, type: pricing, diff: H, split: dev, text: "Pricing page for a cloud-storage service; usage-based tiers, an interactive cost estimate, enterprise contact option."}
+  - {id: P05, type: pricing, diff: E, split: dev, text: "Pricing page for a yoga studio; drop-in, class packs, unlimited monthly, a short note on each."}
+  - {id: P06, type: pricing, diff: M, split: heldout_seen, text: "Pricing page for a project-management tool; four plans across a long feature matrix with category groupings."}
+  - {id: PF01, type: portfolio, diff: E, split: dev, text: "Portfolio home for a furniture maker; project grid, short bio, contact details."}
+  - {id: PF02, type: portfolio, diff: M, split: dev, text: "Portfolio for a film-score composer; reel placeholder, selected credits, a list of instruments and tools used."}
+  - {id: PF03, type: portfolio, diff: M, split: dev, text: "Portfolio for an architecture studio; three built projects with descriptions, a studio statement."}
+  - {id: PF04, type: portfolio, diff: H, split: dev, text: "Portfolio for a data journalist; long-form interactive pieces, each with a synopsis and a role note."}
+  - {id: PF05, type: portfolio, diff: E, split: dev, text: "Portfolio for a tattoo artist; a gallery, studio location, a booking enquiry link."}
+  - {id: PF06, type: portfolio, diff: M, split: heldout_seen, text: "Portfolio for a motion-graphics freelancer; work organized into categories, a short about section."}
+  - {id: B01, type: blog, diff: E, split: dev, text: "Article page about restoring a vintage typewriter; headings, image placeholders, an author note."}
+  - {id: B02, type: blog, diff: M, split: dev, text: "Blog index for a gardening site; recent articles by season, tags, a search field."}
+  - {id: B03, type: blog, diff: M, split: dev, text: "Long-form article on the history of the tea trade; table of contents, pull quotes, footnotes."}
+  - {id: B04, type: blog, diff: H, split: dev, text: "Magazine-style feature profiling a wildlife photographer; full-width imagery placeholders mixed with narrative columns."}
+  - {id: B05, type: blog, diff: E, split: dev, text: "Blog post reviewing three noise-cancelling headphones; a verdict box, pros and cons."}
+  - {id: B06, type: blog, diff: M, split: heldout_seen, text: "Recipe article for a sourdough loaf; ingredients, step-by-step method, timing notes."}
+  - {id: E01, type: ecommerce, diff: E, split: dev, text: "Product page for a stainless-steel water bottle; image gallery, price, size and color options, add-to-cart."}
+  - {id: E02, type: ecommerce, diff: M, split: dev, text: "Product page for a mechanical keyboard; switch options, specifications, reviews summary, related products."}
+  - {id: E03, type: ecommerce, diff: M, split: dev, text: "Product listing for a bookstore's staff picks; filters by genre, sort options, a grid of titles."}
+  - {id: E04, type: ecommerce, diff: H, split: dev, text: "Configurator page for a made-to-order desk; material, dimensions, cable options, live price, order."}
+  - {id: E05, type: ecommerce, diff: E, split: dev, text: "Product page for single-origin coffee; roast details, tasting notes, grind selection, subscribe option."}
+  - {id: E06, type: ecommerce, diff: M, split: heldout_seen, text: "Product listing for a plant nursery; filtered by light and care level, each card showing name and price."}
+  - {id: A01, type: auth, diff: E, split: dev, text: "Login screen for a budgeting app; email and password, remember-me, reset-password link."}
+  - {id: A02, type: auth, diff: M, split: dev, text: "Registration screen for a co-working booking site; email, password-strength meter, terms acceptance."}
+  - {id: A03, type: auth, diff: M, split: dev, text: "Two-factor screen prompting for a six-digit code; resend option, a help note."}
+  - {id: A04, type: auth, diff: H, split: dev, text: "Account-recovery flow screen; multiple verification methods, explanation of what happens next."}
+  - {id: A05, type: auth, diff: E, split: dev, text: "Sign-in for a library catalog; card number and PIN, a guest-access option."}
+  - {id: A06, type: auth, diff: M, split: heldout_seen, text: "Single-sign-on chooser screen; pick an organization before continuing to log in."}
+  - {id: ST01, type: settings, diff: M, split: heldout_unseen, text: "Settings page for a chat app; notifications, privacy, appearance, connected devices, using labeled toggles and selects."}
+  - {id: ST02, type: settings, diff: H, split: heldout_unseen, text: "Account settings for a streaming service; profile, subscription, playback quality, parental controls, downloads."}
+  - {id: ST03, type: settings, diff: M, split: heldout_unseen, text: "Workspace settings for a team tool; members, roles and permissions, billing, integrations."}
+  - {id: ST04, type: settings, diff: E, split: heldout_unseen, text: "Notification-preferences page; choose channels (email/push/SMS) per category, a save bar."}
+  - {id: ST05, type: settings, diff: H, split: heldout_unseen, text: "Device settings for a smart thermostat; schedules, temperature units, eco mode, sensor calibration."}
+  - {id: AT01, type: admin-table, diff: M, split: heldout_unseen, text: "Admin users table; name, email, role, status, last-active columns, search, row actions."}
+  - {id: AT02, type: admin-table, diff: H, split: heldout_unseen, text: "Admin orders table; filterable columns, status badges, bulk selection, pagination, detail-drawer trigger."}
+  - {id: AT03, type: admin-table, diff: M, split: heldout_unseen, text: "Admin content-moderation queue; reported items with reason, reporter, date, approve/remove actions."}
+  - {id: AT04, type: admin-table, diff: E, split: heldout_unseen, text: "Admin inventory table; SKU, product, stock, price, an edit action per row, a filter bar."}
+  - {id: AT05, type: admin-table, diff: H, split: heldout_unseen, text: "Admin analytics table; campaigns with sortable metric columns, sparkline placeholders, an export control."}

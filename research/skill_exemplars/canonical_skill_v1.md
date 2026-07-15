@@ -45,34 +45,48 @@ Vary corner radii, borders, and shadows with intent so that depth and emphasis t
 of the content.
 
 [[C5 — Negative constraints (ALL negatives consolidated here per ADR-009)]]
-Avoid the AI-slop defaults: purple or indigo gradients; the Inter and Roboto typefaces; fully
-centered hero layouts built around one big headline and stat; three identical icon-cards in a row;
-uniform rounded corners on everything; and scattered or excessive animation. Do not fall back on
-generic template palettes, nor on the overused cream-and-terracotta-serif or near-black-with-acid-
-green looks, unless the brief calls for them. Cut any decoration that does not serve the page's
-purpose.
+Avoid AI slop defaults: purple or indigo gradients; Inter and Roboto typefaces; fully centered
+hero layouts built around one big headline and stat; three identical icon cards in a row; uniform
+rounded corners on everything; and scattered or excessive animation. Never default to generic
+template palettes or cream with terracotta serif and near black with acid green looks, unless the
+brief calls for them. Cut any decoration that serves no purpose.
 
 ---
 
 ## 2. Token balance (ADR-009 ±15% rule)
 
-Target: each component ≈ **85 tokens** (Qwen2.5 tokenizer). Estimated component lengths (word count
-× ~1.33 tok/word, to be replaced by exact `tokenizer.encode` counts at build time):
+Target: each component ≈ **85 tokens** (nominal). Counts are measured **exactly** with the
+`Qwen/Qwen2.5-Coder-7B-Instruct` tokenizer (`tokenizer.encode`, no special tokens) on the
+whitespace-normalized component text; the word-count × ~1.33 estimate (whitespace-split words,
+em-dashes counted) remains the documented fallback for environments without the tokenizer. The
+±15 % band is taken around the observed mean **m** of the five exact counts:
+**m = 78.2 → band [66.5, 89.9]**.
 
-| Component | words | est. tokens | within ±15 % of 85 (72–98)? |
-|---|---|---|---|
-| C1 color | 61 | ~82 | yes |
-| C2 layout | 64 | ~85 | yes |
-| C3 typography | 60 | ~80 | yes |
-| C4 patterns | 63 | ~84 | yes |
-| C5 negatives | 66 | ~88 | yes |
+| Component | words | est. tokens (×1.33) | exact Qwen tokens | within ±15 % of m? |
+|---|---|---|---|---|
+| C1 color | 63 | ~84 | 75 | yes |
+| C2 layout | 64 | ~85 | 73 | yes |
+| C3 typography | 62 | ~82 | 75 | yes |
+| C4 patterns | 65 | ~86 | 80 | yes |
+| C5 negatives | 71 | ~94 | 88 | yes |
+
+**Revision note (pre-freeze, sanctioned).** C5 was reworded before the `prereg-v1` tag: the
+original phrasing measured **104 exact tokens** (~28 % over the mean) because BPE fragments
+semicolon lists and long hyphen chains (`cream-and-terracotta-serif` alone = 7 tokens) that the
+×1.33 estimate masked. Every semantic constraint is preserved — all six slop tells (purple/indigo
+gradients; Inter/Roboto; the fully centered hero built around one big headline and stat; three
+identical icon cards in a row; uniform rounded corners on everything; scattered/excessive
+animation), generic template palettes, both named generic looks (cream + terracotta serif;
+near black + acid green), the "unless the brief calls for them" escape, and the
+cut-decoration-that-serves-no-purpose rule. Hyphen chains were broken into BPE-friendly phrasing.
+The reword also brings Filler-5 (75 exact tokens) back within ±15 % of its matched component.
 
 **Build-time enforcement.** `src/skill_assembly` measures each component with the actual
 `Qwen/Qwen2.5-Coder-7B-Instruct` tokenizer and **asserts** `0.85·m ≤ len(Cᵢ) ≤ 1.15·m` where
 `m` = mean component length. If a component is short it is padded with a trailing neutral clause
 drawn from the matched filler block (below); if long, a trailing clause is trimmed at a sentence
 boundary. The assertion is a hard test; the frozen counts are recorded in the manifest. Full skill
-≈ **5 × 85 ≈ 425 tokens** of system-prompt content.
+= **391 exact tokens** (nominal target ≈ 5 × 85 ≈ 425).
 
 ---
 
@@ -128,17 +142,57 @@ above the line or block it describes, and use a consistent comment style through
 commented-out fragments and leftover notes to self before finishing, so only purposeful comments
 remain in the final file.
 
-**Filler token estimates** (words × ≈1.33; exact counts enforced at build time by padding/trimming to
-the matched component's token count): F1 59 w ≈ 78 t (C1 ~82); F2 58 w ≈ 77 t (C2 ~85); F3 57 w ≈
-76 t (C3 ~80); F4 61 w ≈ 81 t (C4 ~84); F5 63 w ≈ 84 t (C5 ~88) — all inside the ±15 % band [72, 98]
-and within ±15 % of their matched components; all equally imperative in mood.
+**Filler token counts** (exact Qwen tokenizer, words × ≈1.33 as fallback; enforced at build time
+against the matched component's token count): raw F1 67 t (C1 75); F2 65 t (C2 73); F3 69 t
+(C3 75); F4 71 t (C4 80); F5 75 t (C5 88) — every raw filler within ±15 % of its matched component;
+all equally imperative in mood. Build-time equalization (below) then makes the match exact:
+equalized F1 75, F2 74, F3 76, F4 81, F5 87 — each within ±2 tokens of its component.
+
+**Padding pool (frozen; build-time equalization).** `src/skill_assembly.equalize_fillers` makes the
+length match exact at build time: each Filler-i is deterministically padded (appending pool clauses
+in the fixed order below, skipping any that would overshoot) or trimmed (at sentence boundaries
+only) until |tokens(Fᵢ) − tokens(Cᵢ)| ≤ 2 under the exact Qwen2.5-Coder tokenizer; per-filler final
+counts are recorded in the manifest. Pool clauses are render-inert, imperative, on-topic for their
+filler, and pass the same banned-topic audit as the fillers.
+
+**Pad-1a** (↔F1): Apply the same wrapping style to every long tag so no line stands out.
+
+**Pad-1b** (↔F1): Break attribute lists at a consistent width.
+
+**Pad-1c** (↔F1): Keep tag casing uniform throughout.
+
+**Pad-2a** (↔F2): Keep spacing between rule blocks even so the stylesheet reads in a steady rhythm.
+
+**Pad-2b** (↔F2): Order declarations the same way in every rule.
+
+**Pad-2c** (↔F2): Keep rule blocks tidy and short.
+
+**Pad-3a** (↔F3): Prefer plain descriptive words over clever coinages when a name must be introduced.
+
+**Pad-3b** (↔F3): Keep names short, plain, and easy to scan.
+
+**Pad-3c** (↔F3): Keep the vocabulary of names small.
+
+**Pad-4a** (↔F4): Group constants near the top of the script so their values are easy to locate.
+
+**Pad-4b** (↔F4): Keep the script's functions in one predictable order.
+
+**Pad-4c** (↔F4): Prefer flat logic over nesting.
+
+**Pad-5a** (↔F5): Delete stale comments rather than letting them drift out of date.
+
+**Pad-5b** (↔F5): Keep comment punctuation simple and consistent.
+
+**Pad-5c** (↔F5): Prefer one clear comment over three vague ones.
 
 **LOO padding rule.** In a leave-one-out cell (full skill minus Cᵢ), Cᵢ is replaced **in its
 original slot** by Filler-i, so the cell has the same token count and the same positional layout as
 FULL. In an add-one-in cell (Cᵢ alone), the other four slots hold their matched fillers. Therefore
-**every factorial cell (all 16 res-V runs and all 5 LOO cells) carries constant prompt mass ≈ 425
-system tokens** and constant slot structure; only *content* varies. The **NEUTRAL** control is
-exactly Filler-1‖Filler-2‖Filler-3‖Filler-4‖Filler-5 — i.e. the all-filler `(−,−,−,−,−)` corner.
+**every factorial cell (all 16 res-V runs and all 5 LOO cells) carries constant prompt mass —
+FULL = 391 exact Qwen2.5-Coder tokens, every cell within ±10 of it after filler equalization
+(≈425 nominal on the estimate path)** — and constant slot structure; only *content* varies. The
+**NEUTRAL** control is exactly Filler-1‖Filler-2‖Filler-3‖Filler-4‖Filler-5 — i.e. the all-filler
+`(−,−,−,−,−)` corner.
 
 ---
 
@@ -161,9 +215,9 @@ the NOSYS cell, which has no system message.
 
 | Cell | System prompt | User prompt | Purpose |
 |---|---|---|---|
-| **FULL** | C1‖C2‖C3‖C4‖C5 (≈425 tok) | task + output constraint | the intact skill |
-| **NEUTRAL** | Filler-1‖…‖Filler-5 (≈425 tok) | task + output constraint | length-matched, design-irrelevant; isolates *design content* from *prompt mass*; the Stage-2 contrast side |
-| **BEAUTY1** | "Make it beautiful and well-designed." (≈8 tok) | task + output constraint | does a 5-word nudge match ≈425 tokens? (RQ4) |
+| **FULL** | C1‖C2‖C3‖C4‖C5 (391 tok exact) | task + output constraint | the intact skill |
+| **NEUTRAL** | Filler-1‖…‖Filler-5 (391 ± 10 tok after equalization) | task + output constraint | length-matched, design-irrelevant; isolates *design content* from *prompt mass*; the Stage-2 contrast side |
+| **BEAUTY1** | "Make it beautiful and well-designed." (≈8 tok) | task + output constraint | does a 5-word nudge match 391 tokens? (RQ4) |
 | **NOSYS** | *(no system message)* | task + output constraint | bare baseline; the Stage-2 "steer with no prompt" base |
 
 ---

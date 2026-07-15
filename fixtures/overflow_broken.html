@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Broken layout fixture</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Arial, sans-serif; color: #111; background: #fff; }
+  h1 { font-size: 28px; padding: 16px; }
+  /* horizontal overflow: fixed width far exceeding the 1440 viewport */
+  .too-wide { width: 2400px; height: 80px; background: #cde; padding: 12px; }
+  /* an inner element wider than its parent -> element-level overflow (scrollWidth > clientWidth) */
+  .clip { width: 300px; height: 60px; overflow: hidden; background: #eee; margin: 12px; }
+  .clip .inner { width: 900px; height: 40px; background: #f88; }
+  /* overlapping absolutely-positioned boxes */
+  .stage { position: relative; height: 260px; margin: 16px; border: 1px solid #ccc; }
+  .box { position: absolute; width: 220px; height: 140px; }
+  .a { left: 40px;  top: 30px; background: rgba(200,60,60,0.7); }
+  .b { left: 120px; top: 70px; background: rgba(60,120,200,0.7); }   /* overlaps .a */
+  .c { left: 180px; top: 110px; background: rgba(60,200,120,0.7); }  /* overlaps .b */
+  .wide-table { width: 2000px; border-collapse: collapse; }
+  .wide-table td { border: 1px solid #999; padding: 8px; white-space: nowrap; }
+</style>
+</head>
+<body>
+  <main>
+    <h1>Deliberately broken layout</h1>
+    <div class="too-wide">This block is 2400px wide and overflows the viewport horizontally.</div>
+    <div class="clip"><div class="inner">This inner content is clipped and overflows its parent box.</div></div>
+    <div class="stage">
+      <div class="box a">Box A</div>
+      <div class="box b">Box B</div>
+      <div class="box c">Box C</div>
+    </div>
+    <table class="wide-table">
+      <tr><td>SKU-000001</td><td>A very long product description that will not wrap</td><td>1200</td><td>In stock across all regional warehouses</td><td>Edit</td><td>Delete</td></tr>
+    </table>
+  </main>
+</body>
+</html>

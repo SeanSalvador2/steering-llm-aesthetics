@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rill &mdash; neighbourhood bicycle repair co-op</title>
+<style>
+  :root {
+    --ink: #14201f;         /* dominant deep teal-ink */
+    --paper: #f6f1e7;       /* warm off-white */
+    --panel: #eadfca;       /* supporting sand */
+    --accent: #b7472a;      /* sharp coral accent */
+    --muted: #3f524f;       /* readable muted */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.55;
+  }
+  /* modular type scale, ratio ~1.25: 16 / 20 / 25 / 31 / 39 */
+  .eyebrow { font-family: ui-monospace, 'Courier New', monospace; font-size: 12.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+  h1 { font-size: 39px; font-weight: 700; line-height: 1.1; max-width: 16ch; }
+  h2 { font-size: 25px; font-weight: 700; }
+  h3 { font-size: 20px; font-weight: 700; }
+  p, li, td { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 16px; color: var(--muted); }
+  header { padding: 28px 48px; display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid var(--ink); }
+  .brand { font-size: 20px; font-weight: 700; }
+  nav a { color: var(--ink); text-decoration: none; margin-left: 22px; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 16px; }
+  /* deliberately asymmetric hero: content left, panel right, not centered */
+  main { display: grid; grid-template-columns: 1.6fr 1fr; gap: 40px; padding: 56px 48px; align-items: start; }
+  .lede { padding-top: 8px; }
+  .lede p { margin-top: 20px; font-size: 20px; max-width: 46ch; }
+  .cta { display: inline-block; margin-top: 28px; background: var(--accent); color: #fff; padding: 13px 24px; border-radius: 3px; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 16px; }
+  aside { background: var(--panel); border: 1px solid #d8c8a4; border-radius: 6px; padding: 24px; }
+  aside h3 { margin-bottom: 12px; }
+  aside dl { display: grid; grid-template-columns: auto 1fr; gap: 8px 16px; }
+  aside dt { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 16px; color: var(--ink); font-weight: 700; }
+  aside dd { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 16px; }
+  .services { padding: 24px 48px 64px; border-top: 1px solid #ddceb0; }
+  .services h2 { margin-bottom: 20px; }
+  .svc-list { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 20px; }
+  .svc { padding: 18px 0; border-top: 3px solid var(--ink); }
+  .svc:nth-child(2) { border-top-color: var(--accent); }
+  .price { font-size: 25px; font-weight: 700; color: var(--ink); }
+  footer { padding: 24px 48px; color: var(--muted); font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 16px; border-top: 2px solid var(--ink); }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Rill Cycle Co-op</div>
+  <nav aria-label="primary">
+    <a href="#services">Services</a>
+    <a href="#hours">Hours</a>
+    <a href="#visit">Visit</a>
+  </nav>
+</header>
+<main>
+  <section class="lede">
+    <p class="eyebrow">Member-run since 2011</p>
+    <h1>Fix your ride where the neighbourhood fixes theirs.</h1>
+    <p>A community workshop for tune-ups, wheel truing, and the occasional heroic rescue. Bring the bike; borrow the tools; keep the wheels turning.</p>
+    <a class="cta" href="#visit">Book a repair slot</a>
+  </section>
+  <aside aria-label="at a glance">
+    <h3>Hours &amp; rates</h3>
+    <dl>
+      <dt>Tue&ndash;Fri</dt><dd>10:00 &ndash; 19:00</dd>
+      <dt>Saturday</dt><dd>09:00 &ndash; 15:00</dd>
+      <dt>Bench fee</dt><dd>&pound;6 / hour</dd>
+      <dt>Members</dt><dd>Free bench, parts at cost</dd>
+    </dl>
+  </aside>
+</main>
+<section class="services" id="services">
+  <h2>What we help with</h2>
+  <div class="svc-list">
+    <div class="svc"><h3>Full service</h3><p>Drivetrain, brakes, bearings, and a safety check end to end.</p><p class="price">&pound;45</p></div>
+    <div class="svc"><h3>Wheel truing</h3><p>Spoke tension and lateral true on a park stand.</p><p class="price">&pound;15</p></div>
+    <div class="svc"><h3>Flat rescue</h3><p>Walk-in puncture fixes while you wait.</p><p class="price">&pound;8</p></div>
+  </div>
+</section>
+<footer id="visit">
+  <p>Corner of Ash Lane and Weaver Street &middot; ring the bell at the green door.</p>
+</footer>
+</body>
+</html>

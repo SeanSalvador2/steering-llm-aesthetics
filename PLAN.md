@@ -53,7 +53,7 @@ steering it with no design prompt causally reproduces a measurable quality gain 
   distributed.
 - **H-additivity (RQ3):** components are largely additive with a few super/sub-additive pairs
   (e.g. negatives help more once a palette is specified).
-- **H-nudge (RQ4):** FULL > BEAUTY1 > NEUTRAL — 425 tokens of content beat a 5-word nudge, which
+- **H-nudge (RQ4):** FULL > BEAUTY1 > NEUTRAL — 391 tokens of content beat a 5-word nudge, which
   beats nothing.
 - **H-locate (RQ5):** the skill signal is linearly decodable and patch-localizable in a mid-depth
   band (layers ≈ 11–20 of 28; `chen2025persona`, `rimsky2024caa`).
@@ -179,7 +179,7 @@ McNemar power gate of §III.7 met.
 - **Outcomes:** {additive (no surviving 2FIs) · interacting (named pairs, sign) · dominated by a
   single strong main effect}.
 
-## RQ4 — Does 5 words ≈ 425 tokens?
+## RQ4 — Does 5 words ≈ 391 tokens?
 - **Hypothesis H4:** `μ(FULL) > μ(BEAUTY1) > μ(NEUTRAL)`.
 - **Measurement:** the ordered contrasts FULL vs BEAUTY1, BEAUTY1 vs NEUTRAL, FULL vs NEUTRAL, both
   signals.
@@ -285,25 +285,33 @@ negative constraints are consolidated in **C5**; components are token-balanced w
 > importance of the content.
 
 **C5 — Negative constraints** *(ALL negatives, ADR-009)*
-> Avoid the AI-slop defaults: purple or indigo gradients; the Inter and Roboto typefaces; fully
-> centered hero layouts built around one big headline and stat; three identical icon-cards in a row;
-> uniform rounded corners on everything; and scattered or excessive animation. Do not fall back on
-> generic template palettes, nor on the overused cream-and-terracotta-serif or near-black-with-acid-
-> green looks, unless the brief calls for them. Cut any decoration that does not serve the page's
-> purpose.
+> Avoid AI slop defaults: purple or indigo gradients; Inter and Roboto typefaces; fully centered
+> hero layouts built around one big headline and stat; three identical icon cards in a row; uniform
+> rounded corners on everything; and scattered or excessive animation. Never default to generic
+> template palettes or cream with terracotta serif and near black with acid green looks, unless the
+> brief calls for them. Cut any decoration that serves no purpose.
 
 ### II.1.2 Final token counts and the ±15 % rule
-Target ≈ **85 tokens/component**; full skill ≈ **425 system tokens**. Estimated counts (words ×
-≈1.33; replaced by exact `Qwen2.5-Coder` tokenizer counts at build time and recorded in the
-manifest):
+Target ≈ **85 tokens/component** (nominal); full skill = **391 exact tokens** (nominal ≈ 425).
+Counts are measured **exactly** with the `Qwen2.5-Coder` tokenizer (recorded in the manifest); the
+words × ≈1.33 estimate (whitespace-split) is the documented fallback when the tokenizer is
+unavailable. The ±15 % band is around the observed mean of the five exact counts
+(**m = 78.2 → band [66.5, 89.9]**):
 
-| Component | words | est. tokens | in [72, 98] (±15 % of 85)? |
-|---|---:|---:|:--:|
-| C1 color | 61 | ~82 | ✓ |
-| C2 layout | 64 | ~85 | ✓ |
-| C3 typography | 60 | ~80 | ✓ |
-| C4 patterns | 63 | ~84 | ✓ |
-| C5 negatives | 66 | ~88 | ✓ |
+| Component | words | est. tokens | exact Qwen tokens | in ±15 % of m? |
+|---|---:|---:|---:|:--:|
+| C1 color | 63 | ~84 | 75 | ✓ |
+| C2 layout | 64 | ~85 | 73 | ✓ |
+| C3 typography | 62 | ~82 | 75 | ✓ |
+| C4 patterns | 65 | ~86 | 80 | ✓ |
+| C5 negatives | 71 | ~94 | 88 | ✓ |
+
+*Pre-freeze revision (sanctioned):* C5 was reworded before the `prereg-v1` tag — the original
+phrasing measured **104 exact tokens** (~28 % over the mean) because BPE fragments semicolon lists
+and long hyphen chains (`cream-and-terracotta-serif` = 7 tokens) that the ×1.33 estimate masked.
+All semantic constraints preserved (six slop tells, generic template palettes, both named looks,
+the escape clause, the cut-purposeless-decoration rule); hyphen chains broken into BPE-friendly
+phrasing. `research/skill_exemplars/canonical_skill_v1.md` §2 carries the same table and note.
 
 `src/skill_assembly` **asserts** `0.85·m ≤ len(Cᵢ) ≤ 1.15·m` (m = mean); pads short components with a
 trailing clause from the matched filler, trims long ones at a sentence boundary. Hard unit test.
@@ -359,15 +367,54 @@ above the line or block it describes, and use a consistent comment style through
 commented-out fragments and leftover notes to self before finishing, so only purposeful comments
 remain in the final file.
 
-**Filler token estimates** (words × ≈1.33; exact counts enforced at build time by padding/trimming to
-the matched component's token count): F1 59 w ≈ 78 t (C1 ~82); F2 58 w ≈ 77 t (C2 ~85); F3 57 w ≈
-76 t (C3 ~80); F4 61 w ≈ 81 t (C4 ~84); F5 63 w ≈ 84 t (C5 ~88) — all inside the ±15 % band [72, 98]
-and within ±15 % of their matched components; all equally imperative in mood.
+**Filler token counts** (exact Qwen tokenizer, words × ≈1.33 as fallback; enforced at build time
+against the matched component's token count): raw F1 67 t (C1 75); F2 65 t (C2 73); F3 69 t
+(C3 75); F4 71 t (C4 80); F5 75 t (C5 88) — every raw filler within ±15 % of its matched component;
+all equally imperative in mood. Build-time equalization (below) then makes the match exact:
+equalized F1 75, F2 74, F3 76, F4 81, F5 87 — each within ±2 tokens of its component.
+
+**Padding pool (frozen; build-time equalization).** `src/skill_assembly.equalize_fillers` makes the
+length match exact at build time: each Filler-i is deterministically padded (appending pool clauses
+in the fixed order below, skipping any that would overshoot) or trimmed (at sentence boundaries
+only) until |tokens(Fᵢ) − tokens(Cᵢ)| ≤ 2 under the exact Qwen2.5-Coder tokenizer; per-filler final
+counts are recorded in the manifest. Pool clauses are render-inert, imperative, on-topic for their
+filler, and pass the same banned-topic audit as the fillers.
+
+**Pad-1a** (↔F1): Apply the same wrapping style to every long tag so no line stands out.
+
+**Pad-1b** (↔F1): Break attribute lists at a consistent width.
+
+**Pad-1c** (↔F1): Keep tag casing uniform throughout.
+
+**Pad-2a** (↔F2): Keep spacing between rule blocks even so the stylesheet reads in a steady rhythm.
+
+**Pad-2b** (↔F2): Order declarations the same way in every rule.
+
+**Pad-2c** (↔F2): Keep rule blocks tidy and short.
+
+**Pad-3a** (↔F3): Prefer plain descriptive words over clever coinages when a name must be introduced.
+
+**Pad-3b** (↔F3): Keep names short, plain, and easy to scan.
+
+**Pad-3c** (↔F3): Keep the vocabulary of names small.
+
+**Pad-4a** (↔F4): Group constants near the top of the script so their values are easy to locate.
+
+**Pad-4b** (↔F4): Keep the script's functions in one predictable order.
+
+**Pad-4c** (↔F4): Prefer flat logic over nesting.
+
+**Pad-5a** (↔F5): Delete stale comments rather than letting them drift out of date.
+
+**Pad-5b** (↔F5): Keep comment punctuation simple and consistent.
+
+**Pad-5c** (↔F5): Prefer one clear comment over three vague ones.
 
 **Padding rule:** in LOO-Cᵢ, Filler-i occupies Cᵢ's original slot; in AOI-Cᵢ, the other four slots
-hold their fillers. Thus every factorial cell (16 res-V runs + 5 LOO) has **constant prompt mass
-≈425 tokens and constant slot order**; only content varies. **NEUTRAL = Filler-1‖…‖Filler-5** = the
-all-filler `(−,−,−,−,−)` corner.
+hold their fillers. Thus every factorial cell (16 res-V runs + 5 LOO) has **constant prompt mass —
+FULL = 391 exact Qwen2.5-Coder tokens, every cell within ±10 of it after filler equalization
+(≈425 nominal on the estimate path) — and constant slot order**; only content varies.
+**NEUTRAL = Filler-1‖…‖Filler-5** = the all-filler `(−,−,−,−,−)` corner.
 
 ### II.1.4 Constant output constraint (never ablated; in the USER turn)
 Appended verbatim to every task prompt in all cells including NOSYS:

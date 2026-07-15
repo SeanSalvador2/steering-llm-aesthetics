@@ -49,7 +49,9 @@ bias component effects downward). A build-time **filler audit** against a banned
 fillers** = the (−,−,−,−,−) corner. Constant output constraint (hermetic single-file HTML) sits in
 the **user** turn, never ablated. Controls: FULL, NEUTRAL, BEAUTY1 ("Make it beautiful and
 well-designed."), NOSYS (no system message). LOO padding: removed Cᵢ → Filler-i in the same slot, so
-all 16 factorial runs + 5 LOO carry constant ≈425-token prompt mass.
+all 16 factorial runs + 5 LOO carry constant prompt mass: FULL = 391 exact Qwen2.5-Coder tokens,
+every cell within ±10 of it after build-time filler equalization (|tokens(Fᵢ) − tokens(Cᵢ)| ≤ 2
+against a frozen padding pool; ≈425 nominal on the no-tokenizer estimate path).
 
 ---
 

@@ -1,0 +1,20 @@
+# config/model.yaml — subject model + fixed sampling (PLAN §VI.2, §II.3; PREREG §11).
+# Model LOCKED (ADR-001 / CLAUDE.md): Qwen/Qwen2.5-Coder-7B-Instruct for BOTH stages.
+model:
+  name: Qwen/Qwen2.5-Coder-7B-Instruct
+  dtype: bfloat16
+  d_model: 3584        # residual-stream width (01_qwen_model_facts)
+  n_layers: 28         # decoder layers
+  fallback: meta-llama/Llama-3.1-8B-Instruct   # ADR-001, only on pilot failure
+
+# One fixed sampling config, all cells, both engines (PLAN §II.3). Recorded per run.
+sampling:
+  temperature: 0.7
+  top_p: 0.9
+  top_k: 40
+  repetition_penalty: 1.05
+  max_new_tokens: 4096
+  seeds: [0, 1, 2, 3, 4]
+
+# Focus band for Stage-2 (PLAN Part IV; H5 mid-depth prior).
+focus_band: [11, 12, 13, 14, 15, 16, 17, 18, 19, 20]

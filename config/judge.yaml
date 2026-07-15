@@ -1,0 +1,23 @@
+# config/judge.yaml — pairwise VLM judge protocol (PLAN §III.8, Appendix C; PREREG §5).
+primary: gemini-2.5-flash        # cheap, high-RPM, different family from Qwen (avoids self-enhancement)
+audit: gpt-4o                    # cross-family audit on a 15% random subset
+audit_frac: 0.15
+temp: 0                          # deterministic judging
+max_retries: 5
+backoff_base_s: 2.0
+both_orders: true                # each pair judged (A,B) and (B,A); inconsistent -> tie
+rubric_ref: "PLAN.md#appendix-c" # verbatim template lives in src/p19/judge.py (JUDGE_SYSTEM / JUDGE_USER_TEMPLATE)
+
+# Reliability gate (PREREG §5; THEORY T4.6).
+reliability_gate:
+  alpha_min: 0.667               # Krippendorff alpha (ordinal) primary rung
+  ac1_min: 0.80                  # Gwet AC1 rescue rung
+  skew_pi_max: 0.80              # "demonstrable skew" threshold on majority-category share
+  human_n: 100                   # Sean labels N=100 pairs
+  human_strata: {full_neutral: 30, full_loo: 35, aoi_neutral: 20, stage2_steered: 15}
+
+# Oracle-validation gates (PREREG §9).
+oracle_gates:
+  psi_rho_min: 0.4               # Spearman(PSI, human "AI-generated" rating); else demote to 6-term POC
+  uiclip_rho_min: 0.3            # Spearman(UIClip, human win-rate); else drop
+  c_star_min_human_pages: 30     # else c* = median Hasler-M of dev FULL generations

@@ -1,0 +1,12 @@
+# config/render.yaml — Playwright determinism recipe (PLAN §III.8, §VI.5; 06_playwright_determinism).
+# Chromium is preinstalled at /opt/pw-browsers (do NOT `playwright install`).
+desktop: [1440, 900]      # primary judge viewport (overrides note's 1280x800 example)
+mobile: [390, 844]        # secondary; RQ7 responsiveness slice only
+dsf: 1                    # device-scale-factor fixed
+animations: disabled      # fast-forward CSS animations to final state
+caret: hide
+network: offline          # route-abort all external requests; attempts = hermeticity violations
+fonts_ready: true         # await document.fonts.ready
+settle_ms: 400            # fixed settle delay after networkidle
+gap_bin_px: 4             # frozen bin width for gap-entropy (THEORY T7.6 — must be pinned)
+axe_vendor: axe.min.js    # vendored under src/p19/vendor/ (axe-core 4.4.3, MPL-2.0)

@@ -1,0 +1,26 @@
+# config/noncode_probe.yaml — Stage-2 specificity probe (PLAN S2.6; PREREG §7).
+# 20 non-UI algorithmic coding prompts with unit tests. Steering must NOT drop pass-rate by
+# > 10% absolute vs unsteered. Each: a function signature + a hidden test list (name, args, expect).
+# Solutions are NOT stored; the model generates them under steered/unsteered arms on Colab.
+tolerance_passrate_drop: 0.10
+prompts:
+  - {id: NC01, family: array,  signature: "def two_sum(nums, target):", spec: "Return indices [i,j] (i<j) of two entries summing to target; assume exactly one solution.", tests: [{args: [[2,7,11,15], 9], expect: [0,1]}, {args: [[3,2,4], 6], expect: [1,2]}]}
+  - {id: NC02, family: array,  signature: "def max_subarray(nums):", spec: "Kadane: return the maximum contiguous subarray sum.", tests: [{args: [[-2,1,-3,4,-1,2,1,-5,4]], expect: 6}, {args: [[1]], expect: 1}]}
+  - {id: NC03, family: string, signature: "def is_palindrome(s):", spec: "True iff s reads the same forwards and backwards ignoring case and non-alphanumerics.", tests: [{args: ["A man, a plan, a canal: Panama"], expect: true}, {args: ["race a car"], expect: false}]}
+  - {id: NC04, family: string, signature: "def reverse_words(s):", spec: "Reverse the order of space-separated words, collapsing extra spaces.", tests: [{args: ["  the sky  is blue "], expect: "blue is sky the"}]}
+  - {id: NC05, family: array,  signature: "def merge_intervals(intervals):", spec: "Merge overlapping [start,end] intervals; return sorted by start.", tests: [{args: [[[1,3],[2,6],[8,10],[15,18]]], expect: [[1,6],[8,10],[15,18]]}]}
+  - {id: NC06, family: dp,     signature: "def climb_stairs(n):", spec: "Number of ways to climb n stairs taking 1 or 2 steps.", tests: [{args: [2], expect: 2}, {args: [5], expect: 8}]}
+  - {id: NC07, family: dp,     signature: "def coin_change(coins, amount):", spec: "Fewest coins to make amount, or -1 if impossible.", tests: [{args: [[1,2,5], 11], expect: 3}, {args: [[2], 3], expect: -1}]}
+  - {id: NC08, family: graph,  signature: "def num_islands(grid):", spec: "Count connected components of '1' in a 2D grid (4-connectivity).", tests: [{args: [[["1","1","0"],["0","1","0"],["0","0","1"]]], expect: 2}]}
+  - {id: NC09, family: graph,  signature: "def can_finish(num_courses, prerequisites):", spec: "True iff the course prerequisite graph has no cycle (topological feasibility).", tests: [{args: [2, [[1,0]]], expect: true}, {args: [2, [[1,0],[0,1]]], expect: false}]}
+  - {id: NC10, family: array,  signature: "def product_except_self(nums):", spec: "Return array where out[i] = product of all nums except nums[i], no division.", tests: [{args: [[1,2,3,4]], expect: [24,12,8,6]}]}
+  - {id: NC11, family: string, signature: "def group_anagrams(strs):", spec: "Group strings that are anagrams; return groups sorted internally and by first element.", tests: [{args: [["eat","tea","tan","ate","nat","bat"]], expect: [["ate","eat","tea"],["bat"],["nat","tan"]]}]}
+  - {id: NC12, family: array,  signature: "def search_rotated(nums, target):", spec: "Binary-search a rotated sorted array; return index or -1.", tests: [{args: [[4,5,6,7,0,1,2], 0], expect: 4}, {args: [[4,5,6,7,0,1,2], 3], expect: -1}]}
+  - {id: NC13, family: dp,     signature: "def longest_common_subseq(a, b):", spec: "Length of the longest common subsequence of two strings.", tests: [{args: ["abcde","ace"], expect: 3}, {args: ["abc","def"], expect: 0}]}
+  - {id: NC14, family: string, signature: "def valid_parentheses(s):", spec: "True iff brackets ()[]{} are balanced and correctly nested.", tests: [{args: ["()[]{}"], expect: true}, {args: ["(]"], expect: false}]}
+  - {id: NC15, family: array,  signature: "def move_zeroes(nums):", spec: "In-place move all zeroes to the end preserving order of non-zeroes; return the list.", tests: [{args: [[0,1,0,3,12]], expect: [1,3,12,0,0]}]}
+  - {id: NC16, family: dp,     signature: "def house_robber(nums):", spec: "Max sum of non-adjacent elements.", tests: [{args: [[1,2,3,1]], expect: 4}, {args: [[2,7,9,3,1]], expect: 12}]}
+  - {id: NC17, family: graph,  signature: "def flood_fill(image, sr, sc, color):", spec: "4-connected flood fill from (sr,sc) to color; return the image.", tests: [{args: [[[1,1,1],[1,1,0],[1,0,1]], 1, 1, 2], expect: [[2,2,2],[2,2,0],[2,0,1]]}]}
+  - {id: NC18, family: string, signature: "def length_of_longest_substring(s):", spec: "Length of the longest substring without repeating characters.", tests: [{args: ["abcabcbb"], expect: 3}, {args: ["bbbbb"], expect: 1}]}
+  - {id: NC19, family: array,  signature: "def three_sum(nums):", spec: "All unique triplets summing to zero, each sorted ascending, list sorted.", tests: [{args: [[-1,0,1,2,-1,-4]], expect: [[-1,-1,2],[-1,0,1]]}]}
+  - {id: NC20, family: dp,     signature: "def edit_distance(a, b):", spec: "Levenshtein distance between two strings.", tests: [{args: ["horse","ros"], expect: 3}, {args: ["intention","execution"], expect: 5}]}

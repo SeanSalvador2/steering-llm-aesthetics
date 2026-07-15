@@ -1,0 +1,42 @@
+# config/cells.yaml — the 24 distinct cells (PLAN §III.1; PREREG §3; THEORY T1).
+# Factor map A..E = C1..C5. sign = [C1,C2,C3,C4,C5], +1 = real component, -1 = matched filler.
+# Res-V 2^(5-1), generator E=ABCD, I=ABCDE (principal fraction). 16-run factorial =
+# {FULL, AOI-C1..C5, F-123..F-345}. Controls BEAUTY1/NOSYS carry no factor slots.
+# Seeds: headline (controls, LOO, AOI) = 5 {0..4}; interaction (F-cells) = 3 {0..2}.
+
+seeds_headline: [0, 1, 2, 3, 4]
+seeds_interaction: [0, 1, 2]
+
+# Held-out uses a reduced cell set (PLAN §III.1): 4 controls @5 seeds + 5 LOO @3 seeds.
+heldout_cells: [FULL, NEUTRAL, BEAUTY1, NOSYS, LOO-C1, LOO-C2, LOO-C3, LOO-C4, LOO-C5]
+heldout_loo_seeds: [0, 1, 2]
+
+cells:
+  # --- controls ---
+  - {id: FULL,     tier: control,     system: components, sign: [ 1, 1, 1, 1, 1], seeds: 5, in_fraction: true,  purpose: "intact skill; reference; Stage-2 skill side"}
+  - {id: NEUTRAL,  tier: control,     system: fillers,    sign: [-1,-1,-1,-1,-1], seeds: 5, in_fraction: false, purpose: "length-matched neutral; Stage-2 contrast side; AOI baseline"}
+  - {id: BEAUTY1,  tier: control,     system: beauty,     sign: null,             seeds: 5, in_fraction: false, purpose: "5-word nudge (RQ4)"}
+  - {id: NOSYS,    tier: control,     system: none,       sign: null,             seeds: 5, in_fraction: false, purpose: "bare baseline; Stage-2 no-prompt base"}
+  # --- leave-one-out (necessity, RQ1) ---
+  - {id: LOO-C1,   tier: loo,         system: components, sign: [-1, 1, 1, 1, 1], seeds: 5, in_fraction: false, purpose: "necessity of C1"}
+  - {id: LOO-C2,   tier: loo,         system: components, sign: [ 1,-1, 1, 1, 1], seeds: 5, in_fraction: false, purpose: "necessity of C2"}
+  - {id: LOO-C3,   tier: loo,         system: components, sign: [ 1, 1,-1, 1, 1], seeds: 5, in_fraction: false, purpose: "necessity of C3"}
+  - {id: LOO-C4,   tier: loo,         system: components, sign: [ 1, 1, 1,-1, 1], seeds: 5, in_fraction: false, purpose: "necessity of C4"}
+  - {id: LOO-C5,   tier: loo,         system: components, sign: [ 1, 1, 1, 1,-1], seeds: 5, in_fraction: false, purpose: "necessity of C5 (expected large)"}
+  # --- add-one-in (sufficiency, RQ2); all in the res-V fraction ---
+  - {id: AOI-C1,   tier: aoi,         system: components, sign: [ 1,-1,-1,-1,-1], seeds: 5, in_fraction: true,  purpose: "sufficiency of C1"}
+  - {id: AOI-C2,   tier: aoi,         system: components, sign: [-1, 1,-1,-1,-1], seeds: 5, in_fraction: true,  purpose: "sufficiency of C2"}
+  - {id: AOI-C3,   tier: aoi,         system: components, sign: [-1,-1, 1,-1,-1], seeds: 5, in_fraction: true,  purpose: "sufficiency of C3"}
+  - {id: AOI-C4,   tier: aoi,         system: components, sign: [-1,-1,-1, 1,-1], seeds: 5, in_fraction: true,  purpose: "sufficiency of C4"}
+  - {id: AOI-C5,   tier: aoi,         system: components, sign: [-1,-1,-1,-1, 1], seeds: 5, in_fraction: true,  purpose: "sufficiency of C5"}
+  # --- three-component interaction cells (RQ3); the 10 new res-V runs ---
+  - {id: F-123,    tier: interaction, system: components, sign: [ 1, 1, 1,-1,-1], seeds: 3, in_fraction: true,  purpose: "2FI block"}
+  - {id: F-124,    tier: interaction, system: components, sign: [ 1, 1,-1, 1,-1], seeds: 3, in_fraction: true,  purpose: "2FI block"}
+  - {id: F-125,    tier: interaction, system: components, sign: [ 1, 1,-1,-1, 1], seeds: 3, in_fraction: true,  purpose: "2FI block"}
+  - {id: F-134,    tier: interaction, system: components, sign: [ 1,-1, 1, 1,-1], seeds: 3, in_fraction: true,  purpose: "2FI block"}
+  - {id: F-135,    tier: interaction, system: components, sign: [ 1,-1, 1,-1, 1], seeds: 3, in_fraction: true,  purpose: "2FI block"}
+  - {id: F-145,    tier: interaction, system: components, sign: [ 1,-1,-1, 1, 1], seeds: 3, in_fraction: true,  purpose: "2FI block"}
+  - {id: F-234,    tier: interaction, system: components, sign: [-1, 1, 1, 1,-1], seeds: 3, in_fraction: true,  purpose: "2FI block"}
+  - {id: F-235,    tier: interaction, system: components, sign: [-1, 1, 1,-1, 1], seeds: 3, in_fraction: true,  purpose: "2FI block"}
+  - {id: F-245,    tier: interaction, system: components, sign: [-1, 1,-1, 1, 1], seeds: 3, in_fraction: true,  purpose: "2FI block"}
+  - {id: F-345,    tier: interaction, system: components, sign: [-1,-1, 1, 1, 1], seeds: 3, in_fraction: true,  purpose: "2FI block"}

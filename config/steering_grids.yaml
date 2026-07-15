@@ -1,0 +1,29 @@
+# config/steering_grids.yaml — Stage-2 dev-sweep grid (PLAN §IV S2.3; THEORY T8.3/T8.4).
+# rho (norm-relative) is the PRIMARY axis (transfers across layers). abs multipliers reported too.
+layers: [11, 13, 15, 17, 20]          # S2.1 focus-band candidates (<=5)
+rho_grid: [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 1.0]
+rho_negative_sanity: [-0.2, -0.5]     # should DEGRADE (sanity check)
+abs_multipliers: [1, 2, 4, 8, 16]     # c = m * ||v_l||  (absolute parameterization)
+variants: [mean_response, last_prompt_token, first_k]
+first_k: 64
+
+# Guardrails (PLAN S2.3; THEORY T8.6). Selection = argmax dev POC-gain s.t. both.
+kl_threshold: 0.30        # mean per-token KL (nats) on the fixed 512-token eval text
+render_min: 0.90          # steered dev-subset render-success floor
+
+# Two-stage sweep to bound cost (PLAN S2.3).
+coarse:
+  layers: [11, 13, 15, 17, 20]
+  rho_grid: [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 1.0]
+  variants: [mean_response]
+  prompts: 12
+  seeds: 2
+refine:
+  best_n_layers: 2
+  best_n_rho: 3
+  variants: [mean_response, last_prompt_token, first_k]
+  prompts: 12
+  seeds: 2
+
+# Early-token localization (S2.9, stretch).
+early_token_k: [16, 64, 256]

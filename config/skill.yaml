@@ -1,0 +1,55 @@
+# config/skill.yaml — the independent variable (PLAN §II.1, VI.2; PREREG §2; ADR-009).
+# Component/filler TEXT is not duplicated here: the single source of truth is the frozen
+# skill file, parsed by src/p19/skill_assembly.py. A build-time byte-identity test
+# (test_skill_assembly.py) diffs the parsed filler blocks against PLAN §II.1.3.
+skill_file: research/skill_exemplars/canonical_skill_v1.md
+plan_file: PLAN.md                       # for the filler-block identity audit (§II.1.3)
+component_order: [C1, C2, C3, C4, C5]     # fixed canonical order (never permuted on primary path)
+block_separator: "\n\n"                   # slots joined by a blank line (assembly decision; see module docstring)
+
+# Constant output constraint (PLAN §II.1.4 / canonical §4). In the USER turn, NEVER ablated.
+output_constraint: "Return a single self-contained HTML file: put all CSS in one `<style>` tag and all JavaScript in one `<script>` tag, inline, with no external network requests — no external fonts, stylesheets, scripts, images, or CDNs. Use only system or generic fonts, and inline SVG or CSS for any graphics. Output only the HTML file."
+
+# BEAUTY1 control (RQ4): the ~5-word nudge.
+beauty_line: "Make it beautiful and well-designed."
+
+# Token balance (ADR-009 ±15% rule, PLAN §II.1.2). Exact counts via the Qwen tokenizer at
+# build time (tokenizer-only download permitted); word x 1.33 fallback when unavailable.
+tokenizer: Qwen/Qwen2.5-Coder-7B-Instruct
+token_balance:
+  target: 85
+  tol: 0.15
+  words_per_token: 1.33   # fallback estimator when the tokenizer cannot be downloaded
+
+# Filler render-inertness audit (PLAN §II.1.3; PREREG §2). Whole-word, fillers only.
+filler_banned_topics:
+  - header
+  - nav
+  - main
+  - footer
+  - aside
+  - article
+  - section
+  - landmark
+  - semantic
+  - lang
+  - title
+  - meta
+  - aria
+  - accessibility
+  - valid
+  - validate
+  - validation
+  - well-formed
+  - closed
+  - closure
+  - unclosed
+  - lint
+  - linter
+  - addEventListener
+  - onclick
+  - handler
+  - event
+  - guard
+  - error
+  - exception

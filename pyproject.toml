@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "p19"
+version = "0.1.0"
+description = "Anatomy of a Design Skill (Project 19): factorial ablation + mechanistic interpretability of a frontend-design skill on Qwen2.5-Coder-7B-Instruct."
+readme = "SEAN-README.md"
+requires-python = ">=3.11,<3.12"
+license = { text = "Proprietary-Research" }
+
+# CPU-safe core: everything the ADR-007 "runs and passes here" phase needs.
+# Versions pinned for determinism (PLAN §VI.5). Heavy GPU deps are optional extras below.
+dependencies = [
+  "numpy==1.26.4",
+  "scipy==1.13.1",
+  "pandas==2.2.2",
+  "pyarrow==16.1.0",
+  "statsmodels==0.14.2",
+  "scikit-learn==1.5.1",
+  "pillow==10.4.0",
+  "matplotlib==3.9.2",
+  "playwright==1.56.0",
+  "pyyaml==6.0.1",
+]
+
+[project.optional-dependencies]
+# GPU / subject-model phase — NEVER installed or executed in the CPU env (CLAUDE.md compute policy).
+# Runs on Colab per RUNBOOK.md.
+gpu = [
+  "torch==2.3.1",
+  "transformers==4.44.2",
+  "accelerate==0.33.0",
+  "safetensors==0.4.3",
+]
+vllm = [
+  "vllm==0.5.4",
+]
+# API judge clients — import-guarded; no calls made in the CPU env.
+judge = [
+  "google-genai==0.3.0",
+  "openai==1.40.0",
+]
+# Test + dev tooling.
+dev = [
+  "pytest==8.2.2",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+p19 = ["vendor/*.js", "vendor/*.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+  "gpu: requires the subject model / torch+transformers (run on Colab; skipped without deps).",
+  "vllm: requires vLLM (Colab only).",
+  "slow: slower CPU tests (rendering).",
+]
+filterwarnings = [
+  "ignore::DeprecationWarning",
+  "ignore::FutureWarning",
+]

@@ -146,3 +146,29 @@ only positive/prescriptive guidance for their topic; ALL negative constraints li
 C5. PLAN.md fixes the revised text (canonical_skill v1) and token-balance rules. A
 "realistic mixed" variant (negatives interleaved as real skills write them) may be added
 as a robustness cell, not the primary design. **Status: accepted.**
+
+## ADR-010 — Skill text finalized under the exact tokenizer (pre-freeze)
+
+**Context.** The skill's token accounting was originally estimated as words × 1.33.
+Running the exact Qwen2.5-Coder tokenizer during the engineering stage revealed two
+violations the estimate had masked: (1) C5 measured 104 tokens — ~28 % over the component
+mean and outside the preregistered ±15 % band (ADR-009) — because BPE fragments its
+semicolon list and hyphenated compounds; (2) fillers ran ~10 % lighter than their matched
+components, so FULL (391 exact tokens) vs NEUTRAL (347) was not the length-match ADR-003
+promises at cell level.
+
+**Decision.** Pre-freeze (sanctioned: PREREGISTRATION's tag conditions include "the skill
+text is final"): (1) C5 minimally reworded to 88 tokens — in-band — with all eleven
+semantic constraints preserved and verified by a dedicated test; BPE-friendly phrasing
+(hyphen chains broken), only the non-constraint adjective "overused" dropped. (2) Strict
+build-time filler equalization: each Filler-i padded/trimmed deterministically to within
+±2 tokens of its component using a frozen, inertness-audited padding-clause pool;
+consequence tests assert every cell's system-prompt mass within ±10 tokens of FULL.
+(3) All nominal token figures in PLAN/PREREGISTRATION/canonical_skill re-anchored to
+exact counts (estimate path retained only as the documented no-tokenizer fallback).
+
+**Rationale.** Widening the ±15 % band would weaken a preregistered rule to accommodate a
+tokenization artifact; accepting the imbalance would make the C5 necessity contrast
+incommensurable with C1–C4 and leave an 11 % mass gap inside the project's flagship
+confound control. Fixing the text and enforcing equalization in code keeps both rules
+intact before anything is frozen or run. **Status: accepted.**

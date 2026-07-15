@@ -1,0 +1,24 @@
+# CPU-safe core dependencies (pinned; PLAN §VI.5 determinism). These run and are tested in the
+# dev environment (ADR-007). Install: pip install -r requirements-cpu.txt
+# The Playwright Chromium build is preinstalled at /opt/pw-browsers (PLAYWRIGHT_BROWSERS_PATH);
+# do NOT run `playwright install` in the dev env. On Colab: `playwright install chromium`.
+numpy==1.26.4
+scipy==1.13.1
+pandas==2.2.2
+pyarrow==16.1.0
+statsmodels==0.14.2
+scikit-learn==1.5.1
+pillow==10.4.0
+matplotlib==3.9.2
+playwright==1.56.0
+pyyaml==6.0.1
+pytest==8.2.2
+
+# --- GPU / subject-model phase (Colab only; NOT installed in the CPU env) ---
+# torch==2.3.1
+# transformers==4.44.2
+# accelerate==0.33.0
+# safetensors==0.4.3
+# vllm==0.5.4
+# google-genai==0.3.0   # judge (primary)
+# openai==1.40.0        # judge (audit)
