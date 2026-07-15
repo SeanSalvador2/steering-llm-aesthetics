@@ -1,0 +1,407 @@
+\begin{thebibliography}{46}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Alain and Bengio(2017)]{alain2017probes}
+Guillaume Alain and Yoshua Bengio.
+\newblock Understanding intermediate layers using linear classifier probes.
+\newblock \emph{ICLR Workshop}, 2017.
+\newblock URL \url{https://arxiv.org/abs/1610.01644}.
+\newblock arXiv:1610.01644.
+
+\bibitem[{Anthropic}(2025{\natexlab{a}})]{anthropic2025frontendblog}
+{Anthropic}.
+\newblock Improving frontend design through skills.
+\newblock Anthropic blog, 2025{\natexlab{a}}.
+\newblock URL
+  \url{https://claude.com/blog/improving-frontend-design-through-skills}.
+
+\bibitem[{Anthropic}(2025{\natexlab{b}})]{anthropic2025frontendskill}
+{Anthropic}.
+\newblock Agent skills: frontend-design and web-artifacts-builder (skill.md).
+\newblock GitHub repository anthropics/skills, 2025{\natexlab{b}}.
+\newblock URL
+  \url{https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md}.
+
+\bibitem[Arditi et~al.(2024)Arditi, Obeso, Syed, Paleka, Rimsky, Gurnee, and
+  Nanda]{arditi2024refusal}
+Andy Arditi, Oscar Obeso, Aaquib Syed, Daniel Paleka, Nina Rimsky, Wes Gurnee,
+  and Neel Nanda.
+\newblock Refusal in language models is mediated by a single direction.
+\newblock \emph{Advances in Neural Information Processing Systems (NeurIPS)},
+  2024.
+\newblock URL \url{https://arxiv.org/abs/2406.11717}.
+\newblock arXiv:2406.11717.
+
+\bibitem[Chen et~al.(2025)Chen, Arditi, Sleight, Evans, and
+  Lindsey]{chen2025persona}
+Runjin Chen, Andy Arditi, Henry Sleight, Owain Evans, and Jack Lindsey.
+\newblock Persona vectors: Monitoring and controlling character traits in
+  language models.
+\newblock \emph{arXiv preprint}, 2025.
+\newblock URL \url{https://arxiv.org/abs/2507.21509}.
+\newblock arXiv:2507.21509.
+
+\bibitem[Chiang et~al.(2024)Chiang, Li, Angelopoulos,
+  et~al.]{chiang2024stylecontrol}
+Wei-Lin Chiang, Tianle Li, Anastasios Angelopoulos, et~al.
+\newblock Does style matter? disentangling style and substance in chatbot
+  arena.
+\newblock LMSYS Org blog, 2024.
+\newblock URL \url{https://lmsys.org/blog/2024-08-28-style-control/}.
+
+\bibitem[Deng et~al.(2026)Deng, Wang, Wang, Wan, Ma, Yang,
+  et~al.]{deng2026qwenscope}
+Boyi Deng, Xu~Wang, Yaoning Wang, Yu~Wan, Yubo Ma, Baosong Yang, et~al.
+\newblock Qwen-scope: Turning sparse features into development tools for large
+  language models.
+\newblock \emph{arXiv preprint}, 2026.
+\newblock URL \url{https://arxiv.org/abs/2605.11887}.
+\newblock arXiv:2605.11887.
+
+\bibitem[{Deque Systems}(2024)]{deque2024axecore}
+{Deque Systems}.
+\newblock axe-core: Accessibility engine for automated web ui testing.
+\newblock GitHub repository dequelabs/axe-core, 2024.
+\newblock URL \url{https://github.com/dequelabs/axe-core}.
+
+\bibitem[Elhage et~al.(2022)Elhage, Hume, Olsson, Schiefer, Henighan,
+  et~al.]{elhage2022superposition}
+Nelson Elhage, Tristan Hume, Catherine Olsson, Nicholas Schiefer, Tom Henighan,
+  et~al.
+\newblock Toy models of superposition.
+\newblock \emph{Transformer Circuits Thread}, 2022.
+\newblock URL \url{https://transformer-circuits.pub/2022/toy_model/index.html}.
+\newblock arXiv:2209.10652.
+
+\bibitem[Engels et~al.(2024)Engels, Liao, Michaud, Gurnee, and
+  Tegmark]{engels2024notlinear}
+Joshua Engels, Isaac Liao, Eric~J. Michaud, Wes Gurnee, and Max Tegmark.
+\newblock Not all language model features are linear.
+\newblock \emph{arXiv preprint}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2405.14860}.
+\newblock arXiv:2405.14860.
+
+\bibitem[Hasler and S{\"u}sstrunk(2003)]{hasler2003colorfulness}
+David Hasler and Sabine S{\"u}sstrunk.
+\newblock Measuring colorfulness in natural images.
+\newblock In \emph{Human Vision and Electronic Imaging VIII, SPIE}, volume
+  5007, pages 87--95, 2003.
+\newblock \doi{10.1117/12.477378}.
+\newblock URL \url{https://infoscience.epfl.ch/record/33994}.
+
+\bibitem[He et~al.(2026)He, Hong, Yang, Pan, Liu, Gu, and
+  Tang]{he2026vision2web}
+Zehai He, Wenyi Hong, Zhen Yang, Ziyang Pan, Mingdao Liu, Xiaotao Gu, and Jie
+  Tang.
+\newblock Vision2web: A hierarchical benchmark for visual website development
+  with agent verification.
+\newblock \emph{arXiv preprint}, 2026.
+\newblock URL \url{https://arxiv.org/abs/2603.26648}.
+\newblock arXiv:2603.26648.
+
+\bibitem[Heimersheim and Nanda(2024)]{heimersheim2024patching}
+Stefan Heimersheim and Neel Nanda.
+\newblock How to use and interpret activation patching.
+\newblock \emph{arXiv preprint}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2404.15255}.
+\newblock arXiv:2404.15255.
+
+\bibitem[Hewitt and Liang(2019)]{hewitt2019control}
+John Hewitt and Percy Liang.
+\newblock Designing and interpreting probes with control tasks.
+\newblock In \emph{Proceedings of EMNLP-IJCNLP}, pages 2733--2743, 2019.
+\newblock \doi{10.18653/v1/D19-1275}.
+\newblock URL \url{https://aclanthology.org/D19-1275/}.
+
+\bibitem[Hui et~al.(2024)Hui, Yang, Cui, Yang, Liu, Zhang,
+  et~al.]{hui2024qwencoder}
+Binyuan Hui, Jian Yang, Zeyu Cui, Jiaxi Yang, Dayiheng Liu, Lei Zhang, et~al.
+\newblock Qwen2.5-coder technical report.
+\newblock \emph{arXiv preprint}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2409.12186}.
+\newblock arXiv:2409.12186.
+
+\bibitem[Jeon et~al.(2025)Jeon, Yoon, Kim, Shim, Choi, Kim, and
+  Yu]{jeon2025gfocus}
+Jaehyun Jeon, Jang~Han Yoon, Min~Soo Kim, Sumin Shim, Yejin Choi, Hanbin Kim,
+  and Youngjae Yu.
+\newblock G-focus: Towards a robust method for assessing ui design
+  persuasiveness.
+\newblock \emph{arXiv preprint}, 2025.
+\newblock URL \url{https://arxiv.org/abs/2505.05026}.
+\newblock arXiv:2505.05026.
+
+\bibitem[Konen et~al.(2024)Konen, Jentzsch, Diallo, Sch{\"u}tt, Bensch,
+  El~Baff, Opitz, and Hecking]{konen2024style}
+Kai Konen, Sophie Jentzsch, Diaoul{\'e} Diallo, Peer Sch{\"u}tt, Oliver Bensch,
+  Roxanne El~Baff, Dominik Opitz, and Tobias Hecking.
+\newblock Style vectors for steering generative large language models.
+\newblock \emph{Findings of the Association for Computational Linguistics:
+  EACL}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2402.01618}.
+\newblock arXiv:2402.01618.
+
+\bibitem[Lauren{\c{c}}on et~al.(2024)Lauren{\c{c}}on, Tronchon, and
+  Sanh]{laurencon2024websight}
+Hugo Lauren{\c{c}}on, L{\'e}o Tronchon, and Victor Sanh.
+\newblock Unlocking the conversion of web screenshots into html code with the
+  websight dataset.
+\newblock \emph{arXiv preprint}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2403.09029}.
+\newblock arXiv:2403.09029.
+
+\bibitem[Lee et~al.(2025)Lee, Padhi, Ramamurthy, Miehling, Dognin, Nagireddy,
+  and Dhurandhar]{lee2024cast}
+Bruce~W. Lee, Inkit Padhi, Karthikeyan~Natesan Ramamurthy, Erik Miehling,
+  Pierre Dognin, Manish Nagireddy, and Amit Dhurandhar.
+\newblock Programming refusal with conditional activation steering.
+\newblock \emph{International Conference on Learning Representations (ICLR)},
+  2025.
+\newblock URL \url{https://arxiv.org/abs/2409.05907}.
+\newblock arXiv:2409.05907.
+
+\bibitem[{LMArena}(2025)]{lmarena2025webdev}
+{LMArena}.
+\newblock Webdev arena: A live llm leaderboard for web app development.
+\newblock LMArena blog, 2025.
+\newblock URL \url{https://arena.ai/blog/webdev-arena/}.
+
+\bibitem[Mayne et~al.(2024)Mayne, Yang, and Mahdi]{mayne2024decompose}
+Harry Mayne, Yushi Yang, and Adam Mahdi.
+\newblock Can sparse autoencoders be used to decompose and interpret steering
+  vectors?
+\newblock \emph{arXiv preprint}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2411.08790}.
+\newblock arXiv:2411.08790.
+
+\bibitem[Miniukovich and De~Angeli(2015)]{miniukovich2015computation}
+Aliaksei Miniukovich and Antonella De~Angeli.
+\newblock Computation of interface aesthetics.
+\newblock In \emph{Proceedings of the 33rd Annual ACM Conference on Human
+  Factors in Computing Systems (CHI)}, pages 1163--1172, 2015.
+\newblock \doi{10.1145/2702123.2702575}.
+\newblock URL \url{https://dl.acm.org/doi/10.1145/2702123.2702575}.
+
+\bibitem[Montgomery(2017)]{montgomery2017doe}
+Douglas~C. Montgomery.
+\newblock \emph{Design and Analysis of Experiments}.
+\newblock Wiley, 9th edition, 2017.
+\newblock URL \url{https://online.stat.psu.edu/stat503/lesson/8}.
+\newblock Fractional factorial designs, Ch. 8; 2\^{}(5-1) resolution V.
+
+\bibitem[Ngo et~al.(2003)Ngo, Teo, and Byrne]{ngo2003modelling}
+David Chek~Ling Ngo, Lian~Seng Teo, and John~G. Byrne.
+\newblock Modelling interface aesthetics.
+\newblock \emph{Information Sciences}, 152:\penalty0 25--46, 2003.
+\newblock \doi{10.1016/S0020-0255(02)00404-8}.
+\newblock URL
+  \url{https://www.sciencedirect.com/science/article/abs/pii/S0020025502004048}.
+
+\bibitem[Park et~al.(2024{\natexlab{a}})Park, Choe, Jiang, and
+  Veitch]{park2024geometry}
+Kiho Park, Yo~Joong Choe, Yibo Jiang, and Victor Veitch.
+\newblock The geometry of categorical and hierarchical concepts in large
+  language models.
+\newblock \emph{arXiv preprint}, 2024{\natexlab{a}}.
+\newblock URL \url{https://arxiv.org/abs/2406.01506}.
+\newblock arXiv:2406.01506.
+
+\bibitem[Park et~al.(2024{\natexlab{b}})Park, Choe, and Veitch]{park2023lrh}
+Kiho Park, Yo~Joong Choe, and Victor Veitch.
+\newblock The linear representation hypothesis and the geometry of large
+  language models.
+\newblock \emph{International Conference on Machine Learning (ICML)},
+  2024{\natexlab{b}}.
+\newblock URL \url{https://arxiv.org/abs/2311.03658}.
+\newblock arXiv:2311.03658.
+
+\bibitem[Queiroz Da~Silva et~al.(2025)Queiroz Da~Silva, Sethuraman, Rajagopal,
+  Hajishirzi, and Kumar]{dasilva2025steeringoff}
+Patrick Queiroz Da~Silva, Hari Sethuraman, Dheeraj Rajagopal, Hannaneh
+  Hajishirzi, and Sachin Kumar.
+\newblock Steering off course: Reliability challenges in steering language
+  models.
+\newblock \emph{arXiv preprint}, 2025.
+\newblock URL \url{https://arxiv.org/abs/2504.04635}.
+\newblock arXiv:2504.04635.
+
+\bibitem[Reinecke et~al.(2013)Reinecke, Yeh, Miratrix, Mardiko, Zhao, Liu, and
+  Gajos]{reinecke2013predicting}
+Katharina Reinecke, Tom Yeh, Luke Miratrix, Rahmatri Mardiko, Yuechen Zhao,
+  Jenny Liu, and Krzysztof~Z. Gajos.
+\newblock Predicting users' first impressions of website aesthetics with a
+  quantification of perceived visual complexity and colorfulness.
+\newblock In \emph{Proceedings of the SIGCHI Conference on Human Factors in
+  Computing Systems (CHI)}, pages 2049--2058, 2013.
+\newblock \doi{10.1145/2470654.2481281}.
+\newblock URL \url{https://dl.acm.org/doi/10.1145/2470654.2481281}.
+
+\bibitem[Rimsky et~al.(2024)Rimsky, Gabrieli, Schulz, Tong, Hubinger, and
+  Turner]{rimsky2024caa}
+Nina Rimsky, Nick Gabrieli, Julian Schulz, Meg Tong, Evan Hubinger, and
+  Alexander~Matt Turner.
+\newblock Steering llama 2 via contrastive activation addition.
+\newblock \emph{Proceedings of the 62nd Annual Meeting of the ACL}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2312.06681}.
+\newblock arXiv:2312.06681.
+
+\bibitem[Si et~al.(2024)Si, Zhang, Yang, Liu, and Yang]{si2024design2code}
+Chenglei Si, Yanzhe Zhang, Zhengyuan Yang, Ruibo Liu, and Diyi Yang.
+\newblock Design2code: How far are we from automating front-end engineering?
+\newblock \emph{arXiv preprint}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2403.03163}.
+\newblock arXiv:2403.03163.
+
+\bibitem[Taimeskhanov et~al.(2026)Taimeskhanov, Vaiter, and
+  Garreau]{taimeskhanov2026strength}
+Magamed Taimeskhanov, Samuel Vaiter, and Damien Garreau.
+\newblock Towards understanding steering strength.
+\newblock \emph{arXiv preprint}, 2026.
+\newblock URL \url{https://arxiv.org/abs/2602.02712}.
+\newblock arXiv:2602.02712.
+
+\bibitem[Tan et~al.(2024)Tan, Chanin, Lynch, Kanoulas, Paige, Garriga-Alonso,
+  and Kirk]{tan2024analysing}
+Daniel Tan, David Chanin, Aengus Lynch, Dimitrios Kanoulas, Brooks Paige,
+  Adri{\`a} Garriga-Alonso, and Robert Kirk.
+\newblock Analysing the generalisation and reliability of steering vectors.
+\newblock \emph{Advances in Neural Information Processing Systems (NeurIPS)},
+  2024.
+\newblock URL \url{https://arxiv.org/abs/2407.12404}.
+\newblock arXiv:2407.12404.
+
+\bibitem[Turner et~al.(2023)Turner, Thiergart, Udell, Leech, Mini, and
+  MacDiarmid]{turner2023actadd}
+Alexander~Matt Turner, Lisa Thiergart, David Udell, Gavin Leech, Ulisse Mini,
+  and Monte MacDiarmid.
+\newblock Activation addition: Steering language models without optimization.
+\newblock \emph{arXiv preprint}, 2023.
+\newblock URL \url{https://arxiv.org/abs/2308.10248}.
+\newblock arXiv:2308.10248.
+
+\bibitem[{UI-Bench authors}(2025)]{uibench2025}
+{UI-Bench authors}.
+\newblock Ui-bench: A benchmark for evaluating design capabilities of ai
+  text-to-app tools.
+\newblock \emph{arXiv preprint}, 2025.
+\newblock URL \url{https://arxiv.org/abs/2508.20410}.
+\newblock arXiv:2508.20410; author list to confirm against PDF.
+
+\bibitem[van~der Weij et~al.(2024)van~der Weij, Poesio, and
+  Schoots]{vanderweij2024broad}
+Teun van~der Weij, Massimo Poesio, and Nandi Schoots.
+\newblock Extending activation steering to broad skills and multiple
+  behaviours.
+\newblock \emph{arXiv preprint}, 2024.
+\newblock URL \url{https://arxiv.org/abs/2403.05767}.
+\newblock arXiv:2403.05767.
+
+\bibitem[{W3C}(2018)]{w3c2018wcag21}
+{W3C}.
+\newblock Web content accessibility guidelines (wcag) 2.1.
+\newblock W3C Recommendation, 2018.
+\newblock URL \url{https://www.w3.org/TR/WCAG21/}.
+
+\bibitem[Wollschl{\"a}ger et~al.(2025)Wollschl{\"a}ger, Elstner, Geisler,
+  Cohen-Addad, G{\"u}nnemann, and Gasteiger]{wollschlager2025cones}
+Tom Wollschl{\"a}ger, Jannes Elstner, Simon Geisler, Vincent Cohen-Addad,
+  Stephan G{\"u}nnemann, and Johannes Gasteiger.
+\newblock The geometry of refusal in large language models: Concept cones and
+  representational independence.
+\newblock \emph{International Conference on Machine Learning (ICML)}, 2025.
+\newblock URL \url{https://arxiv.org/abs/2502.17420}.
+\newblock arXiv:2502.17420.
+
+\bibitem[Wu et~al.(2024{\natexlab{a}})Wu, Peng, Li, Swearngin, Bigham, and
+  Nichols]{wu2024uiclip}
+Jason Wu, Yi-Hao Peng, Amanda Li, Amanda Swearngin, Jeffrey~P. Bigham, and
+  Jeffrey Nichols.
+\newblock Uiclip: A data-driven model for assessing user interface design.
+\newblock \emph{Proceedings of the 37th Annual ACM Symposium on User Interface
+  Software and Technology (UIST)}, 2024{\natexlab{a}}.
+\newblock URL \url{https://arxiv.org/abs/2404.12500}.
+\newblock arXiv:2404.12500.
+
+\bibitem[Wu et~al.(2024{\natexlab{b}})Wu, Schoop, Leung, Barik, Bigham, and
+  Nichols]{wu2024uicoder}
+Jason Wu, Eldon Schoop, Alan Leung, Titus Barik, Jeffrey~P. Bigham, and Jeffrey
+  Nichols.
+\newblock Uicoder: Finetuning large language models to generate user interface
+  code through automated feedback.
+\newblock \emph{arXiv preprint}, 2024{\natexlab{b}}.
+\newblock URL \url{https://arxiv.org/abs/2406.07739}.
+\newblock arXiv:2406.07739.
+
+\bibitem[Wu et~al.(2025)Wu, Arora, Geiger, Wang, Huang, Jurafsky, Manning, and
+  Potts]{wu2025axbench}
+Zhengxuan Wu, Aryaman Arora, Atticus Geiger, Zheng Wang, Jing Huang, Dan
+  Jurafsky, Christopher~D. Manning, and Christopher Potts.
+\newblock Axbench: Steering llms? even simple baselines outperform sparse
+  autoencoders.
+\newblock \emph{International Conference on Machine Learning (ICML)}, 2025.
+\newblock URL \url{https://arxiv.org/abs/2501.17148}.
+\newblock arXiv:2501.17148.
+
+\bibitem[Xiao et~al.(2025)Xiao, Wang, Lam, Wan, Liu, Huo, and
+  Lyu]{xiao2025designbench}
+Jingyu Xiao, Ming Wang, Man~Ho Lam, Yuxuan Wan, Junliang Liu, Yintong Huo, and
+  Michael~R. Lyu.
+\newblock Designbench: A comprehensive benchmark for mllm-based front-end code
+  generation.
+\newblock \emph{arXiv preprint}, 2025.
+\newblock URL \url{https://arxiv.org/abs/2506.06251}.
+\newblock arXiv:2506.06251.
+
+\bibitem[Yun et~al.(2024)Yun, Lin, Thushara, Bhat, Wang,
+  et~al.]{yun2024web2code}
+Sukmin Yun, Haokun Lin, Rusiru Thushara, Mohammad~Qazim Bhat, Yongxin Wang,
+  et~al.
+\newblock Web2code: A large-scale webpage-to-code dataset and evaluation
+  framework for multimodal llms.
+\newblock \emph{Advances in Neural Information Processing Systems (NeurIPS)},
+  2024.
+\newblock URL \url{https://arxiv.org/abs/2406.20098}.
+\newblock arXiv:2406.20098.
+
+\bibitem[Zhang et~al.(2025)Zhang, Li, Xu, Liu, Liu,
+  et~al.]{zhang2025artifactsbench}
+Chenchen Zhang, Yuhang Li, Can Xu, Jiaheng Liu, Ao~Liu, et~al.
+\newblock Artifactsbench: Bridging the visual-interactive gap in llm code
+  generation evaluation.
+\newblock \emph{arXiv preprint}, 2025.
+\newblock URL \url{https://arxiv.org/abs/2507.04952}.
+\newblock arXiv:2507.04952.
+
+\bibitem[Zhang and Nanda(2024)]{zhang2024patching}
+Fred Zhang and Neel Nanda.
+\newblock Towards best practices of activation patching in language models:
+  Metrics and methods.
+\newblock \emph{International Conference on Learning Representations (ICLR)},
+  2024.
+\newblock URL \url{https://arxiv.org/abs/2309.16042}.
+\newblock arXiv:2309.16042.
+
+\bibitem[Zheng et~al.(2023)Zheng, Chiang, Sheng, Zhuang, Wu, Zhuang, Lin, Li,
+  et~al.]{zheng2023mtbench}
+Lianmin Zheng, Wei-Lin Chiang, Ying Sheng, Siyuan Zhuang, Zhanghao Wu, Yonghao
+  Zhuang, Zi~Lin, Zhuohan Li, et~al.
+\newblock Judging llm-as-a-judge with mt-bench and chatbot arena.
+\newblock \emph{Advances in Neural Information Processing Systems (NeurIPS)},
+  2023.
+\newblock URL \url{https://arxiv.org/abs/2306.05685}.
+\newblock arXiv:2306.05685.
+
+\bibitem[Zou et~al.(2023)Zou, Phan, Chen, Campbell, Guo, Ren, Pan, Yin,
+  et~al.]{zou2023repe}
+Andy Zou, Long Phan, Sarah Chen, James Campbell, Phillip Guo, Richard Ren,
+  Alexander Pan, Xuwang Yin, et~al.
+\newblock Representation engineering: A top-down approach to ai transparency.
+\newblock \emph{arXiv preprint}, 2023.
+\newblock URL \url{https://arxiv.org/abs/2310.01405}.
+\newblock arXiv:2310.01405.
+
+\end{thebibliography}

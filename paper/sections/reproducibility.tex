@@ -1,0 +1,60 @@
+\section{Reproducibility and ethics}
+\label{sec:repro}
+
+\paragraph{Preregistration and freezes.} All confirmatory decisions---the cell table, the 58-brief
+split, the POC formula and its two conditionals, the 12-test confirmatory family, the reliability and
+power gates, the Stage-2 four-conjunct success criterion, and the null rule---are frozen in a
+preregistration (Appendix~\ref{app:prereg}) git-tagged \texttt{prereg-v1} before the first GPU run.
+The Stage-2 operating point $(\lstar,\rhostar,\text{variant}^{*})$ is selected on dev, written to a
+hashed config, and git-tagged \texttt{steer-frozen} before the held-out set is touched; held-out is
+evaluated exactly once. Any post-freeze change is a dated amendment; a confirmatory change forks a new
+tag and is reported as a deviation.
+
+\paragraph{Determinism and pinning.} An engine split is enforced: vLLM for Stage-1 bulk generation, HF
+for all activation and steering work, never cross-compared; engine, version, sampling, and config
+hashes are stamped on every results row. Sampling is fixed (Section~\ref{sec:design}). Rendering is
+deterministic: pinned Chromium at $1440\times900$ (plus a $390\times844$ mobile subset for the
+responsiveness slice), device-scale-factor 1, animations disabled, fonts-ready awaited,
+network blocked; a metric artifact re-run under an unchanged config reproduces identical hashes. All
+pinned versions are recorded in an environment lock.
+
+\paragraph{Artifacts and machinery.} Reusable machinery lives in a tested Python package (metrics,
+rendering, judging, agreement, Bradley--Terry, mixed models, power, hooks, steering, figures,
+manifest); notebooks carry narrative and orchestration and import from it. The CPU-safe half---fixture
+rendering, the full objective-metric stack, the judge in dry-run/mock mode, the statistics on
+synthetic data, and every unit test---runs and passes in the development environment; the GPU-dependent
+half is written, mock-tested, import-guarded, and left unexecuted until the Colab sessions in the
+runbook. Every figure in this paper is produced by the same figure module from a results table---no
+hand-editing---and the preview figures here are that module run on synthetic data with a planted ground
+truth (unit-tested to recover the plant). An artifact manifest records every HTML, screenshot,
+DOM-JSON, activation shard, and results file with a SHA-256, its producing config hash, engine, and
+commit.
+
+\paragraph{Cost.} The full study is deliberately inexpensive (Table~\ref{tab:cost}), which we regard
+as a feature: a two-stage causal study of a design skill fits in a graduate compute budget.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Compute and API budget (Table~T7). These are planned budgets, not results.}
+\label{tab:cost}
+\begin{tabular}{@{}lll@{}}
+\toprule
+item & quantity & cost \\
+\midrule
+Stage-1 generation (vLLM, L4) & $\sim$6 L4-hours & \multirow{2}{*}{$\approx$243 Colab units, \$50--65} \\
+Stage-2 capture/sweep/verify/stretch (A100) & $\sim$14 A100-hours & \\
+Judge --- Gemini 2.5 Flash primary & $\sim$4{,}420 both-order calls & $\approx$\$7 \\
+Judge --- GPT-4o audit (15\%) & $\sim$664 calls & $\approx$\$7 \\
+Storage (HTML/PNG/DOM-JSON/activations) & $\sim$6{,}900 units + means & $\approx$4--5 GB \\
+\midrule
+\textbf{Total} & & \textbf{$\approx$\$65--80} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Ethics.} The study generates web-UI code and evaluates its visual quality; it involves no
+personal data and no human subjects beyond the authors' own labeling of a 100-pair validation subset
+(no demographic data, no external participants). The subject model is used under its license; API
+judges are used only as evaluators. The one dual-use-adjacent technique is weight-orthogonalization,
+used here solely as the necessity flip test on an \emph{aesthetic} direction, with no safety-relevant
+behavior involved. We see no additional ethical concerns.

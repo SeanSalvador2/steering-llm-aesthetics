@@ -1,0 +1,127 @@
+% =============================================================================
+% Anatomy of a Design Skill: Which Guidance Improves LLM UI Code, and Where It Acts
+% Two-part preprint scaffold (Stage-1 ablation + Stage-2 mechanistic interpretability).
+%
+% OUTCOME-CONTINGENT DRAFT. Every awaited number is a \numslot{ID} (see SLOT_REGISTRY.md);
+% every branch the data could take is a \resultbranch{...}{...}. All figures are
+% \synthfig previews built from the real p19 machinery on planted (synthetic) data and
+% are unmistakably labelled as such. See BUILD.md for compilation.
+%
+% Standard packages only (no venue .sty). Single-column preprint.
+% =============================================================================
+\documentclass[10pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=0.95in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{natbib}
+\usepackage[colorlinks=true,linkcolor=linknavy,citecolor=linknavy,urlcolor=linknavy]{hyperref}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage[protrusion=true,expansion=false]{microtype}
+
+\bibliographystyle{plainnat}
+
+% ------------------------------------------------------------------ colours ---
+\definecolor{linknavy}{HTML}{1A3E6E}
+\definecolor{slotbg}{HTML}{FFE9A8}     % awaited-number highlight
+\definecolor{slottext}{HTML}{7A5A00}
+\definecolor{branchbg}{HTML}{E8EEF6}   % result-branch header
+\definecolor{branchrule}{HTML}{4A6FA5}
+\definecolor{synthbg}{HTML}{FBE6E6}    % synthetic-figure warning
+
+% =============================================================================
+% MACRO SYSTEM FOR OUTCOME-CONTINGENT SLOTS
+% =============================================================================
+
+% \numslot{ID} : a highlighted placeholder for a number that awaits real data.
+%   Renders [NUM:ID]. Every ID is catalogued in SLOT_REGISTRY.md with its source
+%   pipeline artefact (notebook/script + column) and the RUNBOOK session that fills it.
+\newcommand{\numslot}[1]{%
+  \colorbox{slotbg}{\hspace{-0.15em}\textcolor{slottext}{\footnotesize\ttfamily NUM:#1}\hspace{-0.15em}}%
+}
+
+% \resultbranch{condition} ... \endresultbranch : a clearly demarcated conditional
+%   block -- the prose that SHIPS if that preregistered outcome obtains. Page-breakable
+%   (branches are full paragraphs), with a coloured header and a left rule.
+\newenvironment{resultbranch}[1]{%
+  \par\vspace{0.3em}\noindent
+  \colorbox{branchbg}{\small\textcolor{branchrule}{\textbf{\textsf{OUTCOME}}}\ \textsf{#1}}%
+  \par\nobreak\vspace{0.1em}%
+  \begingroup\setlength{\leftskip}{1.1em}\small%
+}{%
+  \par\endgroup\vspace{0.35em}%
+}
+
+% \synthfig[width]{Fid}{path}{RUNBOOK-session}{caption} : include a synthetic-preview
+%   figure with the MANDATORY provenance prefix. Default width 0.80\linewidth.
+\newcommand{\synthfig}[5][0.80\linewidth]{%
+  \begin{figure}[tbp]\centering
+    \fcolorbox{synthbg}{synthbg}{\parbox{0.985\linewidth}{\centering
+      \includegraphics[width=#1]{figures/#3}}}
+    \caption{\textbf{[#2 -- SYNTHETIC PREVIEW.]} \textit{Synthetic pipeline-validation
+      preview; replaced by real data (RUNBOOK session~#4).} #5}
+    \label{fig:#2}
+  \end{figure}%
+}
+
+% shorthands for notation shared with THEORY.md / PLAN.md (identical symbols)
+\newcommand{\vhat}{\hat{v}}
+\newcommand{\vlstar}{\hat{v}_{\ell^{\!*}}}
+\newcommand{\lstar}{\ell^{*}}
+\newcommand{\rhostar}{\rho^{*}}
+\newcommand{\POC}{\mathrm{POC}}
+\newcommand{\ac}{\mathrm{AC1}}
+\newcommand{\alphaK}{\alpha_{K}}
+\newcommand{\doop}{\operatorname{do}}
+\newcommand{\FULL}{\textsc{full}}
+\newcommand{\NEUTRAL}{\textsc{neutral}}
+\newcommand{\BEAUTY}{\textsc{beauty1}}
+\newcommand{\NOSYS}{\textsc{nosys}}
+\newcommand{\LOO}{\textsc{loo}}
+\newcommand{\AOI}{\textsc{aoi}}
+
+% compact table helpers
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+% =============================================================================
+\title{\textbf{Anatomy of a Design Skill:\\[2pt]
+Which Guidance Improves an LLM's UI Code, and Where It Acts}}
+
+\author{%
+  \normalsize (author list withheld for review)\\
+  \normalsize Project~19 --- Two-stage study on \texttt{Qwen2.5-Coder-7B-Instruct}
+}
+\date{Preprint. Outcome-contingent draft; numeric slots pending the GPU execution phase.}
+
+% =============================================================================
+\begin{document}
+\maketitle
+
+\input{sections/abstract}
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/study_design}
+\input{sections/oracle}
+\input{sections/stage1_results}
+\input{sections/stage2_method}
+\input{sections/stage2_results}
+\input{sections/discussion}
+\input{sections/limitations}
+\input{sections/reproducibility}
+
+\small
+\bibliography{refs}
+
+\normalsize
+\appendix
+\input{sections/appendix}
+
+\end{document}

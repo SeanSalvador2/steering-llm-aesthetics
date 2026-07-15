@@ -1,0 +1,621 @@
+% ============================================================================
+% Project 19 — Anatomy of a Design Skill: refs.bib
+% Every entry corresponds to a source located and verified during the research
+% sweep (arXiv ID, DOI, or fetched/searched URL). No unverified entries.
+% Grouped: A=Stage1/UI, B=Stage2/interp, C=eval+stats, D=engineering.
+% ============================================================================
+
+% ---------------------------------------------------------------------------
+% CLUSTER B — Mechanistic interpretability & steering (DEEP)
+% ---------------------------------------------------------------------------
+
+@article{arditi2024refusal,
+  title        = {Refusal in Language Models Is Mediated by a Single Direction},
+  author       = {Arditi, Andy and Obeso, Oscar and Syed, Aaquib and Paleka, Daniel and Rimsky, Nina and Gurnee, Wes and Nanda, Neel},
+  journal      = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year         = {2024},
+  note         = {arXiv:2406.11717},
+  url          = {https://arxiv.org/abs/2406.11717}
+}
+
+@article{rimsky2024caa,
+  title        = {Steering Llama 2 via Contrastive Activation Addition},
+  author       = {Rimsky, Nina and Gabrieli, Nick and Schulz, Julian and Tong, Meg and Hubinger, Evan and Turner, Alexander Matt},
+  journal      = {Proceedings of the 62nd Annual Meeting of the ACL},
+  year         = {2024},
+  note         = {arXiv:2312.06681},
+  url          = {https://arxiv.org/abs/2312.06681}
+}
+
+@article{turner2023actadd,
+  title        = {Activation Addition: Steering Language Models Without Optimization},
+  author       = {Turner, Alexander Matt and Thiergart, Lisa and Udell, David and Leech, Gavin and Mini, Ulisse and MacDiarmid, Monte},
+  journal      = {arXiv preprint},
+  year         = {2023},
+  note         = {arXiv:2308.10248},
+  url          = {https://arxiv.org/abs/2308.10248}
+}
+
+@article{konen2024style,
+  title        = {Style Vectors for Steering Generative Large Language Models},
+  author       = {Konen, Kai and Jentzsch, Sophie and Diallo, Diaoul{\'e} and Sch{\"u}tt, Peer and Bensch, Oliver and El Baff, Roxanne and Opitz, Dominik and Hecking, Tobias},
+  journal      = {Findings of the Association for Computational Linguistics: EACL},
+  year         = {2024},
+  note         = {arXiv:2402.01618},
+  url          = {https://arxiv.org/abs/2402.01618}
+}
+
+@article{tan2024analysing,
+  title        = {Analysing the Generalisation and Reliability of Steering Vectors},
+  author       = {Tan, Daniel and Chanin, David and Lynch, Aengus and Kanoulas, Dimitrios and Paige, Brooks and Garriga-Alonso, Adri{\`a} and Kirk, Robert},
+  journal      = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year         = {2024},
+  note         = {arXiv:2407.12404},
+  url          = {https://arxiv.org/abs/2407.12404}
+}
+
+@article{wu2025axbench,
+  title        = {AxBench: Steering LLMs? Even Simple Baselines Outperform Sparse Autoencoders},
+  author       = {Wu, Zhengxuan and Arora, Aryaman and Geiger, Atticus and Wang, Zheng and Huang, Jing and Jurafsky, Dan and Manning, Christopher D. and Potts, Christopher},
+  journal      = {International Conference on Machine Learning (ICML)},
+  year         = {2025},
+  note         = {arXiv:2501.17148},
+  url          = {https://arxiv.org/abs/2501.17148}
+}
+
+@article{zhang2024patching,
+  title        = {Towards Best Practices of Activation Patching in Language Models: Metrics and Methods},
+  author       = {Zhang, Fred and Nanda, Neel},
+  journal      = {International Conference on Learning Representations (ICLR)},
+  year         = {2024},
+  note         = {arXiv:2309.16042},
+  url          = {https://arxiv.org/abs/2309.16042}
+}
+
+@article{heimersheim2024patching,
+  title        = {How to Use and Interpret Activation Patching},
+  author       = {Heimersheim, Stefan and Nanda, Neel},
+  journal      = {arXiv preprint},
+  year         = {2024},
+  note         = {arXiv:2404.15255},
+  url          = {https://arxiv.org/abs/2404.15255}
+}
+
+@inproceedings{hewitt2019control,
+  title        = {Designing and Interpreting Probes with Control Tasks},
+  author       = {Hewitt, John and Liang, Percy},
+  booktitle    = {Proceedings of EMNLP-IJCNLP},
+  pages        = {2733--2743},
+  year         = {2019},
+  doi          = {10.18653/v1/D19-1275},
+  url          = {https://aclanthology.org/D19-1275/}
+}
+
+@article{alain2017probes,
+  title        = {Understanding Intermediate Layers Using Linear Classifier Probes},
+  author       = {Alain, Guillaume and Bengio, Yoshua},
+  journal      = {ICLR Workshop},
+  year         = {2017},
+  note         = {arXiv:1610.01644},
+  url          = {https://arxiv.org/abs/1610.01644}
+}
+
+@article{zou2023repe,
+  title        = {Representation Engineering: A Top-Down Approach to AI Transparency},
+  author       = {Zou, Andy and Phan, Long and Chen, Sarah and Campbell, James and Guo, Phillip and Ren, Richard and Pan, Alexander and Yin, Xuwang and others},
+  journal      = {arXiv preprint},
+  year         = {2023},
+  note         = {arXiv:2310.01405},
+  url          = {https://arxiv.org/abs/2310.01405}
+}
+
+@article{chen2025persona,
+  title        = {Persona Vectors: Monitoring and Controlling Character Traits in Language Models},
+  author       = {Chen, Runjin and Arditi, Andy and Sleight, Henry and Evans, Owain and Lindsey, Jack},
+  journal      = {arXiv preprint},
+  year         = {2025},
+  note         = {arXiv:2507.21509},
+  url          = {https://arxiv.org/abs/2507.21509}
+}
+
+% ---- Cluster B survey ----
+
+@article{park2023lrh,
+  title        = {The Linear Representation Hypothesis and the Geometry of Large Language Models},
+  author       = {Park, Kiho and Choe, Yo Joong and Veitch, Victor},
+  journal      = {International Conference on Machine Learning (ICML)},
+  year         = {2024},
+  note         = {arXiv:2311.03658},
+  url          = {https://arxiv.org/abs/2311.03658}
+}
+
+@article{park2024geometry,
+  title        = {The Geometry of Categorical and Hierarchical Concepts in Large Language Models},
+  author       = {Park, Kiho and Choe, Yo Joong and Jiang, Yibo and Veitch, Victor},
+  journal      = {arXiv preprint},
+  year         = {2024},
+  note         = {arXiv:2406.01506},
+  url          = {https://arxiv.org/abs/2406.01506}
+}
+
+@article{elhage2022superposition,
+  title        = {Toy Models of Superposition},
+  author       = {Elhage, Nelson and Hume, Tristan and Olsson, Catherine and Schiefer, Nicholas and Henighan, Tom and others},
+  journal      = {Transformer Circuits Thread},
+  year         = {2022},
+  note         = {arXiv:2209.10652},
+  url          = {https://transformer-circuits.pub/2022/toy_model/index.html}
+}
+
+@article{todd2024fv,
+  title        = {Function Vectors in Large Language Models},
+  author       = {Todd, Eric and Li, Millicent L. and Sharma, Arnab Sen and Mueller, Aaron and Wallace, Byron C. and Bau, David},
+  journal      = {International Conference on Learning Representations (ICLR)},
+  year         = {2024},
+  note         = {arXiv:2310.15213},
+  url          = {https://arxiv.org/abs/2310.15213}
+}
+
+@article{hendel2023task,
+  title        = {In-Context Learning Creates Task Vectors},
+  author       = {Hendel, Roee and Geva, Mor and Globerson, Amir},
+  journal      = {Findings of EMNLP},
+  year         = {2023},
+  note         = {arXiv:2310.15916},
+  url          = {https://arxiv.org/abs/2310.15916}
+}
+
+@article{templeton2024scaling,
+  title        = {Scaling Monosemanticity: Extracting Interpretable Features from Claude 3 Sonnet},
+  author       = {Templeton, Adly and Conerly, Tom and Marcus, Jonathan and Lindsey, Jack and Bricken, Trenton and others},
+  journal      = {Transformer Circuits Thread},
+  year         = {2024},
+  url          = {https://transformer-circuits.pub/2024/scaling-monosemanticity/index.html}
+}
+
+@article{bricken2023monosemanticity,
+  title        = {Towards Monosemanticity: Decomposing Language Models With Dictionary Learning},
+  author       = {Bricken, Trenton and Templeton, Adly and Batson, Joshua and Chen, Brian and Jermyn, Adam and others},
+  journal      = {Transformer Circuits Thread},
+  year         = {2023},
+  url          = {https://transformer-circuits.pub/2023/monosemantic-features/index.html}
+}
+
+@article{lieberum2024gemmascope,
+  title        = {Gemma Scope: Open Sparse Autoencoders Everywhere All At Once on Gemma 2},
+  author       = {Lieberum, Tom and Rajamanoharan, Senthooran and Conmy, Arthur and Smith, Lewis and Sonnerat, Nicolas and Varma, Vikrant and Kram{\'a}r, J{\'a}nos and Dragan, Anca and others},
+  journal      = {arXiv preprint},
+  year         = {2024},
+  note         = {arXiv:2408.05147},
+  url          = {https://arxiv.org/abs/2408.05147}
+}
+
+@article{he2024llamascope,
+  title        = {Llama Scope: Extracting Millions of Features from Llama-3.1-8B with Sparse Autoencoders},
+  author       = {He, Zhengfu and Shu, Wentao and Ge, Xuyang and Chen, Lingjie and Wang, Junxuan and Zhou, Yunhua and Guo, Qipeng and others},
+  journal      = {arXiv preprint},
+  year         = {2024},
+  note         = {arXiv:2410.20526},
+  url          = {https://arxiv.org/abs/2410.20526}
+}
+
+@article{deng2026qwenscope,
+  title        = {Qwen-Scope: Turning Sparse Features into Development Tools for Large Language Models},
+  author       = {Deng, Boyi and Wang, Xu and Wang, Yaoning and Wan, Yu and Ma, Yubo and Yang, Baosong and others},
+  journal      = {arXiv preprint},
+  year         = {2026},
+  note         = {arXiv:2605.11887},
+  url          = {https://arxiv.org/abs/2605.11887}
+}
+
+@article{dasilva2025steeringoff,
+  title        = {Steering off Course: Reliability Challenges in Steering Language Models},
+  author       = {Queiroz Da Silva, Patrick and Sethuraman, Hari and Rajagopal, Dheeraj and Hajishirzi, Hannaneh and Kumar, Sachin},
+  journal      = {arXiv preprint},
+  year         = {2025},
+  note         = {arXiv:2504.04635},
+  url          = {https://arxiv.org/abs/2504.04635}
+}
+
+@article{wollschlager2025cones,
+  title        = {The Geometry of Refusal in Large Language Models: Concept Cones and Representational Independence},
+  author       = {Wollschl{\"a}ger, Tom and Elstner, Jannes and Geisler, Simon and Cohen-Addad, Vincent and G{\"u}nnemann, Stephan and Gasteiger, Johannes},
+  journal      = {International Conference on Machine Learning (ICML)},
+  year         = {2025},
+  note         = {arXiv:2502.17420},
+  url          = {https://arxiv.org/abs/2502.17420}
+}
+
+@article{engels2024notlinear,
+  title        = {Not All Language Model Features Are Linear},
+  author       = {Engels, Joshua and Liao, Isaac and Michaud, Eric J. and Gurnee, Wes and Tegmark, Max},
+  journal      = {arXiv preprint},
+  year         = {2024},
+  note         = {arXiv:2405.14860},
+  url          = {https://arxiv.org/abs/2405.14860}
+}
+
+@article{mayne2024decompose,
+  title        = {Can Sparse Autoencoders Be Used to Decompose and Interpret Steering Vectors?},
+  author       = {Mayne, Harry and Yang, Yushi and Mahdi, Adam},
+  journal      = {arXiv preprint},
+  year         = {2024},
+  note         = {arXiv:2411.08790},
+  url          = {https://arxiv.org/abs/2411.08790}
+}
+
+@article{arad2025saesteering,
+  title        = {SAEs Are Good for Steering -- If You Select the Right Features},
+  author       = {Arad, Dana and Mueller, Aaron and Belinkov, Yonatan},
+  journal      = {arXiv preprint},
+  year         = {2025},
+  note         = {arXiv:2505.20063},
+  url          = {https://arxiv.org/abs/2505.20063}
+}
+
+@article{ronge2026coffee,
+  title        = {When the Coffee Feature Activates on Coffins: An Analysis of Feature Extraction and Steering for Mechanistic Interpretability},
+  author       = {Ronge, Raphael and Maier, Markus and Eberhardt, Frederick},
+  journal      = {arXiv preprint},
+  year         = {2026},
+  note         = {arXiv:2601.03047},
+  url          = {https://arxiv.org/abs/2601.03047}
+}
+
+@article{taimeskhanov2026strength,
+  title        = {Towards Understanding Steering Strength},
+  author       = {Taimeskhanov, Magamed and Vaiter, Samuel and Garreau, Damien},
+  journal      = {arXiv preprint},
+  year         = {2026},
+  note         = {arXiv:2602.02712},
+  url          = {https://arxiv.org/abs/2602.02712}
+}
+
+@article{vanderweij2024broad,
+  title        = {Extending Activation Steering to Broad Skills and Multiple Behaviours},
+  author       = {van der Weij, Teun and Poesio, Massimo and Schoots, Nandi},
+  journal      = {arXiv preprint},
+  year         = {2024},
+  note         = {arXiv:2403.05767},
+  url          = {https://arxiv.org/abs/2403.05767}
+}
+
+@article{lee2024cast,
+  title        = {Programming Refusal with Conditional Activation Steering},
+  author       = {Lee, Bruce W. and Padhi, Inkit and Ramamurthy, Karthikeyan Natesan and Miehling, Erik and Dognin, Pierre and Nagireddy, Manish and Dhurandhar, Amit},
+  journal      = {International Conference on Learning Representations (ICLR)},
+  year         = {2025},
+  note         = {arXiv:2409.05907},
+  url          = {https://arxiv.org/abs/2409.05907}
+}
+
+% ---------------------------------------------------------------------------
+% CLUSTER A — UI generation, design skills, aesthetics (DEEP + survey)
+% ---------------------------------------------------------------------------
+
+@article{si2024design2code,
+  title        = {Design2Code: How Far Are We From Automating Front-End Engineering?},
+  author       = {Si, Chenglei and Zhang, Yanzhe and Yang, Zhengyuan and Liu, Ruibo and Yang, Diyi},
+  journal      = {arXiv preprint},
+  year         = {2024},
+  note         = {arXiv:2403.03163},
+  url          = {https://arxiv.org/abs/2403.03163}
+}
+
+@article{wu2024uicoder,
+  title        = {UICoder: Finetuning Large Language Models to Generate User Interface Code through Automated Feedback},
+  author       = {Wu, Jason and Schoop, Eldon and Leung, Alan and Barik, Titus and Bigham, Jeffrey P. and Nichols, Jeffrey},
+  journal      = {arXiv preprint},
+  year         = {2024},
+  note         = {arXiv:2406.07739},
+  url          = {https://arxiv.org/abs/2406.07739}
+}
+
+@inproceedings{miniukovich2015computation,
+  title        = {Computation of Interface Aesthetics},
+  author       = {Miniukovich, Aliaksei and De Angeli, Antonella},
+  booktitle    = {Proceedings of the 33rd Annual ACM Conference on Human Factors in Computing Systems (CHI)},
+  pages        = {1163--1172},
+  year         = {2015},
+  doi          = {10.1145/2702123.2702575},
+  url          = {https://dl.acm.org/doi/10.1145/2702123.2702575}
+}
+
+@article{ngo2003modelling,
+  title        = {Modelling Interface Aesthetics},
+  author       = {Ngo, David Chek Ling and Teo, Lian Seng and Byrne, John G.},
+  journal      = {Information Sciences},
+  volume       = {152},
+  pages        = {25--46},
+  year         = {2003},
+  doi          = {10.1016/S0020-0255(02)00404-8},
+  url          = {https://www.sciencedirect.com/science/article/abs/pii/S0020025502004048}
+}
+
+@inproceedings{reinecke2013predicting,
+  title        = {Predicting Users' First Impressions of Website Aesthetics with a Quantification of Perceived Visual Complexity and Colorfulness},
+  author       = {Reinecke, Katharina and Yeh, Tom and Miratrix, Luke and Mardiko, Rahmatri and Zhao, Yuechen and Liu, Jenny and Gajos, Krzysztof Z.},
+  booktitle    = {Proceedings of the SIGCHI Conference on Human Factors in Computing Systems (CHI)},
+  pages        = {2049--2058},
+  year         = {2013},
+  doi          = {10.1145/2470654.2481281},
+  url          = {https://dl.acm.org/doi/10.1145/2470654.2481281}
+}
+
+@inproceedings{hasler2003colorfulness,
+  title        = {Measuring Colorfulness in Natural Images},
+  author       = {Hasler, David and S{\"u}sstrunk, Sabine},
+  booktitle    = {Human Vision and Electronic Imaging VIII, SPIE},
+  volume       = {5007},
+  pages        = {87--95},
+  year         = {2003},
+  doi          = {10.1117/12.477378},
+  url          = {https://infoscience.epfl.ch/record/33994}
+}
+
+@article{wu2024uiclip,
+  title        = {UIClip: A Data-Driven Model for Assessing User Interface Design},
+  author       = {Wu, Jason and Peng, Yi-Hao and Li, Amanda and Swearngin, Amanda and Bigham, Jeffrey P. and Nichols, Jeffrey},
+  journal      = {Proceedings of the 37th Annual ACM Symposium on User Interface Software and Technology (UIST)},
+  year         = {2024},
+  note         = {arXiv:2404.12500},
+  url          = {https://arxiv.org/abs/2404.12500}
+}
+
+@misc{anthropic2025frontendskill,
+  title        = {Agent Skills: frontend-design and web-artifacts-builder (SKILL.md)},
+  author       = {{Anthropic}},
+  year         = {2025},
+  howpublished = {GitHub repository anthropics/skills},
+  url          = {https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md}
+}
+
+@misc{anthropic2025frontendblog,
+  title        = {Improving Frontend Design Through Skills},
+  author       = {{Anthropic}},
+  year         = {2025},
+  howpublished = {Anthropic blog},
+  url          = {https://claude.com/blog/improving-frontend-design-through-skills}
+}
+
+@article{laurencon2024websight,
+  title        = {Unlocking the Conversion of Web Screenshots into HTML Code with the WebSight Dataset},
+  author       = {Lauren{\c{c}}on, Hugo and Tronchon, L{\'e}o and Sanh, Victor},
+  journal      = {arXiv preprint},
+  year         = {2024},
+  note         = {arXiv:2403.09029},
+  url          = {https://arxiv.org/abs/2403.09029}
+}
+
+@article{yun2024web2code,
+  title        = {Web2Code: A Large-Scale Webpage-to-Code Dataset and Evaluation Framework for Multimodal LLMs},
+  author       = {Yun, Sukmin and Lin, Haokun and Thushara, Rusiru and Bhat, Mohammad Qazim and Wang, Yongxin and others},
+  journal      = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year         = {2024},
+  note         = {arXiv:2406.20098},
+  url          = {https://arxiv.org/abs/2406.20098}
+}
+
+@article{zhang2025artifactsbench,
+  title        = {ArtifactsBench: Bridging the Visual-Interactive Gap in LLM Code Generation Evaluation},
+  author       = {Zhang, Chenchen and Li, Yuhang and Xu, Can and Liu, Jiaheng and Liu, Ao and others},
+  journal      = {arXiv preprint},
+  year         = {2025},
+  note         = {arXiv:2507.04952},
+  url          = {https://arxiv.org/abs/2507.04952}
+}
+
+@article{xiao2025designbench,
+  title        = {DesignBench: A Comprehensive Benchmark for MLLM-based Front-end Code Generation},
+  author       = {Xiao, Jingyu and Wang, Ming and Lam, Man Ho and Wan, Yuxuan and Liu, Junliang and Huo, Yintong and Lyu, Michael R.},
+  journal      = {arXiv preprint},
+  year         = {2025},
+  note         = {arXiv:2506.06251},
+  url          = {https://arxiv.org/abs/2506.06251}
+}
+
+@article{he2026vision2web,
+  title        = {Vision2Web: A Hierarchical Benchmark for Visual Website Development with Agent Verification},
+  author       = {He, Zehai and Hong, Wenyi and Yang, Zhen and Pan, Ziyang and Liu, Mingdao and Gu, Xiaotao and Tang, Jie},
+  journal      = {arXiv preprint},
+  year         = {2026},
+  note         = {arXiv:2603.26648},
+  url          = {https://arxiv.org/abs/2603.26648}
+}
+
+@article{uibench2025,
+  title        = {UI-Bench: A Benchmark for Evaluating Design Capabilities of AI Text-to-App Tools},
+  author       = {{UI-Bench authors}},
+  journal      = {arXiv preprint},
+  year         = {2025},
+  note         = {arXiv:2508.20410; author list to confirm against PDF},
+  url          = {https://arxiv.org/abs/2508.20410}
+}
+
+@article{jeon2025gfocus,
+  title        = {G-FOCUS: Towards a Robust Method for Assessing UI Design Persuasiveness},
+  author       = {Jeon, Jaehyun and Yoon, Jang Han and Kim, Min Soo and Shim, Sumin and Choi, Yejin and Kim, Hanbin and Yu, Youngjae},
+  journal      = {arXiv preprint},
+  year         = {2025},
+  note         = {arXiv:2505.05026},
+  url          = {https://arxiv.org/abs/2505.05026}
+}
+
+@misc{deque2024axecore,
+  title        = {axe-core: Accessibility Engine for Automated Web UI Testing},
+  author       = {{Deque Systems}},
+  year         = {2024},
+  howpublished = {GitHub repository dequelabs/axe-core},
+  url          = {https://github.com/dequelabs/axe-core}
+}
+
+@misc{w3c2018wcag21,
+  title        = {Web Content Accessibility Guidelines (WCAG) 2.1},
+  author       = {{W3C}},
+  year         = {2018},
+  howpublished = {W3C Recommendation},
+  url          = {https://www.w3.org/TR/WCAG21/}
+}
+
+@misc{lmarena2025webdev,
+  title        = {WebDev Arena: A Live LLM Leaderboard for Web App Development},
+  author       = {{LMArena}},
+  year         = {2025},
+  howpublished = {LMArena blog},
+  url          = {https://arena.ai/blog/webdev-arena/}
+}
+
+% ---------------------------------------------------------------------------
+% CLUSTER C — Evaluation & statistics
+% ---------------------------------------------------------------------------
+
+@article{zheng2023mtbench,
+  title        = {Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena},
+  author       = {Zheng, Lianmin and Chiang, Wei-Lin and Sheng, Ying and Zhuang, Siyuan and Wu, Zhanghao and Zhuang, Yonghao and Lin, Zi and Li, Zhuohan and others},
+  journal      = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year         = {2023},
+  note         = {arXiv:2306.05685},
+  url          = {https://arxiv.org/abs/2306.05685}
+}
+
+@article{thakur2024judges,
+  title        = {Judging the Judges: Evaluating Alignment and Vulnerabilities in LLMs-as-Judges},
+  author       = {Thakur, Aman Singh and Choudhary, Kartik and Ramayapally, Venkat Srinik and Vaidyanathan, Sankaran and Hupkes, Dieuwke},
+  journal      = {arXiv preprint},
+  year         = {2024},
+  note         = {arXiv:2406.12624},
+  url          = {https://arxiv.org/abs/2406.12624}
+}
+
+@article{hayes2007alpha,
+  title        = {Answering the Call for a Standard Reliability Measure for Coding Data},
+  author       = {Hayes, Andrew F. and Krippendorff, Klaus},
+  journal      = {Communication Methods and Measures},
+  volume       = {1},
+  number       = {1},
+  pages        = {77--89},
+  year         = {2007},
+  doi          = {10.1080/19312450709336664},
+  url          = {https://www.tandfonline.com/doi/abs/10.1080/19312450709336664}
+}
+
+@article{gwet2008ac1,
+  title        = {Computing Inter-Rater Reliability and Its Variance in the Presence of High Agreement},
+  author       = {Gwet, Kilem Li},
+  journal      = {British Journal of Mathematical and Statistical Psychology},
+  volume       = {61},
+  number       = {1},
+  pages        = {29--48},
+  year         = {2008},
+  doi          = {10.1348/000711006X126600},
+  url          = {https://bpspsychub.onlinelibrary.wiley.com/doi/10.1348/000711006X126600}
+}
+
+@article{bradley1952rank,
+  title        = {Rank Analysis of Incomplete Block Designs: I. The Method of Paired Comparisons},
+  author       = {Bradley, Ralph Allan and Terry, Milton E.},
+  journal      = {Biometrika},
+  volume       = {39},
+  number       = {3/4},
+  pages        = {324--345},
+  year         = {1952},
+  doi          = {10.2307/2334029},
+  url          = {https://www.jstor.org/stable/2334029}
+}
+
+@misc{chiang2024stylecontrol,
+  title        = {Does Style Matter? Disentangling Style and Substance in Chatbot Arena},
+  author       = {Chiang, Wei-Lin and Li, Tianle and Angelopoulos, Anastasios and others},
+  year         = {2024},
+  howpublished = {LMSYS Org blog},
+  url          = {https://lmsys.org/blog/2024-08-28-style-control/}
+}
+
+@article{holm1979,
+  title        = {A Simple Sequentially Rejective Multiple Test Procedure},
+  author       = {Holm, Sture},
+  journal      = {Scandinavian Journal of Statistics},
+  volume       = {6},
+  number       = {2},
+  pages        = {65--70},
+  year         = {1979},
+  url          = {https://www.jstor.org/stable/4615733}
+}
+
+@article{benjamini1995fdr,
+  title        = {Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing},
+  author       = {Benjamini, Yoav and Hochberg, Yosef},
+  journal      = {Journal of the Royal Statistical Society: Series B},
+  volume       = {57},
+  number       = {1},
+  pages        = {289--300},
+  year         = {1995},
+  doi          = {10.1111/j.2517-6161.1995.tb02031.x},
+  url          = {https://rss.onlinelibrary.wiley.com/doi/10.1111/j.2517-6161.1995.tb02031.x}
+}
+
+@book{montgomery2017doe,
+  title        = {Design and Analysis of Experiments},
+  author       = {Montgomery, Douglas C.},
+  edition      = {9th},
+  publisher    = {Wiley},
+  year         = {2017},
+  note         = {Fractional factorial designs, Ch. 8; 2\^{}(5-1) resolution V},
+  url          = {https://online.stat.psu.edu/stat503/lesson/8}
+}
+
+% ---------------------------------------------------------------------------
+% CLUSTER D — Engineering / models / tooling
+% ---------------------------------------------------------------------------
+
+@article{hui2024qwencoder,
+  title        = {Qwen2.5-Coder Technical Report},
+  author       = {Hui, Binyuan and Yang, Jian and Cui, Zeyu and Yang, Jiaxi and Liu, Dayiheng and Zhang, Lei and others},
+  journal      = {arXiv preprint},
+  year         = {2024},
+  note         = {arXiv:2409.12186},
+  url          = {https://arxiv.org/abs/2409.12186}
+}
+
+@article{yang2024qwen2,
+  title        = {Qwen2 Technical Report},
+  author       = {Yang, An and Yang, Baosong and Hui, Binyuan and Zheng, Bo and Yu, Bowen and others},
+  journal      = {arXiv preprint},
+  year         = {2024},
+  note         = {arXiv:2407.10671},
+  url          = {https://arxiv.org/abs/2407.10671}
+}
+
+@article{dubey2024llama3,
+  title        = {The Llama 3 Herd of Models},
+  author       = {Dubey, Abhimanyu and Jauhri, Abhinav and Pandey, Abhinav and Kadian, Abhishek and others},
+  journal      = {arXiv preprint},
+  year         = {2024},
+  note         = {arXiv:2407.21783},
+  url          = {https://arxiv.org/abs/2407.21783}
+}
+
+@misc{qwen2025modelcard,
+  title        = {Qwen2.5-Coder-7B-Instruct Model Card and config.json},
+  author       = {{Qwen Team}},
+  year         = {2025},
+  howpublished = {Hugging Face Hub},
+  url          = {https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct}
+}
+
+@misc{playwright2024screenshots,
+  title        = {Playwright: Visual Comparisons and Screenshots (animations, fonts, viewport determinism)},
+  author       = {{Microsoft}},
+  year         = {2024},
+  howpublished = {Playwright documentation},
+  url          = {https://playwright.dev/docs/test-snapshots}
+}
+
+@article{nnsight2024,
+  title        = {NNsight and NDIF: Democratizing Access to Open-Weight Foundation Model Internals},
+  author       = {Fiotto-Kaufman, Jaden and Loftus, Alexander R. and Todd, Eric and Brinkmann, Jannik and Pal, Koyena and others},
+  journal      = {arXiv preprint},
+  year         = {2024},
+  note         = {arXiv:2407.14561},
+  url          = {https://arxiv.org/abs/2407.14561}
+}

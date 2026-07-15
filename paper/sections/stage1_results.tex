@@ -1,0 +1,195 @@
+\section{Stage 1 results: which guidance matters}
+\label{sec:stage1}
+\label{sec:stage1results}
+
+All Stage-1 objective deltas are contrasts on the POC via a mixed-effects model
+$y_{cps}=\mu+\tau_c+u_p+v_{cp}+\epsilon_{cps}$ with fixed cell effect $\tau_c$, random prompt
+intercept $u_p$, and random cell-by-prompt slope $v_{cp}$; this is what separates the study from
+per-generation $t$-tests, because five seeds on one prompt are not five independent points---with a
+modest intraclass correlation the effective $n$ is roughly halved (Appendix~\ref{app:theory}).
+Preference deltas are style-controlled Bradley--Terry utilities (Eq.~\ref{eq:bt}). Confirmatory
+contrasts are Holm-corrected over the 12-test family, separately on each signal; the per-component
+estimates are collected in Table~\ref{tab:s1effects} and visualized in Figure~\ref{fig:F1}.
+For each research question we give the completed interpretation the paper will carry under
+\emph{every} preregistered outcome; on real data, exactly one branch per question is kept.
+
+\subsection{Does the skill work, and is it content?}
+The headline contrast is \FULL{} vs.\ \NEUTRAL. Because \NEUTRAL{} is length-matched, a gain is
+design \emph{content}, not prompt mass. We measure $\numslot{HSKILL-POC}$ standardized $\delta$ on
+the POC and a \FULL{} win-rate of $\numslot{HSKILL-WIN}$ with BT utility $\numslot{HSKILL-BT}$; the
+prompt-mass control \NEUTRAL{} vs.\ \NOSYS{} moves the POC by $\numslot{NEU-NOSYS}$, and \FULL{}
+closes $\numslot{HSKILL-NOSYS-PCT}$ of the \NOSYS{} gap.
+
+\begin{resultbranch}{works}
+The design skill improves UI quality on both oracle signals: \FULL$\succ$\NEUTRAL{} at
+$\numslot{HSKILL-POC}$ POC and $\numslot{HSKILL-WIN}$ preference, both surviving Holm. Because the
+gain is measured against a token-matched, design-irrelevant prompt, it is attributable to the
+skill's \emph{content} rather than to added prompt mass---the near-zero \NEUTRAL--\NOSYS{} contrast
+($\numslot{NEU-NOSYS}$) confirms that filler tokens alone do essentially nothing. The rest of
+Stage~1 is well-posed: there is a real effect to decompose.
+\end{resultbranch}
+\begin{resultbranch}{null}
+\FULL$\approx$\NEUTRAL{} on both signals with a tight CI around zero: the model cannot make use of a
+structured design skill at all. This outcome would have been caught at the pilot gate and escalated
+to the recorded model fallback; were it to survive to the full run, we would report it honestly and
+scope the remainder of Stage~1 to ``no measurable skill effect on this model,'' a negative result
+about the model's instruction-following rather than about design guidance in general.
+\end{resultbranch}
+
+\subsection{RQ1 --- component necessity}
+Necessity is the paired contrast \FULL{} vs.\ \LOO-$C_i$: does removing $C_i$ from the intact skill
+degrade quality? Per-component objective deltas are in Table~\ref{tab:s1effects} and the twin-panel
+forest plot (Figure~\ref{fig:F1}); the directional prior is that C5 (negatives) and C1 (color) punch
+above their token weight.
+
+\begin{resultbranch}{necessary (ranked)}
+Removing certain components significantly degrades quality; ranked by standardized $\delta$, the
+skill's weight concentrates in \numslot{NEC-RANK}, with \numslot{NEC-NSURV} of five components
+surviving Holm on the POC. The largest necessity effects are C5 (negatives, $\numslot{NEC-C5}$;
+BT utility $\numslot{NEC-C5-BT}$) and C1 (color, $\numslot{NEC-C1}$; BT $\numslot{NEC-C1-BT}$),
+confirming the prior that the skill's leverage lies disproportionately in \emph{telling the model
+what not to do} and \emph{pinning a palette}---precisely the components whose token weight is
+smallest relative to their effect. The ordering replicates on held-out prompts (top component
+$\numslot{NEC-REPL-TOP}$), so it is not a dev artifact. Per Eq.~\ref{eq:necsuff}, components with
+large necessity but smaller sufficiency (below) carry positive interaction load---they help most in
+the presence of the others.
+\end{resultbranch}
+\begin{resultbranch}{null}
+No leave-one-out contrast degrades quality: every \FULL--\LOO-$C_i$ CI brackets zero
+(Table~\ref{tab:s1effects}), and the power gate certifies these as tight nulls, not under-powering.
+The reading is that no single component is individually necessary---the skill works only as a whole,
+with each component substitutable by the others' combined effect. This makes RQ2/RQ3 the load-bearing
+questions: a skill that is robust to any single deletion is either highly redundant or purely
+interactive.
+\end{resultbranch}
+\begin{resultbranch}{negative}
+Removing a component \emph{improves} quality: at least one \FULL--\LOO-$C_i$ contrast is significantly
+\emph{negative} (\LOO{} beats \FULL). This is a genuine, honestly reported finding---an
+over-constraining instruction that, in this model, does more harm than good (a plausible candidate is
+an over-specified typography or pattern directive that pushes the model into awkward choices). The
+practical lesson for skill design is that more guidance is not monotonically better; we report which
+component and by how much, and recommend its revision.
+\end{resultbranch}
+
+\subsection{RQ2 --- component sufficiency}
+Sufficiency is \AOI-$C_i$ vs.\ \NEUTRAL: does $C_i$ \emph{alone} lift quality, and does any single
+component reach \FULL? The necessity$\times$sufficiency scatter (Figure~\ref{fig:F2}) reads the two
+questions jointly against the $y{=}x$ line where interactions vanish. The largest single-component
+lift reaches $\numslot{SUFF-MAXPCT}$ of the \FULL--\NEUTRAL{} gap.
+
+\begin{resultbranch}{distributed}
+Every component alone lifts quality above \NEUTRAL{} (\numslot{SUFF-NSURV} of five Holm-significant),
+but none reaches the preregistered $30\%$ of the \FULL--\NEUTRAL{} gap---the largest,
+\numslot{SUFF-TOP}, attains only $\numslot{SUFF-MAXPCT}$. Sufficiency is therefore \emph{distributed}:
+no single instruction carries the skill, and the full effect emerges from the components together.
+Read with RQ1 through Eq.~\ref{eq:necsuff}, components that are more necessary than sufficient (above
+the $y{=}x$ line in Figure~\ref{fig:F2}) reveal positive synergy---the whole exceeds the sum of parts.
+\end{resultbranch}
+\begin{resultbranch}{one-carries}
+A single component reaches within $30\%$ of \FULL{} on its own: \numslot{SUFF-TOP} attains
+$\numslot{SUFF-MAXPCT}$ of the gap, and no other component approaches it. The skill is, to first order,
+that one instruction; the remainder is polish. This is a strong, compressible result---most of a
+391-token skill's benefit is reproducible with one component---and it sharpens the Stage-2 target: the
+extracted direction should correspond most closely to that component's activation signature.
+\end{resultbranch}
+\begin{resultbranch}{null}
+No component alone beats \NEUTRAL{} (all \AOI-$C_i$ CIs bracket zero) even though the intact skill
+does (H-skill). Components are effective only in combination: sufficiency is strictly emergent. This
+pairs with the RQ3 interaction story---if no main effect is individually sufficient yet the skill
+works, the effect lives in the interactions, and the factorial block is where it is found.
+\end{resultbranch}
+
+\subsection{RQ3 --- interactions and additivity}
+The 16-run factorial estimates all ten two-factor interactions cleanly (each aliased only with an
+assumed-negligible three-factor term). The 2FI heatmap is Figure~\ref{fig:F3}; the directional prior
+is a positive C1$\times$C5 (negatives help more once a palette is set) and a mild negative C2$\times$C3.
+
+\begin{resultbranch}{interacting}
+\numslot{INT-NSURV} two-factor interactions survive BH and are concordant on a second metric family.
+The largest is \numslot{INT-MAXPAIR} ($\numslot{INT-MAX}$); as predicted, C1$\times$C5 is
+super-additive ($\numslot{INT-C1C5}$)---negative constraints deliver more once a deliberate palette is
+specified, because ``avoid purple gradients'' bites hardest when a replacement palette exists---while
+C2$\times$C3 is mildly sub-additive ($\numslot{INT-C2C3}$). The components are not independent knobs;
+the skill is a small interacting system, and this is the quantitative content of the
+necessity$>$sufficiency asymmetry in Eq.~\ref{eq:necsuff}.
+\end{resultbranch}
+\begin{resultbranch}{additive}
+No two-factor interaction survives BH: the component effects simply add, and the skill behaves as a
+\emph{checklist} whose value is the sum of its independent items. This is itself informative for skill
+design---components can be added, removed, or reordered without surprise---and it means necessity and
+sufficiency coincide (Eq.~\ref{eq:necsuff} with $\sum_j\beta_{ij}\approx0$), which Figure~\ref{fig:F2}
+would show as points on the $y{=}x$ line.
+\end{resultbranch}
+\begin{resultbranch}{dominated by a single main effect}
+One component's main effect swamps all interactions and most other mains: the skill is effectively one
+lever (\numslot{SUFF-TOP}), with the remaining components contributing little independently or
+interactively. The paper's Stage-1 story then collapses to ``the skill is essentially component $X$,''
+and Stage~2 asks whether $X$'s activation signature is the whole design direction.
+\end{resultbranch}
+
+\subsection{RQ4 --- do five words match 391 tokens?}
+We compare the intact skill to a five-word nudge (\BEAUTY: ``Make it beautiful and well-designed.'')
+and to \NEUTRAL, testing the ordered contrasts. \BEAUTY{} reaches $\numslot{NUDGE-BPCT}$ of the
+\FULL--\NEUTRAL{} gap.
+
+\begin{resultbranch}{content}
+The ordering \FULL$>$\BEAUTY$>$\NEUTRAL{} holds with \FULL$-$\BEAUTY${>}0$ ($\numslot{NUDGE-FB}$ POC;
+\FULL{} preferred over \BEAUTY{} at $\numslot{NUDGE-FBWIN}$): a nudge helps ($\numslot{NUDGE-BN}$ over
+\NEUTRAL) but structured guidance is load-bearing and not substitutable by a one-liner. What the
+391 tokens buy beyond ``make it beautiful'' is the \emph{specific} content---the palette discipline
+and the negative constraints RQ1 finds most necessary---which a generic exhortation cannot supply.
+\end{resultbranch}
+\begin{resultbranch}{nudge}
+\BEAUTY{} reaches $\ge70\%$ of the gap ($\numslot{NUDGE-BPCT}$) and \FULL$-$\BEAUTY{} is null: a
+five-word nudge captures most of the skill's effect. This is a striking, cheap result---the model
+already ``knows'' how to make a better page and mostly needs \emph{permission} to leave the
+high-probability center, not 391 tokens of instruction. It reframes the design skill as an
+activation trigger rather than a knowledge transfer, which is exactly the hypothesis Stage~2 tests
+mechanistically.
+\end{resultbranch}
+\begin{resultbranch}{neither}
+\BEAUTY$\approx$\NEUTRAL: a vague nudge does nothing, and only the specific structured skill helps (if
+H-skill fired). The model needs concrete, itemized guidance or none at all---consistent with a picture
+in which ``beautiful'' is too diffuse a target to move the output distribution, whereas named colors,
+type scales, and prohibitions are actionable.
+\end{resultbranch}
+
+\subsection{RQ7 (black-box slice) --- does the skill effect generalize across task types?}
+Before any steering, we report the \FULL--\NEUTRAL{} POC delta \emph{per task type}, including the two
+held-out unseen types (settings-panel, admin-data-table). The mean seen-type delta is
+$\numslot{BB-SEEN}$ and the mean unseen-type delta is $\numslot{BB-UNSEEN}$. A skill effect that holds
+on the information-dense unseen types is evidence the guidance encodes transferable design content, not
+a marketing-page idiom; a collapse on those types localizes the skill's benefit to the layouts it was
+written for and sets expectations for the Stage-2 out-of-distribution steering test.
+
+\begin{table}[tbp]
+\centering\footnotesize
+\caption{Stage-1 per-component effects on the POC (standardized $\delta$, 95\% cluster-bootstrap CI),
+necessity (\FULL$-$\LOO-$C_i$) and sufficiency (\AOI-$C_i-$\NEUTRAL). Interactions and preference
+utilities are reported in Figures~\ref{fig:F1}--\ref{fig:F3}. Every entry awaits the GPU run.}
+\label{tab:s1effects}
+\begin{tabular}{@{}lccl@{}}
+\toprule
+component & necessity $\delta$ (\FULL$-$\LOO) & sufficiency $\delta$ (\AOI$-$\NEUTRAL) & prior \\
+\midrule
+C1 color        & \numslot{NEC-C1} & \numslot{SUFF-C1} & large \\
+C2 layout       & \numslot{NEC-C2} & \numslot{SUFF-C2} & medium \\
+C3 typography   & \numslot{NEC-C3} & \numslot{SUFF-C3} & medium \\
+C4 patterns     & \numslot{NEC-C4} & \numslot{SUFF-C4} & near-null \\
+C5 negatives    & \numslot{NEC-C5} & \numslot{SUFF-C5} & largest \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\synthfig[0.61\linewidth]{F1}{F1_preview.pdf}{5}{Which components carry the skill? Standardized
+$\delta$ vs.\ reference for each \LOO{} (necessity), \AOI{} (sufficiency), and \BEAUTY{} cell, with
+Holm CIs; filled markers survive Holm. The twin-panel POC/BT layout is final; the effect sizes are
+planted (C5, C1 largest; C4 near-null by construction).}
+
+\synthfig[0.39\linewidth]{F2}{F2_preview.pdf}{5}{Necessity $\times$ sufficiency. Points above the
+$y{=}x$ line are more necessary than sufficient---positive interaction load (Eq.~\ref{eq:necsuff}).
+Planted coordinates; the real figure places the five components by their measured effects.}
+
+\synthfig[0.42\linewidth]{F3}{F3_preview.pdf}{5}{Two-factor interaction coefficients (factorial
+MixedLM), BH-significant cells starred. Planted C1$\times$C5 super-additivity and C2$\times$C3
+sub-additivity illustrate the encoding; real signs and magnitudes replace them.}

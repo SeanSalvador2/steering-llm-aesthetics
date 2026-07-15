@@ -1,0 +1,74 @@
+\section{Limitations and threats to validity}
+\label{sec:limitations}
+
+We state the bounds of the study up front, and pair each internal-validity threat with the control
+that neutralizes it.
+
+\paragraph{One model, one family.} Every result is about \texttt{Qwen2.5-Coder-7B-Instruct}. The
+two-stage design \emph{requires} a single open-weights model so that the ablation and the
+interpretability describe the same system; the price is that generalization to other models and
+scales is untested. This is a deliberate scope choice, not an oversight, and the recorded fallback
+model would restart both stages rather than mix them.
+
+\paragraph{One skill instantiation.} We ablate one five-component skill with one content-orthogonal
+decomposition (C1--C4 prescriptive, C5 all-negatives). The componentization is one defensible cut
+among several---a different author might split typography from type-scale, or fold patterns into
+layout---and the necessity/sufficiency verdicts are conditional on this cut. We fix and document the
+decomposition and its token balance, and note that RQ8 tests whether \emph{this} cut corresponds to
+internal structure; a different cut could correspond differently.
+
+\paragraph{The judge is not a human panel.} The preference signal is a VLM judge validated on a
+100-pair human subset and gated on chance-corrected agreement, but it is not a full human study. Its
+known biases (length, verbosity, position) are controlled by both-orders judging and style-controlled
+Bradley--Terry, and the objective half is the unfoolable anchor---but the preference channel's ceiling
+is the judge's fidelity, which the reliability gate bounds rather than eliminates. Where the two
+$\hat\beta$ (controlled vs.\ uncontrolled) disagree in sign, we report the contrast as style-confounded
+rather than resolved.
+
+\paragraph{Objective metrics cap at half the variance.} Interface-aesthetics metrics explain
+$\lesssim$half the variance in human appeal \citep{miniukovich2015computation,reinecke2013predicting}.
+We therefore never let the objective half stand alone for an aesthetic claim; it is necessary
+(deterministic, unfoolable) but not sufficient, which is the whole reason for the second signal. The
+PSI is validated against human ``AI-slop'' ratings before use, and demoted to a 6-term POC if it fails.
+
+\paragraph{Diff-in-means is a linear probe of a nonlinear model.} A null steering result bounds
+\emph{linear} steerability at the chosen sites, not the existence of the concept: the behavior could be
+non-linear \citep{engels2024notlinear} or distributed across a subspace or cone
+\citep{wollschlager2025cones}. We say so explicitly, try the multi-layer and subspace fallbacks before
+declaring a null, and frame any positive result as ``\emph{a} sufficient direction,'' never ``the''
+direction---non-identifiability is assumed, and the specificity control ($k{=}5$ random draws) is what
+separates a direction effect from a norm effect.
+
+\paragraph{The interpretability threats, and their controls.} Table~\ref{tab:threats} lists the
+Stage-2 threats and the control that neutralizes each; these are built into the design, not applied
+afterward.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Stage-2 internal-validity threats and controls (Table~T9, abridged).}
+\label{tab:threats}
+\begin{tabular}{@{}p{0.30\linewidth}p{0.62\linewidth}@{}}
+\toprule
+threat & control \\
+\midrule
+Norm confound (any large push jogs quality) & norm-matched random vector, $k{=}5$ draws; must not reproduce the gain \\
+Non-identifiability / concept cones & claim ``a'' not ``the'' direction; report cosine/cone structure (RQ8) \\
+Self-repair inflating patching necessity & \emph{denoising} (not noising) activation patching \\
+Interpretability illusion (dormant pathway) & triangulate probing + patching + steering (RQ5 rule) \\
+Spurious extraction cues & held-out incl.\ unseen task \emph{types}; class-separation pre-screen \\
+Selection leakage (tuning on test) & freeze $(\lstar,\rhostar,\text{variant})$ on dev, git-tag before held-out, touch once \\
+Engine confound (vLLM vs.\ HF) & within-HF comparisons only; re-generate baselines in HF \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Statistical scope.} Cluster-bootstrap CIs are calibrated to the \emph{number of prompts}
+(40 dev, 18 held-out), not the number of generations, so their tails are limited at 40 clusters; we
+report parametric MixedLM CIs as a robustness pair and do not claim generalization beyond the 58-brief
+task population. Post-hoc power is used only as an admissibility screen, never to reinterpret an
+under-powered delta as a null.
+
+\paragraph{Compute scale.} The GPU budget is modest (a few L4- and A100-hours; Section~\ref{sec:repro}),
+which fixes the corpus and seed counts. Larger corpora or more seeds would tighten every CI; the design
+allocates its five headline seeds and 40 dev prompts to the confirmatory contrasts and accepts lighter
+power on the exploratory scans, controlled by BH.

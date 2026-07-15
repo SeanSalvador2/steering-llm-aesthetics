@@ -1,0 +1,63 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{The bridge: does the black-box explanation match the white-box one?} The study's
+distinctive move is to ask one question two ways---which \emph{instruction} matters (Stage~1) and
+which \emph{direction} matters (Stage~2)---on the same model, and then to check whether the answers
+agree. That check is the correspondence between the components RQ1 finds most necessary and the
+sub-directions RQ8 finds separable.
+\begin{resultbranch}{bridge holds}
+If RQ1 ranks C5 (negatives) and C1 (color) most necessary \emph{and} RQ8 finds those the sub-vectors
+that most cleanly steer their own metric families, the two explanations converge: the parts of the
+prose that carry the causal weight are the parts with the crispest internal directions. That
+convergence is the paper's most satisfying result---a prompt-level account and a
+representation-level account of the \emph{same} phenomenon, mutually corroborating---and it suggests
+skill authors are, in effect, writing instructions that map onto the model's existing axes of
+variation.
+\end{resultbranch}
+\begin{resultbranch}{bridge fails}
+If the most necessary components are \emph{not} the most separable directions (RQ8 absent or
+mismatched), the two levels tell different stories: the instruction's compositional structure is not
+the model's. This is equally interesting---it says the componentization that helps a human author a
+skill is not how the model represents design---and it cautions against reading prompt structure as
+mechanism.
+\end{resultbranch}
+
+\paragraph{What ``make it beautiful'' tells us about instruction compression.} RQ4 turns a cheap
+one-liner into a probe of how much of a 391-token skill is \emph{knowledge} versus \emph{permission}.
+If a five-word nudge recovers most of the effect (RQ4 nudge), the model already contains the
+capability and the skill largely licenses its use---which is precisely the premise that makes Stage~2
+plausible: a capability the model already has is one a direction can actuate. If instead the
+structured content is load-bearing (RQ4 content), the skill transfers specific
+knowledge---named palettes, type scales, prohibitions---and we should expect the extracted direction
+to be correspondingly richer than a single ``try harder'' axis. Either way, RQ4 and Stage~2 are two
+readings of the same question: is the design skill flipping a switch the model already has, or
+installing something new?
+
+\paragraph{Mechanistic implications.} A positive Stage~2 result would extend the single-direction
+picture---clean for refusal \citep{arditi2024refusal}---to a graded, compositional, generation-spanning
+\emph{aesthetic} behavior, which is a substantially harder case than a binary safety behavior: the
+target is downstream of thousands of tokens of code and has no single ``answer token.'' A null would
+mark a boundary of that picture, and the honest reading is that not every behavior a prompt induces is
+a steerable feature. The correspondence result (RQ8), whichever way it falls, speaks to the geometry of
+compositional concepts \citep{park2024geometry}: whether a human's five-way decomposition of ``design''
+lines up with the model's internal near-orthogonal directions.
+
+\paragraph{Relation to the steering-reliability literature.} We inherit its central warning: mean
+effects hide heavy tails, and up to half of inputs can be anti-steerable
+\citep{tan2024analysing,dasilva2025steeringoff}. Our protocol answers it directly---per-prompt
+distributions, an anti-steerable fraction, a class-separation pre-screen, an OOD held-out over unseen
+\emph{types}, and a coherence guardrail on a non-monotone dose-response
+\citep{taimeskhanov2026strength}. The four-conjunct success criterion, in particular, is designed so
+that a strong average cannot by itself buy a causal claim: specificity and necessity must also hold.
+This is the methodological transfer we hope outlasts the particular numbers---a template for claiming a
+\emph{causal} steering result responsibly when the underlying phenomenon is known to be unreliable.
+
+\paragraph{Practical guidance for skill design.} Read together, the Stage-1 outcomes yield actionable
+advice for authors of design skills: invest tokens where necessity concentrates (the RQ1 ranking),
+prune any component whose leave-one-out is null or negative, and exploit the interactions RQ3
+surfaces---if C1$\times$C5 is super-additive, a palette instruction and a ``no purple gradients''
+prohibition should ship together, not separately. If sufficiency is distributed (RQ2), resist the urge
+to shorten the skill to its single largest component; if it is concentrated, the skill can be
+compressed. These are empirical recommendations, contingent on which branch obtains, and each is
+traceable to a preregistered contrast.

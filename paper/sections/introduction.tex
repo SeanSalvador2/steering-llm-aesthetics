@@ -1,0 +1,86 @@
+\section{Introduction}
+\label{sec:intro}
+
+Ask a code model for a landing page and you tend to get the same page: a purple-to-indigo
+gradient hero, an \texttt{Inter} headline over one big statistic, three centered feature
+cards with rounded corners. Practitioners call it ``AI slop'' or ``the purple gradient
+website,'' and attribute it to models sampling the high-probability center of their web
+training data---the median of a decade of framework tutorials. The widely reported fix is a
+short natural-language \emph{design skill}: a few hundred tokens of guidance, dropped into the
+system prompt, that tells the model to make deliberate, opinionated choices and to avoid the
+slop tells. Anthropic ships such a skill, and its plugin reports hundreds of thousands of
+installs \citep{anthropic2025frontendskill,anthropic2025frontendblog}; the community credits
+it widely. Yet the effect has never been measured: which parts of the guidance carry the
+causal weight, how large the effect is under a defensible quality oracle, and---more
+fundamentally---\emph{where inside the model} a few sentences of prose act to change what a
+page looks like.
+
+This paper answers two questions about one system, and insists they describe the same system.
+\textbf{(Q1) Which guidance matters?} We decompose a design skill into five components and run
+a factorial ablation: leave-one-out for necessity, add-one-in for sufficiency, and a
+resolution-V fraction for interactions, against a control that holds prompt length constant so
+the effect cannot be an artifact of prompt mass. \textbf{(Q2) Where does it act?} We locate the
+skill's signature in the residual stream, extract a diff-in-means direction, and test whether
+that direction, injected with \emph{no design prompt}, causally reproduces the skill's quality
+gain on held-out prompts. Because Stage~2 requires white-box activation access, the subject
+model is open-weights and self-hosted, and Stage~1 runs on the \emph{same} model
+(\texttt{Qwen2.5-Coder-7B-Instruct}); otherwise the link between ``which instruction matters''
+and ``where it lives'' would be severed.
+
+The methodological spine is a two-signal \emph{oracle} we hold to throughout: no quality claim
+counts unless it moves (i) deterministic objective metrics computed on the rendered DOM and
+screenshot---never raw code strings---and/or (ii) a style-controlled pairwise preference from a
+checklist-anchored VLM judge, admitted only after passing a chance-corrected human-agreement
+gate and a power gate. This is a direct response to two facts from the literature: objective
+interface-aesthetics metrics explain at most about half the variance in human appeal
+\citep{miniukovich2015computation,reinecke2013predicting}, so the objective half is necessary
+but insufficient; and (V)LM judges are reliable on UIs when checklist-anchored
+\citep{zhang2025artifactsbench,jeon2025gfocus} but biased by length and verbosity
+\citep{zheng2023mtbench}, so the preference half must be style-controlled and human-validated.
+An effect that moves neither signal is reported as null, and a null is a result.
+
+\paragraph{Contributions.} Stated precisely, and credited against the nearest prior work in
+Section~\ref{sec:related}:
+\begin{enumerate}[leftmargin=1.4em,itemsep=2pt,topsep=2pt]
+\item \textbf{The first causal component-ablation of a ``design skill.''} Existing UI
+benchmarks score \emph{models or tools}
+\citep{si2024design2code,zhang2025artifactsbench,xiao2025designbench}; to our knowledge none
+decomposes the \emph{guidance} and attributes quality to its components with a factorial design
+and a two-signal oracle. We report which components are necessary, which are sufficient, how
+they interact, and how a 391-token skill compares to a five-word ``make it beautiful'' nudge.
+\item \textbf{The first activation-level interpretability of aesthetic UI-code generation.}
+Activation steering has been applied to refusal \citep{arditi2024refusal}, persona and style
+\citep{chen2025persona,konen2024style}, and broad capabilities
+\citep{vanderweij2024broad}---but, to our knowledge, no prior work extracts or steers a
+direction for the \emph{visual/aesthetic quality} of generated front-end code. We test the
+hard, causal bar: does the direction reproduce the gain with no design prompt, on unseen task
+types, under a coherence guardrail, with a specificity control and a necessity flip test.
+\item \textbf{A prompt-level$\leftrightarrow$representation-level correspondence bridge.} We ask
+whether the components the ablation finds most causal map onto separable steering
+sub-directions inside the model---do color/layout/typography ablation signatures correspond to
+near-orthogonal activation directions that each steer their own metric family? This links a
+black-box explanation to a white-box one, a bridge predicted plausible by the geometry of
+linear representations \citep{park2024geometry}.
+\item \textbf{The honest null as a first-class outcome.} Every research question carries a
+preregistered null branch. If no clean steerable direction exists, we report that design
+behavior is distributed or not linearly steerable in this model, with confidence intervals
+tight enough to distinguish a real null from under-powering---a legitimate, publishable result,
+never forced and never buried.
+\end{enumerate}
+
+\noindent
+We do not claim to invent diff-in-means extraction, style/persona steering, the two-signal UI
+oracle, or the objective aesthetics metrics; each is credited in Section~\ref{sec:related}. The
+contribution is the synthesis pointed at a new target---design skill $\rightarrow$ UI code
+$\rightarrow$ activations---with the causal rigor (both steering arms, a specificity control, an
+honest failure surface) the target demands.
+
+\paragraph{Reading map.} Section~\ref{sec:related} positions the work. Section~\ref{sec:design}
+gives the study design (research questions, the skill and its decomposition, the corpus, the
+confound controls, preregistration). Section~\ref{sec:oracle} defines the two-signal oracle.
+Section~\ref{sec:stage1} reports Stage~1 (RQ1--RQ4) with a completed interpretation for every
+preregistered outcome. Section~\ref{sec:stage2method} gives the Stage~2 method and
+Section~\ref{sec:stage2results}---the pivotal section---its outcome-contingent results.
+Sections~\ref{sec:discussion}--\ref{sec:repro} discuss, bound, and reproduce.
+Numeric results awaiting the GPU execution phase are shown as \numslot{EXAMPLE} placeholders,
+each catalogued to the pipeline artifact and RUNBOOK session that fills it.

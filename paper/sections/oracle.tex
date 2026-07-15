@@ -1,0 +1,145 @@
+\section{The two-signal oracle}
+\label{sec:oracle}
+
+Every quality claim---an ablation delta or a steering delta---must move two independent signals.
+This section defines them, the null rule that binds them, and the power that backs them. The
+oracle is not a scoring convenience; it is the paper's evidentiary standard, and it is
+preregistered.
+
+\subsection{Objective signal: deterministic metrics on the rendered output}
+All objective metrics are computed on the \emph{rendered} DOM and screenshot from a pinned,
+offline, animation-disabled headless Chromium at $1440\times900$---never on raw code
+strings---so they are deterministic and unfoolable. They are reported as a \emph{vector} in six
+families: \textbf{V} validity/hermeticity (render success, external-fetch count, overflow and
+overlap counts, axe-core violations), \textbf{A} accessibility/contrast, \textbf{L} layout,
+\textbf{T} typography, \textbf{C} color, \textbf{X} complexity. Two archetypes fix the flavor.
+Per text node we compute the WCAG contrast ratio between foreground luminance $L_1$ and
+background $L_2$,
+\begin{equation}
+\mathrm{CR}=\frac{L_1+0.05}{L_2+0.05}\in[1,21],\qquad
+L=0.2126\,R_{\mathrm{lin}}+0.7152\,G_{\mathrm{lin}}+0.0722\,B_{\mathrm{lin}},
+\label{eq:wcag}
+\end{equation}
+(sRGB-linearized channels), reporting the fraction of nodes below $4.5{:}1$. And the skill's own
+C5 constraints become a validated \textbf{purple-slop index}
+\begin{equation}
+\mathrm{PSI}=0.30\,\mathrm{hueFrac}[260^\circ,290^\circ]+0.30\,\mathrm{gradientBg}
++0.25\,\mathrm{InterRobotoShare}+0.15\,\mathrm{centeredHero},
+\label{eq:psi}
+\end{equation}
+each subcomponent in $[0,1]$; the skill tells us exactly what ``slop'' is, so we measure exactly
+that. Layout uses Ngo balance/equilibrium/symmetry and an alignment-regularity count; typography
+scores modular-scale adherence; color uses Hasler colorfulness $M$ (Appendix~\ref{app:theory}).
+
+\paragraph{The Primary Objective Composite.} To have \emph{one} confirmatory objective number per
+generation while honoring ``do not aggregate raw metrics,'' we preregister a mean of oriented,
+$z$-scored core metrics,
+\begin{equation}
+\POC(\mathbf{x})=\tfrac{1}{7}\big[
+z(\texttt{align\_reg})+z(\texttt{whitespace})+z(\texttt{type\_scale})+z(\texttt{contrast\_pass})
+-z(\texttt{overflow\_overlap})-z(\mathrm{PSI})-z(|M-c^{*}|)\big],
+\label{eq:poc}
+\end{equation}
+$z(\cdot)$ over all dev generation units, oriented so higher is better; the colorfulness term is a
+distance to a moderate-optimum target $c^{*}$, not ``more is better.'' Render-failed units are
+excluded from POC (a non-rendering page is a validity null, counted in family~V). Two conditionals
+are frozen \emph{with} the endpoint, not applied post hoc: (i) if PSI fails its admission gate
+(below) the POC drops the $-z(\mathrm{PSI})$ term and every confirmatory decision uses the 6-term
+variant; (ii) $c^{*}$ is the median $M$ of human-preferred pages if $\ge30$ exist, else the median
+$M$ of dev \FULL-cell generations. The branch that fires is written to the manifest \emph{before}
+the first confirmatory test.
+
+\paragraph{Oracle validation gates.} Before any metric is used as evidence: PSI is admitted only
+if Spearman $\rho(\mathrm{PSI},\text{human ``AI-generated'' rating})\ge0.4$; on the human subset we
+observe $\rho=\numslot{PSI-RHO}$ (Figure~\ref{fig:F10}), so the \numslot{POCVAR} POC is used and
+$c^{*}=\numslot{CSTAR}$. The learned UIClip scorer is admitted as \emph{auxiliary} only if
+$\rho(\text{UIClip},\text{human win-rate})\ge0.3$ (observed $\numslot{UICLIP-RHO}$); it never enters
+the POC or a confirmatory decision, because a learned scorer is not deterministically auditable and
+carries a mobile-distribution shift.
+
+\synthfig[0.44\linewidth]{F10}{F10_preview.pdf}{4}{Does PSI track human ``AI-slop'' judgment? The
+admission gate ($\rho\ge0.4$) decides whether the confirmatory POC keeps the $-\mathrm{PSI}$ term
+(7-term) or drops it (6-term). Axes and the gate annotation are the final layout; the scatter is
+planted.}
+
+\subsection{Preference signal: style-controlled Bradley--Terry with a validated judge}
+The second signal is a pairwise preference from a checklist-anchored VLM judge (primary:
+Gemini~2.5~Flash, a different family from Qwen to avoid self-enhancement; GPT-4o audits 15\%).
+Each pair is judged in \emph{both} presentation orders and counts as a winner only if the verdict
+is order-consistent, else a tie---a position-bias control. We fit a \textbf{style-controlled
+Bradley--Terry} model with a Davidson tie term,
+\begin{equation}
+P(i\succ j)=\sigma\!\big((\beta_i-\beta_j)+\gamma^{\top}(s_i-s_j)\big),\quad
+s=(\log\text{DOM},\ \log\text{tok},\ \#\text{elem},\ \text{colorfulness},\ \text{text-density}),
+\label{eq:bt}
+\end{equation}
+reference $\beta_{\NEUTRAL}=0$, cluster-bootstrap CIs over prompts ($B{=}2000$). The covariates are
+judge-bias channels a designer would never score by (node count, token length); omitting them
+biases the estimated skill effect by $\gamma^{\top}(\bar s_{\FULL}-\bar s_{\NEUTRAL})$, the
+analysis-level twin of the design-level length-matched control. One covariate is flagged as
+partially causal: colorfulness \emph{is} a design lever, so regressing it out could absorb a
+genuine C1 effect. We therefore report both the controlled and uncontrolled $\hat\beta$, recover
+the legitimate color effect through the objective channel (the POC $|M-c^{*}|$ term and the RQ8
+color-family steering signature, neither routed through the judge), and if the two $\hat\beta$
+disagree in sign we report the contrast as \emph{style-confounded} rather than resolved.
+
+\paragraph{The reliability gate and the kappa paradox.} The preference signal counts only if the
+judge tracks a human. Sean labels $N{=}100$ stratified pairs in both orders; we compute
+judge--human Krippendorff $\alphaK$ (ordinal) and Gwet $\ac$ with bootstrap CIs. Because the skill
+usually wins, the marginal is skewed, and a skewed marginal crushes $\alphaK$ even at high raw
+agreement---the kappa paradox. The two coefficients differ only in their chance model,
+\begin{equation}
+\alphaK=1-\frac{D_o}{D_e},\qquad
+\ac=\frac{p_o-p_e^{\gamma}}{1-p_e^{\gamma}},\quad
+p_e^{\gamma}=\tfrac{1}{q-1}\textstyle\sum_k \pi_k(1-\pi_k),
+\label{eq:agree}
+\end{equation}
+and $p_e^{\gamma}\to0$ as one category dominates, so $\ac$ stays near $p_o$ where $\alphaK$
+collapses (a worked example: at $90\%$ agreement, skew moves $\alphaK$ from $0.80$ to $0.44$ while
+$\ac$ holds at $0.88$; Appendix~\ref{app:theory}). The preregistered gate is therefore
+\emph{disjunctive}:
+\[
+\textbf{pass}\iff \alphaK\ge0.667\ \ \textbf{or}\ \ \big(\ac\ge0.80\ \text{under demonstrable skew, }\pi_{\max}\gtrsim0.80\big).
+\]
+The skew qualifier stops $\ac$ from being a loophole in the balanced case (where the two agree). We
+observe $\alphaK=\numslot{REL-ALPHA}$, $\ac=\numslot{REL-AC1}$, $\pi_{\max}=\numslot{REL-PIMAX}$
+(Figure~\ref{fig:F11}); the gate is \numslot{REL-GATE}. These thresholds are convention, not
+derived optima, and we report the CIs so a reader may apply a stricter bar.
+
+\synthfig[0.44\linewidth]{F11}{F11_preview.pdf}{5}{Can we trust the VLM judge? $\alphaK$, $\ac$, and
+the marginal skew $\pi_{\max}$ with bootstrap CIs against the two gate thresholds. The disjunctive
+gate admits $\ac$ only under demonstrable skew; the bars are the kappa-paradox exemplar (planted),
+the final panel plots the real judge--human numbers.}
+
+\subsection{The null rule (verbatim) and power}
+The two signals are bound by a rule we quote exactly as preregistered:
+\begin{quote}\itshape
+An ablated component's effect, or a steering direction's effect, is reported as null unless it
+moves an objective-metric endpoint (POC Holm-significant, or $\ge2$ concordant BH-significant
+families) OR a preference delta that passes both the reliability gate and the power gate. Aesthetic
+claims not backed by the objective half are inadmissible.
+\end{quote}
+The disjunction is a deliberate, bounded loosening for the necessity/sufficiency \emph{screen}: with
+each channel controlled near $0.05$, the false-non-null rate is $\lesssim0.10$ by a union bound,
+which is safe because the dominant risk is a \emph{false null} (missing a real component) and the
+objective channel is deterministic. The Stage-2 headline instead uses a conjunction of four checks,
+whose joint false-positive rate falls below any single $\alpha$ (Section~\ref{sec:stage2method}).
+
+Preference deltas are paired, so we size them with McNemar's test. Among decisive (order-consistent)
+pairs the winner is tested against a fair coin; the required decisive count at alternative split
+$\theta_1$ is
+\begin{equation}
+N_{\mathrm{dec}}\approx\frac{\big(z_{1-\alpha/2}\sqrt{\theta_0(1-\theta_0)}+z_{1-\beta}\sqrt{\theta_1(1-\theta_1)}\big)^2}{(\theta_1-\theta_0)^2},
+\quad\theta_0=\tfrac12,
+\label{eq:power}
+\end{equation}
+giving $\approx200$ decisive pairs for a $60/40$ split, $\approx80$ for $65/35$, $\approx780$ for
+$55/45$ (at $\alpha{=}0.05$, power $0.80$). The design allocates 200 pairs to \FULL--\NEUTRAL{} and
+$\sim$120 to each necessity edge accordingly. Small expected effects (some \AOI{} cells) are lightly
+powered on \emph{preference} on purpose---their non-null status can still be established through the
+fully powered objective channel, exactly what the two-signal rule permits. The power gate is an
+admissibility screen, not an inference: a contrast counts only if it achieved the decisive pairs
+Eq.~\ref{eq:power} requires \emph{at the observed} split; an under-powered delta is never
+reinterpreted as a null. We observe a tie rate of \numslot{POW-TIE}, \numslot{POW-FN} decisive pairs
+on \FULL--\NEUTRAL, \numslot{POW-NEC} per necessity edge, and \numslot{POW-UNDER} under-powered
+confirmatory edges (Table~T10, Appendix~\ref{app:extra}).

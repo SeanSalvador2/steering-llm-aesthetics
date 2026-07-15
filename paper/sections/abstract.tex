@@ -1,0 +1,44 @@
+\begin{abstract}
+\noindent
+Large language models produce visually generic front-end code by default---the
+``purple-slop'' aesthetic---and a short natural-language \emph{design skill} placed in the
+system prompt is widely reported to fix it. The effect is folklore: everyone reports it,
+nobody has measured it. We measure it, on one open-weights model
+(\texttt{Qwen2.5-Coder-7B-Instruct}), in two committed stages that describe the \emph{same}
+system. \textbf{Stage~1} is a black-box factorial ablation of a five-component design skill
+(color, layout, typography, component patterns, negative constraints), with a
+length-matched neutral control that isolates design \emph{content} from prompt mass.
+\textbf{Stage~2} is white-box mechanistic interpretability: we locate the skill's signal in
+the residual stream, extract a diff-in-means ``clean-design'' direction, and causally verify
+it by steering the model with \emph{no design prompt} on held-out prompts, including task
+types never seen during development. Every quality claim must move \emph{two independent
+signals}: deterministic objective metrics on the rendered DOM and screenshot, and a
+style-controlled Bradley--Terry preference from a checklist-anchored VLM judge, gated on
+chance-corrected human agreement and statistical power; an effect that moves neither is
+reported as null.
+
+We find that the intact skill improves quality over the length-matched neutral prompt by
+\numslot{HSKILL-POC} (standardized $\delta$ on the primary objective composite) and is
+preferred \numslot{HSKILL-WIN} of the time; the skill's causal weight concentrates in
+\numslot{ABS-NEC-TOP}, and no single component alone reproduces the full effect
+(sufficiency is distributed). At the representation level, the design signal is
+\numslot{ABS-LOC} and steering the extracted direction with no design prompt reproduces
+\numslot{STEER-REPRO} of the skill's held-out quality gain.
+
+\begin{resultbranch}{Stage~2 -- a causally sufficient design direction exists}
+A single mid-network direction, added with no design prompt, raises held-out UI quality on
+both oracle signals, is not reproduced by a norm-matched random control, and---when projected
+out while the skill is present---attenuates the skill's own gain; to our knowledge this is the
+first causal, steerable direction for the \emph{visual quality} of generated front-end code.
+\end{resultbranch}
+
+\begin{resultbranch}{Stage~2 -- the honest null}
+No single linear direction steers held-out UI quality under the coherence guardrail: with
+tight confidence intervals that rule out under-powering, we conclude that---in this
+model---``clean design'' behavior is distributed or not linearly steerable, a precise negative
+result that bounds the linear-representation account of aesthetic guidance.
+\end{resultbranch}
+
+\noindent\textit{The honest-null option is a first-class outcome, not a fallback: it is
+written up with the same rigor as a positive finding.}
+\end{abstract}

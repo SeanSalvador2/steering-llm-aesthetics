@@ -1,0 +1,189 @@
+\section{Stage 2 results: does the direction steer?}
+\label{sec:stage2results}
+
+This is the pivotal section. With the operating point frozen on dev and git-tagged, we touch the
+held-out set once and evaluate the four-conjunct criterion. The held-out arms---unsteered-\NOSYS,
+steered-\NOSYS, norm-matched random ($k{=}5$), and an HF \FULL{} reference---are compared on both
+oracle signals in Figure~\ref{fig:F8}; steering reproduces $\numslot{STEER-REPRO}$ of the skill's
+POC gain. The result resolves into one of three preregistered branches, written out in full below.
+Exactly one is kept on real data.
+
+\subsection{Branch A --- a causally sufficient (and/or necessary) design direction exists}
+\label{sec:branchA}
+
+\begin{resultbranch}{A: causally sufficient direction}
+Steering the diff-in-means direction with \emph{no design prompt} raises held-out UI quality on both
+oracle signals: steered-\NOSYS{} beats unsteered-\NOSYS{} by $\numslot{STEER-DELTA}$ on the POC
+(significant on $\numslot{STEER-NFAM}$ of six objective families after Holm) and is preferred with BT
+utility $\numslot{STEER-BT}$ (cluster-bootstrap CI $>0$). Crucially, the norm-matched random control
+does not clear both bars ($\numslot{STEER-RAND}$ POC, CI bracketing zero), so the effect is a
+\emph{direction} effect, not a \emph{norm} effect---a random push of equal magnitude does not make
+pages better. The direction reproduces $\numslot{STEER-REPRO}$ of the full skill's held-out gain
+(Figure~\ref{fig:F8}), and it does so on prompts and \emph{task types the extraction corpus never
+contained}. To our knowledge this is the first demonstration of a causal, steerable direction for the
+visual/aesthetic quality of generated front-end code: a few sentences of design guidance and a
+single mid-network vector turn out to move the same underlying quantity, and that quantity can be
+actuated with the prose removed.
+
+\smallskip\noindent\emph{Coherence and specificity.} The gain is not bought with gibberish: at
+$\rhostar$ the mean next-token KL from the unsteered model is $\numslot{STEER-KL}$ nats (under the
+$0.30$ guardrail) and steered render-success is $\numslot{STEER-RENDER}$. Steering leaves general
+ability intact---non-UI algorithmic pass-rate drops by only $\numslot{SPEC-PASSDROP}$ (within the
+$10\%$ tolerance) and general-text KL is $\numslot{SPEC-KL}$---so the direction is specific to design,
+not a blunt instrument that degrades everything.
+\end{resultbranch}
+
+\paragraph{Necessity (the flip test).} Projecting $\vhat$ out at every layer and position while the
+skill is present attenuates the skill's own gain by $\numslot{FLIP-ATTEN}$ (Eq.~\ref{eq:flip}), which
+promotes the claim from sufficiency to necessity.
+\begin{resultbranch}{A.1: sufficient and necessary}
+The flip test attenuates the skill's gain by $\numslot{FLIP-ATTEN}$ with CI $>0$: removing the single
+direction from the residual stream substantially disables the skill even when its 391 tokens are still
+in context. The direction is therefore both sufficient (adding it with no prompt helps) and necessary
+(removing it stops the prompt from helping)---the strong two-arm result, mirroring the refusal-direction
+template but for a graded, multi-component aesthetic behavior. This is the paper's strongest mechanistic
+claim: the skill's effect is, to a large extent, \emph{routed through this one direction}.
+\end{resultbranch}
+\begin{resultbranch}{A.2: sufficient, not demonstrably necessary}
+Addition succeeds but the flip test does not attenuate the skill's gain ($\numslot{FLIP-ATTEN}$, CI
+includes zero): the direction is a sufficient carrier but not the unique one. The skill routes its
+effect through this direction \emph{and} others---consistent with a concept cone rather than a single
+axis. We report ``sufficient, not demonstrably necessary'' and do not overclaim uniqueness; the honest
+framing is ``\emph{a} causally sufficient design direction,'' never ``\emph{the} design direction.''
+\end{resultbranch}
+
+\paragraph{Failure surface and generalization (RQ7).} A positive mean can hide heavy-tailed per-prompt
+behavior, so we report the distribution. The overall anti-steerable fraction (prompts whose steered POC
+falls below unsteered) is $\numslot{FAIL-ANTI-OVERALL}$; on unseen types it is
+$\numslot{FAIL-ANTI-UNSEEN}$, and the mean unseen-type steering delta is $\numslot{FAIL-UNSEEN-D}$
+(Figure~\ref{fig:F12}). The reproduction fraction on unseen types is $\numslot{FAIL-REPRO-UNSEEN}$.
+\begin{resultbranch}{RQ7 robust}
+The anti-steerable fraction stays below $50\%$ across all task types, seen and unseen, and the
+unseen-type delta is positive and gated: the direction transfers cleanly out-of-distribution. Steering a
+direction extracted only from marketing- and content-oriented dev pages nonetheless improves
+control-dense settings panels and admin tables, evidence that it encodes transferable design
+\emph{content} rather than a task-idiom artifact.
+\end{resultbranch}
+\begin{resultbranch}{RQ7 partial}
+Steering helps on average and generalizes to most unseen types, but a named regime is brittle:
+$\numslot{FAIL-WORST-TYPE}$ crosses the $50\%$ anti-steerable line ($\numslot{FAIL-WORST-ANTI}$), so
+steering makes those pages worse as often as better (Figure~\ref{fig:F12}). This is the honest failure
+map---the direction is not a blanket win, and its data-dense failure mode is exactly where the aesthetic
+prior (generous whitespace, one signature element) conflicts with the task's information density.
+\end{resultbranch}
+\begin{resultbranch}{RQ7 brittle}
+The unseen-type effect collapses (anti-steerable $\ge50\%$ overall on OOD): the direction is
+dev-specific and does not transport to genuinely new layouts. We scope the causal claim to the
+in-distribution regime and report the OOD boundary precisely; the direction is real but local, and its
+extraction corpus bounds where it works.
+\end{resultbranch}
+
+\paragraph{Component$\leftrightarrow$direction correspondence (RQ8).} Finally we test whether the
+component structure the ablation found survives into the representation. Component sub-vectors
+$v_{C_i}=\bar h_{\lstar}^{(\AOI\text{-}C_i)}-\bar h_{\lstar}^{(\NEUTRAL)}$ have mean off-diagonal
+cosine $\numslot{CORR-COSMEAN}$ (max $\numslot{CORR-COSMAX}$), and $\numslot{CORR-NMATCH}$ of five steer
+their own metric family (Figure~\ref{fig:F9}). Cosine can show sub-vectors are linearly distinguishable
+but not that each \emph{causally} steers its family, so the rule pairs near-orthogonality with a
+steering-signature match.
+\begin{resultbranch}{RQ8 found}
+The sub-vectors are near-orthogonal (mean $|\!\cos|=\numslot{CORR-COSMEAN}<0.3$) \emph{and}
+$\ge3/5$ steer their own metric family---C1 moves color, C2 moves layout, and so on. The design skill
+has a \emph{component basis} inside the model, and the black-box ablation signatures correspond to
+white-box steering directions: the paper's strongest bridge result, an ablation$\leftrightarrow$activation
+correspondence predicted by the geometry of linear representations. It means ``clean design'' is not one
+entangled thing but a small set of separable, individually actuatable sub-concepts.
+\end{resultbranch}
+\begin{resultbranch}{RQ8 partial}
+One or two sub-vectors steer their own family while the rest are entangled ($\numslot{CORR-NMATCH}/5$
+match): the representation has partial component structure. Some components (likely color and layout,
+the most necessary) have distinct directions; others share a subspace. The bridge holds in part---the
+most causal components are the most separable---but ``clean design'' is not a fully diagonal basis.
+\end{resultbranch}
+\begin{resultbranch}{RQ8 absent}
+The sub-vectors are not near-orthogonal, or fewer than three steer their own family: there is no
+component basis. ``Clean design'' is one entangled direction inside the model even though the prompt-level
+skill decomposes into five components. This is still informative and slightly surprising: the ablation's
+component structure is a property of the \emph{instruction}, not of the model's internal
+representation---the model compresses five instructions into one axis of variation.
+\end{resultbranch}
+
+\subsection{Branch B --- the honest null}
+\label{sec:branchB}
+
+\begin{resultbranch}{B: not linearly steerable}
+No single linear direction steers held-out UI quality under the coherence guardrail. Steered-\NOSYS{}
+does not beat unsteered-\NOSYS{} on any objective family after Holm ($\numslot{STEER-DELTA}$ POC, CI
+$\numslot{STEER-DELTA-CI}$ bracketing zero) and the preference delta's BT CI includes zero
+(Figure~\ref{fig:F8}). This is a \emph{null with teeth}, not an absence of evidence: the power gate
+certifies the confidence intervals are tight enough to exclude effects the study was designed to
+detect, and the extraction direction \emph{is} decodable (RQ5 probes separate \FULL{} from \NEUTRAL{}
+at high AUC)---so we have a direction that \emph{correlates} with design but does not \emph{cause} it
+when injected. A correlational direction that does not steer is a hypothesis, not a finding; we report
+it as such.
+
+\smallskip\noindent The evidential value is precise. The null \emph{rules out} the strongest form of
+the linear-representation account for this behavior in this model: that a single mid-network direction,
+added with no prompt, suffices to reproduce the skill's effect. It is consistent with two readings we
+cannot distinguish here and state honestly: either the skill's effect is \emph{distributed} across
+many directions and/or layers (a single injection is too blunt---the pre-stated multi-layer and
+subspace fallbacks were tried and also failed), or the behavior is genuinely \emph{non-linear} in the
+residual stream (diff-in-means, a linear probe of a nonlinear model, cannot capture it). Either way,
+the practical implication is that the design skill's mechanism is not a simple steerable feature: the
+391 tokens do more than trigger one latent switch. For the interpretability literature, it is a
+negative datapoint on how far the single-direction picture---so clean for refusal---extends to graded,
+compositional, generation-spanning aesthetic behaviors. We publish it with the same rigor as a positive
+result, because a forced or buried null would corrupt exactly the oracle this project is built to
+defend.
+\end{resultbranch}
+
+\subsection{Branch C --- partial outcomes}
+\label{sec:branchC}
+Between a clean causal direction and a clean null lie four partial results, each shipped with its
+numbers and each carrying a distinct, bounded claim.
+
+\begin{resultbranch}{C.1: steers the objective signal only}
+Steered-\NOSYS{} beats unsteered on $\ge1$ objective family after Holm ($\numslot{STEER-DELTA}$), but
+the preference delta's BT CI includes zero. The direction moves the \emph{measurable} correlates of
+design---contrast, alignment, slop tells---without moving \emph{human-judged} quality. Given that
+objective metrics cap at $\sim$half the variance in appeal, this is a meaningful boundary: we have
+steered what the metrics see but not what a designer prefers, and by the null rule the aesthetic claim
+is inadmissible. We report a ``metric-level'' steering effect and explicitly decline the quality claim.
+\end{resultbranch}
+\begin{resultbranch}{C.2: steers, but only by breaking coherence}
+A configuration raises POC only above the KL guardrail ($\numslot{STEER-KL}$ nats $>0.30$) or below the
+render floor: the direction ``improves'' pages by pushing the model off-distribution, and the gain
+rides on artifacts rather than design. Under the preregistered guardrail this does not count as
+success. We report the direction as \emph{coherence-breaking} and show the dose-response
+(Figure~\ref{fig:F7}) where the apparent gain and the KL blow-up coincide---an honest account of a
+non-result that a laxer guardrail would have mis-sold as a finding.
+\end{resultbranch}
+\begin{resultbranch}{C.3: anti-steerable majority}
+The mean steering effect is near zero but hides a heavy-tailed distribution: $\numslot{FAIL-ANTI-OVERALL}$
+of prompts are anti-steerable, so steering helps half and harms half (Figure~\ref{fig:F12}). The
+``average effect'' is an artifact of cancellation, and reporting only the mean would be actively
+misleading---the reason the protocol reports the full per-prompt distribution. The direction is not a
+reliable design lever; whatever it encodes is prompt-contingent in a way a single global vector cannot
+resolve.
+\end{resultbranch}
+\begin{resultbranch}{C.4: sufficient but not necessary}
+Addition succeeds on both signals (Branch~A holds) but the flip test does not attenuate the skill's
+gain ($\numslot{FLIP-ATTEN}$, CI includes zero): a steerable direction exists, yet the skill does not
+\emph{depend} on it---the model has other routes to the same behavior. This is the concept-cone
+outcome; we claim a sufficient direction and an honest account of non-uniqueness, and we present the
+cosine/cone structure (Figure~\ref{fig:F9}) rather than a single-axis story.
+\end{resultbranch}
+
+\synthfig[0.47\linewidth]{F8}{F8_preview.pdf}{8}{The held-out causal test. POC by arm---unsteered,
+steered (no design prompt), norm-matched random ($k{=}5$), and \FULL{} reference---with the
+\%-skill-reproduced annotation. Success requires steered $>$ unsteered while random $\approx$ unsteered.
+Planted arms illustrate the layout; the real bars decide RQ6.}
+
+\synthfig[0.53\linewidth]{F12}{F12_preview.pdf}{8}{Anti-steerable fraction by task type (seen vs.\
+unseen/OOD), with the $50\%$ brittleness line. A positive mean can coexist with a brittle unseen type;
+the distribution, not the mean, is the RQ7 claim. Planted; real data replaces the bars.}
+
+\synthfig[0.7\linewidth]{F9}{F9_preview.pdf}{9}{Component$\leftrightarrow$direction correspondence
+(RQ8). Left: cosine matrix among the five component sub-vectors and $v_{\text{full}}$ (near-zero
+off-diagonal $\Rightarrow$ orthogonal). Right: steer-signature $\times$ ablation-signature match (a
+bright diagonal $\Rightarrow$ each component steers its own family). Planted diagonal; real data
+decides found/partial/absent.}

@@ -1,0 +1,163 @@
+\section{Study design: problem framing and data}
+\label{sec:design}
+
+\subsection{The subject model, locked}
+Both stages run on \texttt{Qwen2.5-Coder-7B-Instruct} \citep{hui2024qwencoder} (28 layers, width
+$d=3584$). The lock is
+load-bearing: Stage~2 needs white-box activation access, so the model is open-weights and
+self-hosted, and Stage~1 uses the \emph{same} model so that ``which instruction matters'' and
+``where it lives'' describe one system. API models appear only as evaluation judges, never as
+the subject. Sampling is fixed across every cell and both engines: temperature $0.7$,
+top-$p$ $0.9$, top-$k$ $40$, repetition penalty $1.05$, $\le 4096$ new tokens, seeds
+$\{0,\dots,4\}$ (interaction cells $\{0,1,2\}$). Temperature $0.7$ is deliberate: greedy
+decoding would collapse seeds to a single output and defeat the distributional analysis.
+
+\subsection{Research questions and decision rules}
+Table~\ref{tab:rq} states each research question as \emph{hypothesis $\cdot$ endpoints $\cdot$
+decision rule $\cdot$ outcomes}, compressed from the preregistration. The two primary endpoints
+recur throughout: the \textbf{Primary Objective Composite} (POC; Section~\ref{sec:oracle}) as
+the objective signal, and a \textbf{style-controlled Bradley--Terry utility} as the preference
+signal. ``Reliability-gated'' means the judge passed the human-agreement gate; ``powered''
+means the contrast met its McNemar pair count for the observed effect. Every RQ has an explicit
+honest-null branch (Section~\ref{sec:stage1results}, \ref{sec:stage2results}).
+
+\begin{table}[tbp]
+\centering\footnotesize
+\caption{Research questions, endpoints, and preregistered decision rules (Table~T5). Holm
+controls the family-wise error over the 12-test confirmatory family at $0.05$; BH controls FDR
+at $0.10$ for exploratory scans. The full frozen rules are in the preregistration
+(Appendix~\ref{app:prereg}).}
+\label{tab:rq}
+\begin{tabular}{@{}p{0.055\linewidth}p{0.30\linewidth}p{0.35\linewidth}p{0.20\linewidth}@{}}
+\toprule
+\textbf{RQ} & \textbf{Question / hypothesis} & \textbf{Decision rule} & \textbf{Outcomes} \\
+\midrule
+-- & H-skill: \FULL$\succ$\NEUTRAL{} on both signals (skill is content, not mass) &
+non-null per oracle; report $\delta$ and \%-gap over \NOSYS & works / null \\
+RQ1 & Component \emph{necessity}: $\mu(\FULL)-\mu(\LOO\text{-}C_i)>0$ &
+$C_i$ necessary if $\delta>0$ and Holm-sig.\ on POC \textbf{or} gated BT CI${>}0$; rank by $\delta$
+& necessary (ranked) / null / \emph{negative} \\
+RQ2 & Component \emph{sufficiency}: $\mu(\AOI\text{-}C_i)-\mu(\NEUTRAL)>0$, ${<}\FULL$ &
+sufficient-partial if Holm-sig./gated; \emph{distributed} if none reaches $30\%$ of the gap &
+one-carries / distributed / null \\
+RQ3 & \emph{Interactions}: some two-factor interaction ${\neq}0$ &
+pair interacts if BH-sig.\ on POC and concordant on ${\ge}1$ other family & additive /
+interacting (named) \\
+RQ4 & Nudge: $\mu(\FULL)>\mu(\BEAUTY)>\mu(\NEUTRAL)$ &
+content if \FULL${-}$\BEAUTY${>}0$ gated; nudge-suffices if \BEAUTY${\ge}70\%$ gap and
+\FULL${-}$\BEAUTY{} null & content / nudge / neither \\
+RQ5 & Locate: signal peaks in a contiguous mid-band &
+band $=$ layers with AUC${\ge}0.80$, selectivity${\ge}0.15$, patch${\ge}25\%$ & localized /
+diffuse \\
+RQ6 & \textbf{The bar}: steer with \emph{no} design prompt raises held-out quality &
+four-conjunct success criterion (Section~\ref{sec:stage2method}) & sufficient (\&/or
+necessary) / null \\
+RQ7 & Failure surface: generalizes OOD with bounded anti-steerable fraction &
+unseen-type $\delta{>}0$ gated and anti-steerable ${<}50\%$ & robust / partial / brittle \\
+RQ8 & Correspondence: component sub-vectors near-orthogonal, each steers its family &
+mean $|\!\cos|{<}0.3$ and ${\ge}3/5$ signatures match & found / partial / absent \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{The independent variable: a five-component design skill}
+The skill (frozen text in Appendix~\ref{app:skill}) is decomposed into five components, adapted
+from the Anthropic \texttt{frontend-design} skill and community ``purple-slop'' discourse
+\citep{anthropic2025frontendskill}: \textbf{C1} color/palette, \textbf{C2}
+layout/spacing/hierarchy, \textbf{C3} typography, \textbf{C4} component patterns, \textbf{C5}
+negative constraints. A deliberate design choice makes C1--C4 \emph{purely prescriptive} and
+consolidates \emph{all} negative constraints in C5, so the components are content-orthogonal:
+ablating C5 removes all ``avoid'' guidance, and no ``no purple gradients'' hides inside the
+color component. The five components are token-balanced to within $\pm15\%$ of the $\sim$85-token
+mean (a build-time assertion using the Qwen tokenizer); the full skill is 391 exact tokens.
+
+\subsection{The 24-cell factorial and the resolution-V fraction}
+\label{sec:cells}
+Encode each cell by a sign vector $x\in\{\pm1\}^5$ ($+1$ real component, $-1$ its matched
+filler; factor map $A\!\dots\!E=C_1\!\dots\!C_5$). We take the $2^{5-1}$ principal fraction with
+generator $E{=}ABCD$, defining relation $I{=}ABCDE$, which keeps the 16 corners with an even
+number of $-1$'s. This fraction is \emph{resolution~V}: all five main effects and all ten
+two-factor interactions are estimable, each aliased only with (assumed-negligible) three- and
+four-factor interactions (Appendix~\ref{app:theory}). Six of its 16 runs coincide with named
+cells---the all-$+$ run is \FULL, the five single-$+$ runs are the \AOI{} cells---so it
+contributes 10 new three-component cells. With four controls, five leave-one-out (\LOO) cells,
+and five add-one-in (\AOI) cells, the deduplicated design has $4+5+5+10=\mathbf{24}$ distinct
+cells (Table~\ref{tab:cells}). \LOO{} and \NEUTRAL{} lie in the \emph{complementary} fraction
+(odd $\#$minus) and enter as replicated paired contrasts, not as factorial-model rows.
+
+The reason necessity (RQ1) and sufficiency (RQ2) are asked separately is exact. Writing the
+multilinear factorial model and evaluating at the relevant corners (Appendix~\ref{app:theory},
+Eq.~\ref{eq:necsuff}) gives, for component $C_i$,
+\begin{equation}
+\underbrace{\mathbb{E}[y_{\FULL}]-\mathbb{E}[y_{\LOO\text{-}C_i}]}_{\text{necessity } \mathrm{Nec}_i}
+= 2\beta_i + 2\!\!\sum_{j\neq i}\!\beta_{ij} + R,
+\qquad
+\underbrace{\mathbb{E}[y_{\AOI\text{-}C_i}]-\mathbb{E}[y_{\NEUTRAL}]}_{\text{sufficiency } \mathrm{Suff}_i}
+= 2\beta_i - 2\!\!\sum_{j\neq i}\!\beta_{ij} + R,
+\label{eq:necsuff}
+\end{equation}
+so necessity and sufficiency coincide only when a component's interactions vanish; their average
+recovers the main effect $2\beta_i$ and their half-difference isolates its total interaction
+load. Positive synergies ($\sum_j\beta_{ij}>0$) make a component look \emph{more necessary than
+sufficient}---components carry the skill together. This single identity ties RQ1, RQ2, and RQ3
+and predicts the directional prior that C5 (negatives) helps more once a palette is present.
+
+\begin{table}[tbp]
+\centering\footnotesize
+\caption{The 24 distinct cells (Table~T1). $+$ real component, $-$ matched filler,
+$\cdot$ not a factorial cell. The 16-run factorial is $\{$\FULL, \AOI-C1..C5, F-123..F-345$\}$;
+\LOO{} and \NEUTRAL{} are off-fraction contrast anchors. Headline cells get 5 seeds, interaction
+cells 3.}
+\label{tab:cells}
+\begin{tabular}{@{}llccccccl@{}}
+\toprule
+\# & cell & C1 & C2 & C3 & C4 & C5 & seeds & tier / role \\
+\midrule
+1 & \FULL & $+$ & $+$ & $+$ & $+$ & $+$ & 5 & control: intact skill; Stage-2 skill side \\
+2 & \NEUTRAL & $-$ & $-$ & $-$ & $-$ & $-$ & 5 & control: length-matched neutral; contrast side \\
+3 & \BEAUTY & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ & 5 & control: 5-word nudge (RQ4) \\
+4 & \NOSYS & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ & 5 & control: bare base; Stage-2 ``no-prompt'' base \\
+5--9 & \LOO-C1..C5 & \multicolumn{5}{c}{one $-$, rest $+$} & 5 & necessity (RQ1) \\
+10--14 & \AOI-C1..C5 & \multicolumn{5}{c}{one $+$, rest $-$} & 5 & sufficiency (RQ2); in fraction \\
+15--24 & F-123..F-345 & \multicolumn{5}{c}{three $+$, two $-$} & 3 & interactions (RQ3); in fraction \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Confound controls as methodological contributions}
+Three controls are engineered, not incidental, and we present them as contributions.
+\emph{(i) Constant prompt mass.} Every factorial and \LOO{} cell holds 391 exact tokens: a
+removed component is replaced \emph{in its original slot} by a token-length-matched filler, so
+cells differ only in \emph{content}, never in length or slot order. \NEUTRAL{} is the all-filler
+$(-,-,-,-,-)$ corner---a length-matched design-irrelevant prompt, which is why a \FULL$\succ$\NEUTRAL{}
+gain is design content and not prompt mass. \emph{(ii) Filler render-inertness.} A filler may
+touch only source-level conventions (indentation, comments, naming, declaration order) and is
+forbidden by a build-time audit from mandating anything an objective metric could see---semantic
+landmarks, \texttt{lang}/\texttt{title}/\texttt{meta}, ARIA, validation, or event handlers---so
+fillers cannot themselves move the oracle and bias component effects downward. \emph{(iii)
+Constant-mass equalization.} A frozen padding pool deterministically pads or trims each filler
+until it matches its component's token count to within $\pm2$ tokens, recorded in the manifest.
+A constant output constraint (single-file hermetic HTML) sits in the \emph{user} turn, so it
+survives even in \NOSYS, which has no system message.
+
+\subsection{Corpus and the frozen out-of-distribution split}
+The corpus is 58 realistic briefs across 10 task types, describing domain and function only
+(full table in Appendix~\ref{app:corpus}). A mechanical leakage audit asserts zero whole-word
+matches of a frozen list of style adjectives and design-family words over the briefs, so the
+system-prompt treatment is the only design signal in context. The split is frozen by id:
+\textbf{40 dev} (8 development types $\times$ 5), \textbf{8 held-out seen-type} (one per
+development type), and \textbf{10 held-out unseen-type}---settings-panel and admin-data-table,
+two control-/information-dense layouts \emph{entirely absent} from dev. The unseen types are the
+out-of-distribution generalization test for steering: control-dense layouts unlike the
+marketing-oriented dev types stress the skill's guidance in a regime it was not tuned on. A
+\emph{generation unit} is one $(\text{cell},\text{prompt},\text{seed})$ triple; Stage~1
+comprises 4{,}000 dev units (all 24 cells $\times$ 40) plus 630 held-out units (reduced set),
+totaling 4{,}630.
+
+\subsection{Preregistration}
+The cell table, the 58-brief split, the POC formula and its two conditionals, the confirmatory
+12-test family, the reliability and power gates, the Stage-2 success criterion, and the null
+rule are frozen in a preregistration (Appendix~\ref{app:prereg}) that is git-tagged before any
+GPU run. A pilot gate (2 prompts $\times$ \{\FULL, \NOSYS\} $\times$ 3 seeds) must show a visible
+skill effect before the generation budget is spent; the sole sanctioned model-swap trigger is a
+pilot that still shows no effect after prompt-format fixes.

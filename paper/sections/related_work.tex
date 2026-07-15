@@ -1,0 +1,86 @@
+\section{Related work}
+\label{sec:related}
+
+We situate the study in four literatures and name, in each, the nearest neighbor and the
+precise gap we fill.
+
+\subsection{UI-code generation and its evaluation}
+A fast-growing line generates front-end code and asks how good it is. \citet{si2024design2code}
+(Design2Code) frame screenshot-to-HTML and, crucially for us, evaluate on the \emph{rendered}
+page with block-level visual metrics rather than raw code---the machinery we adopt in a
+reference-free form. \citet{wu2024uicoder} improve UI code via automated feedback with a hard
+render-success/compilability gate; datasets such as WebSight \citep{laurencon2024websight} and
+Web2Code \citep{yun2024web2code} scale the paired data. On evaluation, ArtifactsBench
+\citep{zhang2025artifactsbench} reports that a checklist-anchored MLLM judge reaches
+$\sim$94\% agreement with human/WebDev-Arena rankings; DesignBench \citep{xiao2025designbench},
+UI-Bench \citep{uibench2025}, Vision2Web \citep{he2026vision2web}, and WebDev Arena
+\citep{lmarena2025webdev} score \emph{models or tools}; G-FOCUS \citep{jeon2025gfocus}
+studies robust pairwise UI assessment with position-bias control. Accessibility is measurable
+deterministically via axe-core \citep{deque2024axecore} against WCAG~2.1 \citep{w3c2018wcag21}.
+\textbf{Gap.} All of these score \emph{a system's output quality}. None decomposes the
+\emph{guidance} that produces the output and attributes quality to its components. Our Stage~1
+turns the evaluation apparatus of this literature into the response variable of a controlled
+experiment on the instruction.
+
+\subsection{Computational aesthetics of interfaces}
+Quantifying visual quality has a long history: \citet{ngo2003modelling} define balance,
+equilibrium, symmetry, and regularity from element geometry; \citet{miniukovich2015computation}
+extend these to real interfaces and---centrally for our oracle---find they explain
+$\lesssim$49\% of the variance in perceived aesthetics. \citet{reinecke2013predicting} show
+colorfulness (a moderate optimum) and visual complexity (an inverted-U) predict first
+impressions with $\sim$50\% ceiling; \citet{hasler2003colorfulness} give the colorfulness
+statistic we use. Learned scorers such as UIClip \citep{wu2024uiclip} assess UI design
+data-drivenly. \textbf{Gap and consequence.} Because these metrics cap at roughly half the
+variance, we treat every objective metric as a \emph{diagnostic}, gate learned scorers behind a
+human-correlation check, and make aesthetic \emph{quality} claims ride on the paired preference
+signal---the two-signal oracle of Section~\ref{sec:oracle}. We also turn the skill's own
+negative constraints into a validated ``purple-slop index,'' making the folk notion of AI slop
+a computable quantity.
+
+\subsection{Prompt- and instruction-component analysis}
+The methodological shape of Stage~1---compare a behavior with vs.\ without a piece of the
+instruction---appears in contrastive-prompt steering \citep{rimsky2024caa,chen2025persona}, and
+the confound it must defeat (adding content also adds tokens) is exactly what Chatbot-Arena
+style control removes by regressing response length and format out of a Bradley--Terry model
+\citep{chiang2024stylecontrol}. Persona-vector extraction pointedly uses \emph{length- and
+format-matched} contrastive system prompts \citep{chen2025persona}, the analytic twin of our
+length-matched neutral control. We formalize the ablation as a fractional-factorial experiment
+\citep{montgomery2017doe}, separating necessity (leave-one-out), sufficiency (add-one-in), and
+interactions (a resolution-V fraction). \textbf{Gap.} We are not aware of prior work applying a
+factorial design plus a two-signal oracle to the components of a \emph{design} skill for code
+generation; the synthesis of DOE, confound-matched controls, and a rendered-output oracle is
+new to this target.
+
+\subsection{Activation steering and mechanistic interpretability}
+Stage~2 builds on the diff-in-means lineage. \citet{arditi2024refusal} show refusal is mediated
+by a single residual-stream direction, extracted by difference-in-means and verified by two
+causal arms---activation \emph{addition} and directional \emph{ablation} (weight
+orthogonalization); this is our exact skeleton, with ``skill vs.\ length-matched neutral''
+replacing ``harmful vs.\ harmless.'' Contrastive Activation Addition \citep{rimsky2024caa} and
+ActAdd \citep{turner2023actadd} establish add-a-vector steering; style vectors
+\citep{konen2024style} and persona vectors \citep{chen2025persona}---our nearest
+neighbors---steer \emph{style/trait} using the mean-over-response-tokens statistic we adopt for
+free-form generation, and Persona Vectors do so on the same model family
+(Qwen2.5-7B-Instruct), de-risking feasibility. Representation Engineering \citep{zou2023repe}
+supplies the PCA/LAT cross-check. The reliability caveats are decisive for how we report:
+steering vectors are heterogeneous, with up to $\sim$50\% \emph{anti-steerable} inputs for some
+concepts \citep{tan2024analysing} and in/out-of-distribution fragility
+\citep{dasilva2025steeringoff}, so we report per-prompt distributions and an anti-steerable
+fraction, pre-screen by class separation, and hold out unseen task \emph{types}. On why
+diff-in-means rather than sparse autoencoders: AxBench \citep{wu2025axbench}, the largest
+head-to-head benchmark, finds diff-in-means beats SAE steering and leads concept detection, and
+there is no public SAE suite for Qwen2.5-Coder \citep{deng2026qwenscope}; steering-vector SAE
+decompositions can be unfaithful \citep{mayne2024decompose}. We therefore adopt diff-in-means as
+primary and demote SAEs to a labeled stretch. We locate with linear probes plus control-task
+selectivity \citep{hewitt2019control,alain2017probes} and denoising activation patching
+\citep{zhang2024patching,heimersheim2024patching}; we interpret through the
+linear-representation hypothesis and superposition
+\citep{park2023lrh,park2024geometry,elhage2022superposition}, while keeping non-identifiability
+on the table---a ``single direction'' may be one face of a concept cone
+\citep{wollschlager2025cones}, and not all features are linear \citep{engels2024notlinear}.
+Steering strength is non-monotone \citep{taimeskhanov2026strength}, motivating a swept
+coefficient under a KL guardrail; broad-skill \citep{vanderweij2024broad} and conditional
+\citep{lee2024cast} steering supply our fallbacks. \textbf{Gap.} An exhaustive sweep of this
+literature finds no work extracting or steering a direction for the \emph{visual/aesthetic
+quality} of generated front-end code. That is the differentiated Stage~2 contribution, and we
+hold it to the causal bar the reliability literature demands.

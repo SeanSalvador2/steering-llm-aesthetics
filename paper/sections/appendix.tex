@@ -1,0 +1,351 @@
+% ============================ APPENDICES ============================
+
+\section{The design skill, fillers, and padding pool (verbatim)}
+\label{app:skill}
+
+The frozen independent variable. Component boundary tags \texttt{[[Cn]]} are documentation only and
+are stripped before the text enters the system prompt; canonical order is C1$\to$C2$\to$C3$\to$C4$\to$C5.
+C1--C4 are purely prescriptive; C5 consolidates all negative constraints.
+
+\paragraph{C1 --- color / palette.}
+\begin{quote}\small
+Choose a deliberate palette of four to six specific colors --- one dominant hue, one or two supporting
+tones, and one sharp accent --- each fixed as an exact hex value and reused consistently throughout.
+Build depth with atmospheric, layered backgrounds such as subtle tints, soft shading, or fine texture
+rather than flat fills, and ensure every text-on-background pairing clears WCAG AA contrast.
+\end{quote}
+\paragraph{C2 --- layout / spacing / hierarchy.}
+\begin{quote}\small
+Open with the most characteristic element of the subject so the page announces what it is at a glance.
+Establish a clear visual hierarchy on a consistent spacing scale, aligning elements to a small set of
+shared edges so the composition reads as engineered. Favor intentional, sometimes asymmetric
+arrangements over uniform grids, and give the layout generous, purposeful white space so it can breathe.
+\end{quote}
+\paragraph{C3 --- typography.}
+\begin{quote}\small
+Pair a characterful display typeface, used sparingly for headings, with a clean, highly readable body
+typeface and a compact utility face for small labels and data. Set a clear modular type scale with a few
+deliberate sizes and weights, and let the typography carry real personality --- expressive at large
+sizes, quietly legible at small ones --- instead of neutrally delivering text.
+\end{quote}
+\paragraph{C4 --- component patterns.}
+\begin{quote}\small
+Design one well-chosen signature element --- an unexpected section, a distinctive card treatment, or a
+considered navigation --- that anchors the page's identity. Add at most one orchestrated motion moment,
+such as a single page-load reveal or a refined hover state, and make it feel deliberate. Vary corner
+radii, borders, and shadows with intent so that depth and emphasis track the importance of the content.
+\end{quote}
+\paragraph{C5 --- negative constraints (all negatives).}
+\begin{quote}\small
+Avoid AI slop defaults: purple or indigo gradients; Inter and Roboto typefaces; fully centered hero
+layouts built around one big headline and stat; three identical icon cards in a row; uniform rounded
+corners on everything; and scattered or excessive animation. Never default to generic template palettes
+or cream with terracotta serif and near black with acid green looks, unless the brief calls for them.
+Cut any decoration that serves no purpose.
+\end{quote}
+
+\paragraph{Neutral fillers (render-inert; matched to C1--C5).} A filler may touch only source-level
+conventions and is forbidden from mandating anything an objective metric could detect (semantic
+landmarks, \texttt{lang}/\texttt{title}/\texttt{meta}, ARIA, validation, event handlers), enforced by a
+build-time audit against a banned-topic list.
+\begin{quote}\small
+\textbf{Filler-1} ($\leftrightarrow$C1): Write the markup in a consistent source style: use lowercase
+for tag and attribute names, quote every attribute value with double quotes, and keep a stable attribute
+order within each tag. Break long lines at a consistent indent so no line grows unwieldy, and keep
+quoting and casing choices uniform across the whole file so the source reads cleanly.\\[2pt]
+\textbf{Filler-2} ($\leftrightarrow$C2): Indent the markup consistently with two spaces per level and
+keep lines to a reasonable width so the source stays legible. Group related rules together, order the CSS
+declarations predictably, and leave a short comment above each major part of the stylesheet describing
+what it styles. Avoid trailing whitespace and keep a single blank line between logical blocks.\\[2pt]
+\textbf{Filler-3} ($\leftrightarrow$C3): Name classes and identifiers with clear, lowercase,
+hyphen-separated words that describe purpose rather than appearance, and keep the naming scheme
+consistent across the file. Avoid abbreviations that are not obvious, do not reuse one name for two
+purposes, and prefer a short, stable vocabulary of names over inventing a new term for every element on
+the page.\\[2pt]
+\textbf{Filler-4} ($\leftrightarrow$C4): Organize any JavaScript into small, single-purpose functions
+with descriptive names, each declared before the point where it is used, and keep the logic shallow
+rather than deeply nested. Prefer const and let over var, keep variable declarations near their first
+use, group related functions together in the script, and leave a brief comment explaining any step whose
+intent is not obvious.\\[2pt]
+\textbf{Filler-5} ($\leftrightarrow$C5): Comment the code where intent is not obvious, but avoid
+restating what the code plainly does; a good comment explains why, not what. Keep comments short, place
+each one directly above the line or block it describes, and use a consistent comment style throughout.
+Remove commented-out fragments and leftover notes to self before finishing, so only purposeful comments
+remain in the final file.
+\end{quote}
+
+\paragraph{Padding pool (frozen; build-time equalization).} Each filler is deterministically padded (in
+fixed order, skipping any clause that would overshoot) or trimmed at a sentence boundary until it matches
+its component's Qwen token count to within $\pm2$: \emph{Pad-1a} Apply the same wrapping style to every
+long tag so no line stands out; \emph{1b} Break attribute lists at a consistent width; \emph{1c} Keep
+tag casing uniform throughout; \emph{2a} Keep spacing between rule blocks even so the stylesheet reads in
+a steady rhythm; \emph{2b} Order declarations the same way in every rule; \emph{2c} Keep rule blocks tidy
+and short; \emph{3a} Prefer plain descriptive words over clever coinages when a name must be introduced;
+\emph{3b} Keep names short, plain, and easy to scan; \emph{3c} Keep the vocabulary of names small;
+\emph{4a} Group constants near the top of the script so their values are easy to locate; \emph{4b} Keep
+the script's functions in one predictable order; \emph{4c} Prefer flat logic over nesting; \emph{5a}
+Delete stale comments rather than letting them drift out of date; \emph{5b} Keep comment punctuation
+simple and consistent; \emph{5c} Prefer one clear comment over three vague ones.
+
+\paragraph{Constant output constraint (in the user turn; never ablated).}
+\begin{quote}\small
+Return a single self-contained HTML file: put all CSS in one \texttt{<style>} tag and all JavaScript in
+one \texttt{<script>} tag, inline, with no external network requests --- no external fonts, stylesheets,
+scripts, images, or CDNs. Use only system or generic fonts, and inline SVG or CSS for any graphics.
+Output only the HTML file.
+\end{quote}
+
+\paragraph{Token balance.} Exact Qwen2.5-Coder tokens per component: C1 75, C2 73, C3 75, C4 80, C5 88
+(mean $m{=}78.2$, $\pm15\%$ band $[66.5,89.9]$; all within band); full skill $=$ 391 exact tokens.
+Equalized fillers: F1 75, F2 74, F3 76, F4 81, F5 87 (each within 2 tokens of its component). The four
+control cells are \FULL{} (C1--C5), \NEUTRAL{} (Filler-1--5), \BEAUTY{} (``Make it beautiful and
+well-designed.''), and \NOSYS{} (no system message).
+
+% ------------------------------------------------------------------
+\section{Prompt corpus (frozen by id)}
+\label{app:corpus}
+
+The 58 briefs (Table~T2). Difficulty E/M/H by element count and interaction complexity. Split:
+\texttt{dev} (40), \texttt{seen} (held-out, seen type; 8), \texttt{unseen} (held-out, OOD type; 10).
+All briefs implicitly carry the constant output constraint; a whole-word leakage audit over the briefs
+passes (zero matches of the banned style/design word list).
+
+\begin{small}
+\begin{longtable}{@{}p{0.045\linewidth}p{0.075\linewidth}p{0.70\linewidth}p{0.02\linewidth}p{0.055\linewidth}@{}}
+\toprule
+id & type & brief & d & split \\
+\midrule
+\endfirsthead
+\toprule id & type & brief & d & split \\ \midrule \endhead
+\bottomrule \endfoot
+L01 & landing & Landing page for a mobile app that tracks home water usage and flags leaks; headline, how-it-works, three feature highlights, download call. & E & dev \\
+L02 & landing & Landing page for a regional apple-cider producer selling seasonal boxes; product story, what's in a box, delivery areas, order button. & M & dev \\
+L03 & landing & Landing page for a B2B API that turns shipping documents into structured data; hero statement, integration steps, a code sample, request-access form. & H & dev \\
+L04 & landing & Launch page for an independent documentary about deep-sea mining; synopsis, trailer placeholder, screening dates, newsletter signup. & H & dev \\
+L05 & landing & Landing page for a neighborhood bicycle-repair co-op; hours, services, a pricing note, location. & E & dev \\
+L06 & landing & Landing page for a language-exchange meetup pairing learners for weekly conversation; how pairing works, supported languages, join button. & M & seen \\
+D01 & dashboard & Dashboard for a solar-panel owner; today's generation, home consumption, battery level, 7-day history chart placeholder. & M & dev \\
+D02 & dashboard & Operations dashboard for a bike-share system; station occupancy, bikes in transit, low-battery e-bikes, alerts list. & H & dev \\
+D03 & dashboard & Personal-finance dashboard; account balances, monthly spending by category, upcoming bills, savings-goal tracker. & M & dev \\
+D04 & dashboard & Dashboard for a small warehouse; inventory by aisle, orders awaiting pick, staff on shift, throughput chart placeholder. & H & dev \\
+D05 & dashboard & Dashboard for a habit-tracking app; streaks for four habits, a weekly completion grid, today's checklist. & E & dev \\
+D06 & dashboard & Fleet dashboard for a delivery company; vehicles active, deliveries completed, fuel usage, map placeholder with status pins. & M & seen \\
+F01 & form & Multi-step signup form for a coding bootcamp; personal details, program choice, payment plan, progress indicator. & E & dev \\
+F02 & form & Grant-application form for a community arts fund; applicant info, project description, budget table, file-upload fields. & M & dev \\
+F03 & form & Booking form for a pottery studio; class selection, date and time, seats, contact details. & M & dev \\
+F04 & form & Renters-insurance quote form; address, coverage options, valuables to insure, a summary step before submitting. & H & dev \\
+F05 & form & Contact form for a wedding photographer; names, event date, venue, package interest, message. & E & dev \\
+F06 & form & Patient-intake form for a dental clinic; personal and insurance details, medical-history checkboxes, consent. & M & seen \\
+P01 & pricing & Pricing page for a note-taking app; three tiers (free/personal/team), monthly-annual toggle, feature comparison. & E & dev \\
+P02 & pricing & Pricing page for a car-wash membership; three plans, what each includes, an FAQ section. & M & dev \\
+P03 & pricing & Pricing page for a freelance illustrator; service packages, add-ons, turnaround times, booking link. & M & dev \\
+P04 & pricing & Pricing page for a cloud-storage service; usage-based tiers, an interactive cost estimate, enterprise contact option. & H & dev \\
+P05 & pricing & Pricing page for a yoga studio; drop-in, class packs, unlimited monthly, a short note on each. & E & dev \\
+P06 & pricing & Pricing page for a project-management tool; four plans across a long feature matrix with category groupings. & M & seen \\
+PF01 & portfolio & Portfolio home for a furniture maker; project grid, short bio, contact details. & E & dev \\
+PF02 & portfolio & Portfolio for a film-score composer; reel placeholder, selected credits, a list of instruments and tools used. & M & dev \\
+PF03 & portfolio & Portfolio for an architecture studio; three built projects with descriptions, a studio statement. & M & dev \\
+PF04 & portfolio & Portfolio for a data journalist; long-form interactive pieces, each with a synopsis and a role note. & H & dev \\
+PF05 & portfolio & Portfolio for a tattoo artist; a gallery, studio location, a booking enquiry link. & E & dev \\
+PF06 & portfolio & Portfolio for a motion-graphics freelancer; work organized into categories, a short about section. & M & seen \\
+B01 & blog & Article page about restoring a vintage typewriter; headings, image placeholders, an author note. & E & dev \\
+B02 & blog & Blog index for a gardening site; recent articles by season, tags, a search field. & M & dev \\
+B03 & blog & Long-form article on the history of the tea trade; table of contents, pull quotes, footnotes. & M & dev \\
+B04 & blog & Magazine-style feature profiling a wildlife photographer; full-width imagery placeholders mixed with narrative columns. & H & dev \\
+B05 & blog & Blog post reviewing three noise-cancelling headphones; a verdict box, pros and cons. & E & dev \\
+B06 & blog & Recipe article for a sourdough loaf; ingredients, step-by-step method, timing notes. & M & seen \\
+E01 & ecommerce & Product page for a stainless-steel water bottle; image gallery, price, size and color options, add-to-cart. & E & dev \\
+E02 & ecommerce & Product page for a mechanical keyboard; switch options, specifications, reviews summary, related products. & M & dev \\
+E03 & ecommerce & Product listing for a bookstore's staff picks; filters by genre, sort options, a grid of titles. & M & dev \\
+E04 & ecommerce & Configurator page for a made-to-order desk; material, dimensions, cable options, live price, order. & H & dev \\
+E05 & ecommerce & Product page for single-origin coffee; roast details, tasting notes, grind selection, subscribe option. & E & dev \\
+E06 & ecommerce & Product listing for a plant nursery; filtered by light and care level, each card showing name and price. & M & seen \\
+A01 & auth & Login screen for a budgeting app; email and password, remember-me, reset-password link. & E & dev \\
+A02 & auth & Registration screen for a co-working booking site; email, password-strength meter, terms acceptance. & M & dev \\
+A03 & auth & Two-factor screen prompting for a six-digit code; resend option, a help note. & M & dev \\
+A04 & auth & Account-recovery flow screen; multiple verification methods, explanation of what happens next. & H & dev \\
+A05 & auth & Sign-in for a library catalog; card number and PIN, a guest-access option. & E & dev \\
+A06 & auth & Single-sign-on chooser screen; pick an organization before continuing to log in. & M & seen \\
+ST01 & settings & Settings page for a chat app; notifications, privacy, appearance, connected devices, using labeled toggles and selects. & M & unseen \\
+ST02 & settings & Account settings for a streaming service; profile, subscription, playback quality, parental controls, downloads. & H & unseen \\
+ST03 & settings & Workspace settings for a team tool; members, roles and permissions, billing, integrations. & M & unseen \\
+ST04 & settings & Notification-preferences page; choose channels (email/push/SMS) per category, a save bar. & E & unseen \\
+ST05 & settings & Device settings for a smart thermostat; schedules, temperature units, eco mode, sensor calibration. & H & unseen \\
+AT01 & admin-table & Admin users table; name, email, role, status, last-active columns, search, row actions. & M & unseen \\
+AT02 & admin-table & Admin orders table; filterable columns, status badges, bulk selection, pagination, detail-drawer trigger. & H & unseen \\
+AT03 & admin-table & Admin content-moderation queue; reported items with reason, reporter, date, approve/remove actions. & M & unseen \\
+AT04 & admin-table & Admin inventory table; SKU, product, stock, price, an edit action per row, a filter bar. & E & unseen \\
+AT05 & admin-table & Admin analytics table; campaigns with sortable metric columns, sparkline placeholders, an export control. & H & unseen \\
+\end{longtable}
+\end{small}
+
+% ------------------------------------------------------------------
+\section{Statistical and interpretability derivations}
+\label{app:theory}
+
+Notation is identical to the project's theory appendix; each result names the section it lifts.
+
+\paragraph{C.1 Factorial model, and the necessity/sufficiency identity (T1).} Code a cell by
+$x\in\{\pm1\}^5$. The effects parameterization of the $2^5$ writes the expected response as the
+multilinear polynomial $\mathbb{E}[y(x)]=\beta_0+\sum_i\beta_i x_i+\sum_{i<j}\beta_{ij}x_ix_j+\cdots$.
+Evaluating at the relevant corners (only $x_i$ flips; partners held at $+1$ for necessity, $-1$ for
+sufficiency) gives Eq.~\ref{eq:necsuff}: the main term contributes $2\beta_i$ in both, while a pair
+$\{i,j\}$ contributes $+2\beta_{ij}$ when the partner is present and $-2\beta_{ij}$ when absent. Hence
+$\tfrac12(\mathrm{Nec}_i+\mathrm{Suff}_i)=2\beta_i+R$ and
+$\tfrac14(\mathrm{Nec}_i-\mathrm{Suff}_i)=\sum_{j\neq i}\beta_{ij}$ (exact through three-factor terms,
+which are equal in both contrasts and cancel in the difference). Necessity and sufficiency thus coincide
+iff a component's interactions vanish; synergy makes a component more necessary than sufficient.
+
+\paragraph{C.2 Resolution-V aliasing (T2).} The half-fraction with generator $E{=}ABCD$ has defining
+subgroup $\{I,ABCDE\}$; the alias of an effect $S$ is $S\cdot ABCDE$ reduced modulo $x_i^2{=}1$. The
+shortest defining word has length 5, so the design is resolution~V: main effects alias only with
+four-factor interactions ($A{=}BCDE$) and two-factor interactions only with three-factor interactions
+($AB{=}CDE$). Under ``three-factor-and-higher negligible,'' all five mains and all ten 2FIs are cleanly
+and simultaneously estimable from 16 runs.
+
+\paragraph{C.3 Mixed model and pseudoreplication (T3).} With $y_{cps}=\mu+\tau_c+u_p+v_{cp}+
+\epsilon_{cps}$, two seeds on a prompt share $u_p$, so the intraclass correlation is
+$\rho_{\mathrm{ICC}}=(\sigma_p^2+\sigma_{cp}^2)/(\sigma_p^2+\sigma_{cp}^2+\sigma^2)$ and the variance of
+a cell mean over $G$ prompts $\times\,m$ seeds is $\tfrac{\sigma_y^2}{n}[1+(m-1)\rho_{\mathrm{ICC}}]$.
+The bracket is the design effect; the effective sample size is
+\begin{equation}
+n_{\text{eff}}=\frac{n}{1+(m-1)\rho_{\mathrm{ICC}}}.
+\label{eq:neff}
+\end{equation}
+With $m{=}5$ and $\rho_{\mathrm{ICC}}{=}0.3$, $\mathrm{DEFF}{=}2.2$, so 200 generations count as
+$\approx91$ independent points---which the MixedLM recovers by partitioning variance. The paired
+contrast $d_p=\bar y_{\FULL,p}-\bar y_{\LOO,p}$ cancels $u_p$, which is why cells are seed-matched
+within a prompt and the bootstrap resamples whole prompts.
+
+\paragraph{C.4 Kappa paradox, in exact numbers (T4).} General chance-corrected form
+$(p_o-p_e)/(1-p_e)$; the coefficients differ only in $p_e$ (Eq.~\ref{eq:agree}). Two raters, 100 binary
+items, agreement held at $p_o{=}0.90$. \emph{Skewed} (both-1 $=85$, both-0 $=5$, disagree $=10$):
+$\pi_1{=}0.90$, so $p_e{=}0.82\Rightarrow\alphaK{=}1-0.10/0.18{=}0.444$, while
+$p_e^{\gamma}{=}0.18\Rightarrow\ac{=}(0.90-0.18)/0.82{=}0.878$. \emph{Balanced} ($\pi_1{=}0.5$):
+$p_e{=}p_e^{\gamma}{=}0.5\Rightarrow\alphaK{=}\ac{=}0.80$. Identical agreement, $\alphaK$ moved only by
+the marginal---the justification for the disjunctive gate.
+
+\paragraph{C.5 Style-controlled BT and omitted-variable bias (T5).} With
+$P(i\succ j)=\sigma((\beta_i-\beta_j)+\gamma^{\top}(s_i-s_j))$, omitting $s$ makes the estimated gap
+absorb the cell-mean style shift, $\hat b_i-\hat b_j\to(\beta_i-\beta_j)+\gamma^{\top}(\bar s_i-\bar s_j)$;
+if the skill produces longer/denser pages, plain BT inflates the design effect by exactly that term.
+Including $s$ identifies $\gamma$ from within-cell style variation and subtracts the bias. The
+mediation caveat: colorfulness is partly causal, so it is reported controlled and uncontrolled and its
+legitimate effect recovered through the objective channel.
+
+\paragraph{C.6 Paired power (T6).} Eq.~\ref{eq:power} reproduces $\approx$194, 85, 782 decisive pairs
+for $60/40$, $65/35$, $55/45$ (rounded to 200/80/780). Total pairs relate to decisive pairs by
+$N=N_{\mathrm{dec}}/p_d$; we do not plug the marginal $\delta$ with $p_d{<}1$ into the two-parameter
+formula (that mixes a conditional split with a discordance rate). The two-signal rule as error algebra:
+the necessity/sufficiency \emph{screen} is $A\cup B$ with $\Pr(\text{false}\mid H_0)\le
+\alpha_{\text{obj}}+\alpha_{\text{pref}}\lesssim0.10$; the Stage-2 headline is $E_1\cap E_2\cap E_3\cap
+E_4$ with joint false-positive rate $\le\min_k\Pr(E_k\mid H_0)$, far below any single $\alpha$.
+
+\paragraph{C.7 Objective metrics (T7).} WCAG contrast is Eq.~\ref{eq:wcag}. Ngo balance
+$\mathrm{BM}=1-\tfrac12(|BM_v|+|BM_h|)$ from summed weight$\times$distance on each side of the frame
+axis; equilibrium $\mathrm{EM}=1-\tfrac12(|EM_x|+|EM_y|)$ from the center-of-mass offset; alignment
+regularity $=1-n_{\text{distinct edges}}/n_{\text{elements}}$. Hasler colorfulness
+$M=\sigma_{rgyb}+0.3\,\mu_{rgyb}$ on opponent axes $rg{=}R-G$, $yb{=}\tfrac12(R+G)-B$. Modular type-scale
+adherence is the fraction of adjacent size ratios within $\pm10\%$ (log space) of the best-fitting
+canonical ratio. PSI is Eq.~\ref{eq:psi}; POC is Eq.~\ref{eq:poc}.
+
+\paragraph{C.8 Diff-in-means vs.\ LDA, and the ablation projector (T8).} For equal-covariance Gaussians
+the Bayes-optimal discriminant is $w^{*}=\Sigma^{-1}(\mu_1-\mu_0)$; diff-in-means $v=\mu_1-\mu_0$ equals
+$w^{*}$ iff $\Sigma\propto I$. The whitened direction is optimal for reading but amplifies low-variance
+nuisance directions when \emph{writing}, pushing activations off-distribution; diff-in-means is the
+on-manifold mean shift and cancels shared nuisance content, so we locate with probes/LDA and steer with
+diff-in-means. The ablation operator $P=I-\vhat\vhat^{\top}$ is an orthogonal projector: idempotent
+($P^2=I-2\vhat\vhat^{\top}+\vhat(\vhat^{\top}\vhat)\vhat^{\top}=P$ using $\vhat^{\top}\vhat=1$) and
+symmetric ($P^{\top}=P$); replacing every residual-writing matrix by $PW_{\text{out}}$ bakes the
+ablation into the weights, equivalent to a runtime hook for all writes after the edit.
+
+\paragraph{C.9 Interventions (T9).} Steering and ablation are $\doop$-operations
+(Eqs.~\ref{eq:suff}--\ref{eq:flip}); sufficiency uses the \NOSYS{} base so the effect is the direction's,
+not a prompt's. The specificity requirement
+$\mathbb{E}[Q\mid\doop(h_{\lstar}\mathrel{+}{=}\alpha^{*}\hat r),\NOSYS]\not>\mathbb{E}[Q\mid\NOSYS]$ for
+random $\hat r$ of equal norm ($k{=}5$) separates a direction effect from a norm effect. A causal effect
+that holds on \emph{unseen task types} adds transportability; the anti-steerable fraction and
+dose-response non-monotonicity are reported because a positive mean can hide a heavy tail.
+
+% ------------------------------------------------------------------
+\section{Judge template (verbatim)}
+\label{app:judge}
+
+\paragraph{Role.} ``You are a senior product designer evaluating two rendered web UIs built for the
+\emph{same brief}. Judge overall design quality for that brief. Ignore which looks longer or more
+colorful per se; judge whether choices are deliberate and fit the brief.''
+
+\paragraph{Inputs.} the brief text; screenshot A; screenshot B (both desktop $1440\times900$).
+
+\paragraph{Checklist anchors} (from the six metric families, to force reliability): color/palette
+coherence; layout \& visual hierarchy; typography; component/pattern quality; restraint (absence of
+generic ``AI-slop'' tells); overall fit-to-brief.
+
+\paragraph{Output schema.}
+\texttt{\{"winner":"A"|"B"|"tie", "confidence":1-5, "per\_criterion":\{"color":..., "layout":...,
+"typography":..., "components":..., "restraint":..., "fit":...\}, "rationale":"$\le$40 words"\}}.
+
+\paragraph{Protocol.} Each pair is judged as (A,B) and (B,A); a winner counts only if consistent across
+orders, else tie (Davidson tie term in BT). Judge temperature 0; rubric cached as a system prompt;
+batched with backoff. Ties feed the tie term, not a half-win/half-loss split.
+
+% ------------------------------------------------------------------
+\section{Additional figures and tables}
+\label{app:extra}
+
+Figure~\ref{fig:F4} is the metric-redundancy diagnostic; the POC $z$-scores and averages a preregistered
+subset, not all metrics, so redundancy within a family does not double-count. The localization (F5),
+stability (F13), PSI-validation (F10), and reliability (F11) figures appear in the main text
+(Sections~\ref{sec:oracle}, \ref{sec:stage2method}). Table~T10 (planned vs.\ achieved decisive pairs and
+BT-utility simulation power per contrast) is generated from the power module on the observed tie rates.
+
+\synthfig[0.53\linewidth]{F4}{F4_preview.pdf}{4}{Metric-correlation matrix (Spearman $\rho$), blocked by
+family. Exposes redundancy so the POC's preregistered subset is defensible; the family-block structure
+(within-family redundancy, cross-family separation) is what the real 4{,}630-render matrix shows.
+Planted block structure here.}
+
+% ------------------------------------------------------------------
+\section{Preregistration summary and amendment log}
+\label{app:prereg}
+
+The confirmatory design is frozen before any GPU run and git-tagged \texttt{prereg-v1}. Frozen items:
+the 24-cell table (Table~\ref{tab:cells}); the 58-brief split by id (Appendix~\ref{app:corpus}); the POC
+formula (Eq.~\ref{eq:poc}) and its two conditionals (PSI-out 6-term variant; $c^{*}$ fallback); the
+style-controlled BT endpoint (Eq.~\ref{eq:bt}); the 12-test confirmatory family
+$\{$\FULL$-$\NEUTRAL; $5\times$\FULL$-$\LOO-$C_i$; $5\times$\AOI-$C_i-$\NEUTRAL; \FULL$-$\BEAUTY$\}$,
+Holm at FWER $0.05$ separately on POC and BT, with everything else BH at FDR $0.10$; the reliability gate
+($\alphaK\ge0.667$ or $\ac\ge0.80$ under demonstrable skew); the power gate (achieved $\ge$ required
+decisive pairs at the observed split); the Stage-2 success criterion (Section~\ref{sec:stage2method});
+and the null rule (Section~\ref{sec:oracle}). The cell table, confirmatory family, success criterion, and
+null rule may not be weakened post-freeze; a confirmatory change forks \texttt{prereg-v2} and is reported
+as a deviation.
+
+\paragraph{Amendment log.} \emph{(none --- freeze pending the \texttt{prereg-v1} tag).} Post-freeze
+amendments will be appended here, dated and numbered, each stating what changed, why, and whether it
+touches a confirmatory decision.
+
+% ------------------------------------------------------------------
+\section{Data-science lifecycle map}
+\label{app:lifecycle}
+
+The paper doubles as the report on each lifecycle phase; Table~\ref{tab:lifecycle} maps section to phase,
+to the notebook that carries the narrative, and to the runbook session that produces the real numbers.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Paper section $\leftrightarrow$ lifecycle phase $\leftrightarrow$ notebook $\leftrightarrow$
+runbook session.}
+\label{tab:lifecycle}
+\begin{tabular}{@{}p{0.26\linewidth}p{0.20\linewidth}p{0.28\linewidth}p{0.18\linewidth}@{}}
+\toprule
+paper section & lifecycle phase & notebook & runbook session \\
+\midrule
+\S\ref{sec:design} study design & problem framing + data & 00--01 & --- (frozen pre-GPU) \\
+\S\ref{sec:oracle} oracle & measurement & 02--03 & 4--5 (metrics, judging) \\
+\S\ref{sec:stage1} Stage-1 results & experiments + evaluation & 04--05 & 1--3 (pilot, generation) \\
+\S\ref{sec:stage2method} Stage-2 method & modeling & 06a/06b, 07a & 6--7 (extract, sweep, freeze) \\
+\S\ref{sec:stage2results} Stage-2 results & evaluation & 07a/07b & 8--9 (verify, stretch) \\
+\S\ref{sec:discussion}--\ref{sec:repro} & communication + reproducibility & 08 & --- (write-up) \\
+\bottomrule
+\end{tabular}
+\end{table}

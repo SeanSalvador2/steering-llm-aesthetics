@@ -1,0 +1,131 @@
+\section{Stage 2 method: locate, extract, steer, verify}
+\label{sec:stage2method}
+
+Stage~2 asks where the skill acts and whether that locus is causal. All activation work runs on
+Hugging Face \texttt{transformers} with a custom hook module (vLLM cannot inject mid-decode); the
+residual stream is the layer-output hidden state, and every comparison is within-engine---we never
+compare a vLLM baseline to an HF steered output. We reuse the Stage-1 \FULL{} and \NEUTRAL{} dev
+generations (200 matched pairs) as the extraction corpus, capturing the mean residual over response
+tokens by teacher-forced forward pass.
+
+\paragraph{Why the residual stream, and why diff-in-means.} Qwen2.5-Coder is a pre-norm decoder:
+each block reads a LayerNorm of the stream and writes back additively, so the residual stream is a
+linear channel where a concept can be \emph{read} by projection and \emph{written} by addition. The
+clean-design direction at layer $\ell$ is the difference of response-mean residuals,
+\begin{equation}
+v_\ell=\bar h_\ell^{(\FULL)}-\bar h_\ell^{(\NEUTRAL)},\qquad \vhat_\ell=v_\ell/\lVert v_\ell\rVert.
+\label{eq:diffmean}
+\end{equation}
+The contrast against the \emph{length-matched} neutral is what makes $v_\ell$ ``design content''
+rather than ``instruction-following mode.'' We steer with this un-whitened vector rather than a probe
+direction on purpose: for equal-covariance Gaussians the optimal \emph{discriminant} is
+$w^{*}=\Sigma^{-1}(\mu_1-\mu_0)$, ideal for \emph{reading} but pathological for \emph{writing}---it
+amplifies low-variance nuisance directions and pushes activations off-distribution---whereas
+diff-in-means is the empirical mean shift that lands on the data manifold and cancels nuisance
+directions common to both sides (Appendix~\ref{app:theory}). We cross-check $\vhat_\ell$ against the
+PCA-of-paired-differences top component and the probe weight, reporting their cosines.
+
+\paragraph{Step 1 --- stability and localization (RQ5).} Extraction adequacy is a running-mean cosine
+plateau: as $n$ grows to 200 we require $\Delta\cos<0.01$ over the last $20\%$ (observed
+$\numslot{STAB-DCOS}$ at $n=\numslot{STAB-PLATN}$; Figure~\ref{fig:F13}). Localization triangulates
+three signals per layer: a linear probe's AUC, its control-task \emph{selectivity}
+$\mathrm{AUC}^{\text{real}}-\mathrm{AUC}^{\text{control}}$ (a probe can memorize; selectivity guards
+against it), and denoising activation-patching \%-recovered on a design-token logit-diff proxy
+(denoising is robust to self-repair). The band is the contiguous layers with AUC$\ge0.80$,
+selectivity$\ge0.15$, and patch$\ge25\%$ (Figure~\ref{fig:F5}).
+
+\begin{resultbranch}{RQ5 localized}
+The three signals concur on a contiguous mid-band, \numslot{LOC-BAND}: probe AUC peaks at
+$\numslot{LOC-AUCPEAK}$ (layer $\numslot{LOC-PEAKLAYER}$) with selectivity $\numslot{LOC-SELPEAK}$ and
+patching recovering $\numslot{LOC-PATCHPEAK}$ of the clean--corrupted gap. Decodability, selectivity,
+and causal patching agreeing at the same depth is the clean case; these layers become the Stage-2
+focus band. Decodability alone would be weak evidence---a probe can read a feature the model does not
+use---so the patching agreement is what licenses moving from correlation to a causal candidate.
+\end{resultbranch}
+\begin{resultbranch}{RQ5 diffuse}
+No band meets all three thresholds simultaneously---for instance, probe AUC is high across many layers
+but selectivity or patching never clears its bar, indicating the signal is decodable but not localized
+to a causal site. We widen to the single peak layer, flag the representation as diffuse, and pre-commit
+to multi-layer injection in the steering step. A diffuse locate is not yet a null: it changes the
+steering \emph{mechanism} (where to inject), and the causal test in Step~3 remains decisive.
+\end{resultbranch}
+
+\paragraph{Step 2 --- steer, and freeze on dev (RQ6 operating point).} Steering adds the unit direction
+at all generated positions,
+\begin{equation}
+h_\ell \leftarrow h_\ell+\alpha\,\vhat_\ell,\qquad \alpha=\rho\cdot\overline{\lVert h_\ell\rVert},
+\label{eq:add}
+\end{equation}
+parameterized by the norm-relative $\rho$ so the coefficient transfers across layers (the ambient
+residual norm grows with depth; a fixed $\rho$ injects a fixed fraction of it). Behavior is
+\emph{non-monotone} in $\rho$---too much steering leaves the manifold and coherence collapses---so we
+sweep $\rho$ under a coherence guardrail rather than fixing a large value. On a frozen 512-token eval
+text we cap the mean per-token divergence of the steered from the unsteered next-token distribution,
+$D_{\mathrm{KL}}(p_{\text{steered}}\|p_{\text{unsteered}})\le0.30$ nats, and require steered
+render-success $\ge0.90$. The operating point is selected on \emph{dev only}:
+\[
+(\lstar,\rhostar,\text{variant}^{*})=\arg\max\ \text{dev POC-gain}\quad
+\text{s.t.}\quad \text{mean-KL}\le0.30\ \text{and}\ \text{render-success}\ge0.90,
+\]
+ties broken toward lower KL. The dev sweep is Figure~\ref{fig:F6} (POC-gain over layer$\times\rho$,
+guardrail-violating cells hatched) and the dose-response is Figure~\ref{fig:F7}. The frozen point is
+$\lstar=\numslot{STEER-LSTAR}$, $\rhostar=\numslot{STEER-RHOSTAR}$, variant
+$\numslot{STEER-VARIANT}$, with dev POC-gain $\numslot{STEER-DEVGAIN}$ at mean KL
+$\numslot{STEER-KL}$ and render-success $\numslot{STEER-RENDER}$. It is written to a config file,
+hashed, and git-tagged \emph{before} any held-out generation; the held-out set is touched exactly
+once. If no single-layer config clears the guardrail-constrained threshold, we escalate to
+multi-layer injection or a 2--4D subspace (pre-stated fallbacks) and re-select.
+
+\paragraph{Step 3 --- the causal bar (RQ6), stated as interventions.} Steering and ablation are
+$\doop$-operations on an activation node, severing its normal dependence on upstream computation.
+The two arms are
+\begin{align}
+\textbf{sufficiency:}\quad&
+\mathbb{E}\big[Q\mid \doop(h_{\lstar}\mathrel{+}{=}\alpha^{*}\vlstar),\ \NOSYS\big]\ >\ \mathbb{E}\big[Q\mid \NOSYS\big],
+\label{eq:suff}\\
+\textbf{necessity (flip):}\quad&
+\mathbb{E}\big[Q\mid \doop(h\leftarrow Ph),\ \FULL\big]\ <\ \mathbb{E}\big[Q\mid \FULL\big],\qquad P=I-\vhat\vhat^{\top},
+\label{eq:flip}
+\end{align}
+with $Q$ the POC or a preference utility. Sufficiency uses the \NOSYS{} base---\emph{no design
+prompt}---so the effect is the direction's, not an instruction's; that is what makes it interventional
+rather than observational. Necessity projects the direction out at every layer and position while the
+skill is present (weight-orthogonalization, so no inference hook is needed), asking whether the skill
+stops working. The projector $P$ is a genuine orthogonal projector (idempotent and symmetric;
+Appendix~\ref{app:theory}). Held-out arms are unsteered-\NOSYS, steered-\NOSYS, a norm-matched random
+control ($k{=}5$ draws re-normalized to $\lVert v_{\lstar}\rVert$), and an HF-generated \FULL{}
+reference; we report both oracle signals and the reproduction fraction $\%\text{skill-reproduced}=
+(\POC_{\text{steered}}-\POC_{\text{unsteered}})/(\POC_{\FULL}-\POC_{\text{unsteered}})\times100\%$.
+
+\paragraph{The success criterion (verbatim).} The direction is a \emph{causally sufficient design
+direction} iff, on held-out prompts (including 10 unseen-type):
+\begin{quote}\itshape
+steered-\NOSYS{} beats unsteered-\NOSYS{} on $\ge1$ objective family after Holm AND the
+reliability-gated preference delta (steered $\succ$ unsteered) has BT-utility cluster-bootstrap CI
+$>0$; AND the norm-matched random control ($k{=}5$ draws) does not satisfy both (specificity); AND
+the flip test attenuates the skill's gain (necessity). If addition succeeds but the flip test does
+not, report ``sufficient, not demonstrably necessary.''
+\end{quote}
+This four-conjunct standard is why a \emph{causal} headline is defensible: under a true null the joint
+false-positive rate is below any single test's $\alpha$, and the four checks probe independent failure
+modes---objective vs.\ preference vs.\ specificity vs.\ necessity (Appendix~\ref{app:theory}). The
+specificity conjunct formalizes non-identifiability: if a random direction of equal norm also lifts
+$Q$, the effect is a \emph{norm} effect, not a \emph{direction} effect. We additionally bound
+side-effects: steering must not drop non-UI algorithmic pass-rate by $>10\%$ absolute nor push
+general-text mean KL $>0.30$ nats.
+
+\synthfig[0.47\linewidth]{F13}{F13_preview.pdf}{6}{Extraction stability: cosine of the running-mean
+direction vs.\ number of examples, with the $\Delta\cos<0.01$ plateau line. Planted convergence;
+the real curve certifies the 200-pair corpus (or triggers the seed-extension contingency).}
+
+\synthfig[0.51\linewidth]{F5}{F5_preview.pdf}{6}{Where the skill signal lives: probe AUC, control-task
+selectivity, and patch \%-recovered by layer, with the chosen band shaded and the AUC/selectivity
+thresholds drawn. Planted mid-band plateau; the real curves set the Stage-2 focus layers (RQ5).}
+
+\synthfig[0.47\linewidth]{F6}{F6_preview.pdf}{7}{Dev sweep: POC-gain over layer $\times\ \rho$;
+guardrail-violating cells (KL$>0.30$ or render$<0.90$) hatched; the frozen $(\lstar,\rhostar)$ starred.
+The operating point is selected here, on dev, then git-tagged before held-out. Planted optimum.}
+
+\synthfig[0.51\linewidth]{F7}{F7_preview.pdf}{7}{Dose-response at $\lstar$: POC-gain (with CI band) and
+render-success vs.\ $\rho$, failure region shaded. The non-monotone gain then coherence collapse is the
+expected shape; planted here, measured on Colab.}
