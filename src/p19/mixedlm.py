@@ -214,10 +214,12 @@ def fit_factorial(df: pd.DataFrame, metric: str) -> dict:
             except Exception:
                 continue
     if res is None:  # fallback rung: OLS with cluster-robust (prompt) SEs
+        # statsmodels cov_cluster requires integer-coded groups; prompt_id is a string id.
+        groups_int = pd.Categorical(sub["prompt_id"]).codes
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             res = smf.ols(formula, sub).fit(cov_type="cluster",
-                                            cov_kwds={"groups": sub["prompt_id"]})
+                                            cov_kwds={"groups": groups_int})
         rung = "ols_cluster_robust"
 
     coefs = {}

@@ -1148,19 +1148,26 @@ For **every** experiment below: **inputs · procedure · outputs · compute · o
 
 ## V.3 Notebook ↔ figure/section mapping (notebooks import `src/`, carry narrative)
 
-| notebook | phase | produces |
+The delivered series (`notebooks/00–08`) organizes the same content as a DS-lifecycle
+narrative arc: CPU notebooks ship **executed** (real fixture renders, live audits,
+synthetic pipeline-validation runs with planted ground truth); GPU notebooks are
+**scaffolds** (banner-marked cells, unexecuted until the RUNBOOK sessions). Rendering,
+judging, and analysis batch phases run via `scripts/` (RUNBOOK P2–P3) with results
+flowing into `05`/`07b`; final paper-figure export re-runs `p19.figures` on real data.
+
+| notebook | phase / status | produces |
 |---|---|---|
-| `00_oracle_build.ipynb` | CPU-now | metric stack on fixtures; F4 skeleton; unit-test evidence |
-| `01_pilot.ipynb` | GPU P0 | pilot 12-gen check; pass/fail record (§III.9) |
-| `02_stage1_generation.ipynb` | GPU P1 | 4,630 gens manifest |
-| `03_render_metrics.ipynb` | CPU P2 | objective-metric tables; F10 (PSI), F4 |
-| `04_judging_reliability.ipynb` | API P3 | judgments; α/AC1 gate; F11; BT utilities |
-| `05_stage1_analysis.ipynb` | analysis | MixedLM + BT; F1, F2, F3; RQ1–RQ4, RQ7-black-box |
-| `06_stage2_extract_locate.ipynb` | GPU P4 | S2.0–S2.2; F5, F13 |
-| `07_stage2_sweep.ipynb` | GPU P5 | S2.3; F6, F7; freeze `(ℓ*,ρ*,variant*)` |
-| `08_stage2_verify.ipynb` | GPU P6 | S2.4–S2.7; F8, F12; RQ6, RQ7 |
-| `09_stage2_correspondence.ipynb` | GPU P7 | S2.8–S2.9; F9 |
-| `10_paper_figures.ipynb` | P8 | final figure/table export for `paper/` |
+| `00_overview` | CPU-now (executed) | project map; RQ table; execution-status badges |
+| `01_problem_and_data` | CPU-now (executed) | skill + all build-time audits live; 24-cell table + token masses; corpus EDA; split rationale |
+| `02_oracle_metrics` | CPU-now (executed) | metric stack on fixtures; POC + frozen conditionals demo; F4, F10 |
+| `03_oracle_preference` | CPU-now (executed) | judge template + mock dry-run; α/AC1 + kappa-paradox demo; power tables (T10); F11 |
+| `04_stage1_generation` | GPU P0–P1 (scaffold) | pilot 12-gen gate (§III.9); 4,630-gen manifest; per-session acceptance checks |
+| `05_stage1_analysis` | analysis (synthetic-validated now; re-run on real data post P2–P3) | MixedLM + style-controlled BT; F1, F2, F3; RQ1–RQ4 decisions incl. null-rule demo |
+| `06a_stage2_locate_extract_synthetic` | CPU-now (executed) | planted-direction recovery; probe AUC + selectivity; stability plateau; F5, F13 previews |
+| `06b_stage2_locate_extract_gpu` | GPU P4 (scaffold) | S2.0–S2.2 real; F5, F13 |
+| `07a_stage2_steer_verify_synthetic` | CPU-now (executed) | S2.3–S2.8 analysis paths validated end-to-end; F6, F7, F8, F9, F12 previews |
+| `07b_stage2_steer_verify_gpu` | GPU P5–P7 (scaffold) | S2.3 sweep + `(ℓ*,ρ*,variant*)` freeze; S2.4–S2.9; F6–F9, F12 real |
+| `08_results_and_conclusions` | outcome-contingent skeleton (executed) | per-RQ decision slots; honest-null templates; paper hooks |
 
 ---
 
